@@ -64,6 +64,8 @@ function renderArtist(data) {
     const associatedUrls = data.urls
     const members = data.members
     const artistName = data.name
+    // const url = data.members.resource_url // this is where the members apis are
+    // console.log(url) 
     artistReleases = data.releases_url
 
     dataDisplay.innerHTML = // this is where cover img needs to go
