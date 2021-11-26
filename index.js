@@ -27,7 +27,7 @@ form.addEventListener("submit", function(event) {
 })
 
 
-// initial Discogs Fetch
+// initial Discogs Fetch - initial Artist Search
 function searchArtist(artist) {
     const url = `https://api.discogs.com/database/search?q=${artist}&${apiKey}&${secret}&per_page=200`
 
@@ -58,6 +58,7 @@ function renderCoverImg(coverImg) {
     artistPicture.innerHTML = imgToRender
 }
 
+// Initial Search Render
 function renderArtist(data) {
     console.log(data)
 
@@ -109,6 +110,7 @@ function renderMembers(members, artistName) {
     
 }
 
+// Artist Info Button Function
 function goToInfo(){
     dataDisplay.innerHTML = prevPage
 }
@@ -125,8 +127,6 @@ function goToReleases(event) {
 }
 
 function renderReleases(releasesJson) { // filters the releases to 'master' releases
-
-    toRender.append(dataDisplay) // trying to make artist info disappear
     const releases = releasesJson.releases.filter(release => (release.type === "master")) // array of objects describing 'master' releases
     
     console.log(releases)
@@ -205,4 +205,3 @@ function renderVideos(albumJson) {
     
     
 }
-
