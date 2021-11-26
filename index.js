@@ -9,9 +9,10 @@ const input = document.querySelector("#artist-input")
 const artistPicture = document.querySelector("#cover-img")
 const likesSection = document.querySelector("#likes")
 const commentsSection = document.querySelector("#comments")
-// const backButton = document.querySelector("#back-button")
 const toRender = document.querySelector("#information")
 const dataDisplay = document.createElement("div")
+let artistReleases
+let artist
 let removeContents
 let prevPage
 
@@ -19,7 +20,7 @@ let prevPage
 
 form.addEventListener("submit", function(event) {
     event.preventDefault()
-    const artist = input.value
+    artist = input.value
     searchArtist(artist)
     input.value = "";
 })
@@ -42,7 +43,6 @@ function searchArtist(artist) {
         artist = search.results.find(x => x.type === "artist")
         const newUrl = artist.resource_url
         const coverImg = artist.cover_image // This is where the cover image comes from
-        renderBackButton(toRender)
         fetchArtistInfo(newUrl)
         renderCoverImg(coverImg)
     })
@@ -59,28 +59,18 @@ function renderCoverImg(coverImg) {
     artistPicture.innerHTML = imgToRender
 }
 
-function renderBackButton(toRender) {
-    const backButton = document.querySelector("#back-button")
-    backButton?.remove()
-    const button = document.createElement("button")
-    button.innerText = "Back"
-    button.setAttribute("id", "back-button")
-    button.setAttribute("onclick", "goBack(prevPage)")
-    formBody.append(button)
-    prevPage = toRender.innerHTML
-}
-
 function renderArtist(data) {
     console.log(data)
 
     const associatedUrls = data.urls
     const members = data.members
     const artistName = data.name
+    artistReleases = data.releases_url
 
     dataDisplay.innerHTML = // this is where cover img needs to go
     `<h2 class="artist-name">${data.name}</h2>
-        <button onclick="">Info</button>
-        <button data-url=${data.releases_url} onclick="goToReleases(event)">Releases</button>
+        <button onclick="searchArtist(artist)">Artist Info</button>
+        <button data-url=${artistReleases} onclick="goToReleases(event)">Artist Releases</button>
     <div>
         <button id="like-artist">Like</button>
         <button id="comment-artist">Comment</button>
@@ -121,7 +111,6 @@ function goToReleases(event) {
     .then(releases => releases.json())
     .then(function(releasesJson) {
         console.log(releasesJson)
-        renderBackButton(toRender)
         renderReleases(releasesJson) // this is where the artist releases come from
     })
 }
@@ -148,8 +137,8 @@ function renderReleases(releasesJson) { // filters the releases to 'master' rele
     const noOfReleases = releases.length.toString()
     dataDisplay.innerHTML = 
     `<h2 class="artist-name">${releases[0].artist} Releases (${noOfReleases})</h2>
-    <button>Info</button>
-    <button>Releases</button>
+    <button onclick="searchArtist(artist)">Artist Info</button>
+    <button data-url=${artistReleases} onclick="goToReleases(event)">Artist Releases</button>
     ${releaseObj.join("")} `
         console.log(releases.length.toString())
     toRender.append(dataDisplay)
@@ -168,6 +157,8 @@ function goToAlbum(event) {
 
 function renderAlbum(albumJson) {
     const albumObj = `
+    <button onclick="searchArtist(artist)">Artist Info</button>
+    <button data-url=${artistReleases} onclick="goToReleases(event)">Artist Releases</button>
     <div class="album-title-info">
         <h2>${albumJson.title}</h2>
         <h3><em>By ${albumJson.artists[0].name}</em></h3>
@@ -218,8 +209,3 @@ function removeAllChildNodes(parent) {
     }
 }
 
-function goBack(prevPage) { // broken - returns [ovject HTMLDivElement]
-    // alert("clicked")
-    dataDisplay.innerHTML = prevPage
-    toRender.append(dataDisplay)
-}
