@@ -9,11 +9,12 @@ const input = document.querySelector("#artist-input")
 const artistPicture = document.querySelector("#cover-img")
 const likesSection = document.querySelector("#likes")
 const commentsSection = document.querySelector("#comments")
+const likeButton = document.querySelector("#like-artist")
+const commentButton = document.querySelector("#comment-artist")
 const toRender = document.querySelector("#information")
 const dataDisplay = document.createElement("div")
 let artistReleases
 let artist
-let removeContents
 let prevPage
 
 
@@ -24,8 +25,6 @@ form.addEventListener("submit", function(event) {
     searchArtist(artist)
     input.value = "";
 })
-
-// backButton.addEventListener("click", goBack(prevPage))
 
 
 // initial Discogs Fetch
@@ -68,9 +67,8 @@ function renderArtist(data) {
     artistReleases = data.releases_url
 
     dataDisplay.innerHTML = // this is where cover img needs to go
-    `<h2 class="artist-name">${data.name}</h2>
-        <button onclick="searchArtist(artist)">Artist Info</button>
-        <button data-url=${artistReleases} onclick="goToReleases(event)">Artist Releases</button>
+    `<button data-url=${artistReleases} onclick="goToReleases(event)">Artist Releases</button>
+    <h2 class="artist-name">${data.name}</h2>
     <div>
         <button id="like-artist">Like</button>
         <button id="comment-artist">Comment</button>
@@ -82,16 +80,21 @@ function renderArtist(data) {
     <p class="about">${data.profile}</p>
     <div class="links">
         <h4>Links</h4>
-        <ul>${renderAssociatedUrls(associatedUrls)}</ul>
+        
+        <ul>
+            <li><a href="${data.uri}" target="_blank">Dicogs Page</a></li>
+            ${renderAssociatedUrls(associatedUrls)}
+        </ul>
     </div>
     `
 
     toRender.append(dataDisplay)
+    prevPage = toRender.innerHTML
 }
 
 function renderAssociatedUrls(associatedUrls) {
     if (associatedUrls) {
-        return associatedUrls.map(url => `<li><a href="${url}">${url}</a></li>`).join("")
+        return associatedUrls.map(url => `<li><a href="${url}" target="_blank">${url}</a></li>`).join("")
     } else return 'None to display'
     
 }
@@ -102,6 +105,10 @@ function renderMembers(members, artistName) {
         Active: ${current.active}`).join("")
     } else return `${artistName}`
     
+}
+
+function goToInfo(){
+    dataDisplay.innerHTML = prevPage
 }
 
 function goToReleases(event) {
@@ -116,11 +123,6 @@ function goToReleases(event) {
 }
 
 function renderReleases(releasesJson) { // filters the releases to 'master' releases
-    removeContents = toRender.removeChild(toRender.firstChild)
-
-    // backButton.addEventListener("click", goBack(prevPage))
-
-    // removeAllChildNodes(toRender)
 
     toRender.append(dataDisplay) // trying to make artist info disappear
     const releases = releasesJson.releases.filter(release => (release.type === "master")) // array of objects describing 'master' releases
@@ -136,11 +138,10 @@ function renderReleases(releasesJson) { // filters the releases to 'master' rele
 
     const noOfReleases = releases.length.toString()
     dataDisplay.innerHTML = 
-    `<h2 class="artist-name">${releases[0].artist} Releases (${noOfReleases})</h2>
-    <button onclick="searchArtist(artist)">Artist Info</button>
-    <button data-url=${artistReleases} onclick="goToReleases(event)">Artist Releases</button>
+    `<button onclick="goToInfo()">Artist Info</button>
+    <h2 class="artist-name">${releases[0].artist} Releases (${noOfReleases})</h2>
     ${releaseObj.join("")} `
-        console.log(releases.length.toString())
+
     toRender.append(dataDisplay)
 }
 
@@ -157,7 +158,7 @@ function goToAlbum(event) {
 
 function renderAlbum(albumJson) {
     const albumObj = `
-    <button onclick="searchArtist(artist)">Artist Info</button>
+    <button onclick="goToInfo()">Artist Info</button>
     <button data-url=${artistReleases} onclick="goToReleases(event)">Artist Releases</button>
     <div class="album-title-info">
         <h2>${albumJson.title}</h2>
@@ -168,7 +169,7 @@ function renderAlbum(albumJson) {
     <p><strong>Styles:</strong> ${renderStyles(albumJson).join(", ")}</p>
     <div class="tracklist">
         <h3>Tracklist</h3>
-        <ul>${renderTracklist(albumJson).join("")}</ul>
+        <p>${renderTracklist(albumJson).join("")}</p>
     </div>
     <div class="album-videos">
         <h3>Videos</h3>
@@ -187,9 +188,9 @@ function renderStyles(albumJson) {
 function renderTracklist(albumJson) {
     console.log(albumJson.tracklist.map(current => `${current.title}`))
     return albumJson.tracklist.map(current => 
-        `<li>${current.position} - <em>${current.title}</em>
+        `<p>${current.position} - <em>${current.title}</em>
         <button id="like-song">Like</button>
-        <button id="comment-song">Comment</button></li>
+        <button id="comment-song">Comment</button></p>
         <hr>`
     )
 }
@@ -197,15 +198,9 @@ function renderTracklist(albumJson) {
 function renderVideos(albumJson) {
     if (albumJson.videos) {
         return albumJson.videos.map(current => 
-            `<li><a href="${current.uri}">${current.title}</a></li>`).join("")
+            `<li><a href="${current.uri}" target="_blank">${current.title}</a></li>`).join("")
     } else return `No videos to display`
     
     
-}
-
-function removeAllChildNodes(parent) {
-    while (parent.firstChild) {
-        parent.removeChild(parent.firstChild);
-    }
 }
 
