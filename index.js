@@ -50,24 +50,32 @@ function renderCoverImg(coverImg) {
     artistPicture.innerHTML = imgToRender
 }
 
+
+
 function renderArtist(data) {
     console.log(data)
+    class artist {
+        constructor(name, realname, members, about, releases, links){
+            this.name = name;
+            this.realname = realname;
+            this.members = members;
+            this.about = about;
+            this.releases = releases;
+            this.links = links;
+    
+        }
+    }
 
-    const associatedUrls = data.urls
-    const members = data.members
-    const artistName = data.name
-    // const url = data.members.resource_url // this is where the members apis are
-    // console.log(url) 
-    artistReleases = data.releases_url
+    let artistOne = new artist(data.name, data.realname, data.members, data.profile, data.releases_url, data.urls)
 
-    pageHeading.innerHTML =  `<h2 class="artist-name">${data.name}</h2>`
+    pageHeading.innerHTML =  `<h2 class="artist-name">${artistOne.name}</h2>`
 
     dataDisplay.innerHTML =
-    `<button data-url=${artistReleases} onclick="goToReleases(event)">Artist Releases</button>
-    <button id="favourite-artist" data-name=${artistName}>Favourite</button>
-    <p>Real Name: <em>${data.realname}</em></p>
+    `<button data-url=${artistOne.releases} data-artist=${artistOne} onclick="goToReleases(event)">Artist Releases</button>
+    <button id="favourite-artist" data-name=${artistOne.name}>Favourite</button>
+    <p>Real Name: <em>${artistOne.realname}</em></p>
     <h4>Members:</h4>
-    <ul>${renderMembers(members, artistName)}</ul>
+    <ul>${renderMembers(artistOne.members, artistOne.name)}</ul>
     <h4>About</h4>
     <p class="about">${data.profile}</p>
     <div class="links">
@@ -75,11 +83,11 @@ function renderArtist(data) {
         
         <ul>
             <li><a href="${data.uri}" target="_blank">Dicogs Page</a></li>
-            ${renderAssociatedUrls(associatedUrls)}
+            ${renderAssociatedUrls(artistOne.links)}
         </ul>
     </div>
     `
-    console.log(artistName)
+    console.log(artistOne.name)
     information.append(dataDisplay)
     prevPage = information.innerHTML
 }
@@ -97,4 +105,46 @@ function renderMembers(members, artistName) {
         Active: ${current.active}`).join("")
     } else return `${artistName}`
     
+}
+
+// Fetch of artist releases
+function goToReleases(event) {
+    const button = event.target
+    const url = button.dataset["url"]
+    const artist = button.dataset["artist"]
+    fetch(url)
+    .then(releases => releases.json())
+    .then(function(releasesJson) {
+        console.log(releasesJson)
+        console.log(artist)
+        renderReleases(releasesJson, name) // this is where the artist releases come from
+    })
+}
+
+// Filters the releases to 'master' releases
+function renderReleases(releasesJson, name) { 
+    const releases = releasesJson.releases.filter(release => (release.type === "master")) // array of objects describing 'master' releases
+    
+    console.log(releases)
+    console.log(name)
+    const releaseObj = (releases.map(current => 
+        `<p><strong>Title:</strong> ${current.title} </p>
+        <p><strong>Year:</strong> ${current.year}</p>
+        <button data-url=${current.resource_url} onclick="goToAlbum(event)">View Album</button>
+        <button id="favourite-album">Favourite</button>
+        <hr>`)) // button not working
+
+    const noOfReleases = releases.length.toString()
+    pageHeading.innerHTML = `<h2 class="artist-name">${releases[0].artist} - Releases (${noOfReleases})</h2>`
+    dataDisplay.innerHTML = 
+    `<button onclick="goToInfo()">Artist Info</button>
+    
+    ${releaseObj.join("")} `
+
+    information.append(dataDisplay)
+}
+
+// Artist Info Button Function
+function goToInfo(){
+    dataDisplay.innerHTML = prevPage
 }
