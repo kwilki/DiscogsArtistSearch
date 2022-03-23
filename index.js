@@ -6,18 +6,21 @@ const secret = "secret=FGcSHfPOplxpojCdQmjjZOEgMUDEVRRG"
 const form = document.querySelector("#search-form")
 const formBody = document.querySelector("#search-body")
 const input = document.querySelector("#artist-input")
-const artistPicture = document.querySelector("#cover-img")
-const likesSection = document.querySelector("#likes")
-const commentsSection = document.querySelector("#comments")
-const likeButton = document.querySelector("#like-artist")
-const commentButton = document.querySelector("#comment-artist")
+
 const toRender = document.querySelector("#information")
 const dataDisplay = document.createElement("div")
+
+const artistPicture = document.querySelector("#cover-img")
+
+const likesSection = document.querySelector("#likes")
+const commentsSection = document.querySelector("#comments")
+const commentButton = document.querySelector("#comment-artist")
+
+let artistLikes = []
+
 let artistReleases
 let artist
 let prevPage
-
-
 
 form.addEventListener("submit", function(event) {
     event.preventDefault()
@@ -58,7 +61,7 @@ function renderCoverImg(coverImg) {
     artistPicture.innerHTML = imgToRender
 }
 
-// Initial Search Render
+// Render on search
 function renderArtist(data) {
     console.log(data)
 
@@ -69,11 +72,11 @@ function renderArtist(data) {
     // console.log(url) 
     artistReleases = data.releases_url
 
-    dataDisplay.innerHTML = // this is where cover img needs to go
+    dataDisplay.innerHTML =
     `<button data-url=${artistReleases} onclick="goToReleases(event)">Artist Releases</button>
     <h2 class="artist-name">${data.name}</h2>
     <div>
-        <button id="like-artist">Like</button>
+        <button id="like-artist" data-name=${artistName} onclick="likeArtist(event)">Like</button>
         <button id="comment-artist">Comment</button>
     </div>
     <p>Real Name: <em>${data.realname}</em></p>
@@ -90,7 +93,7 @@ function renderArtist(data) {
         </ul>
     </div>
     `
-
+    console.log(artistName)
     toRender.append(dataDisplay)
     prevPage = toRender.innerHTML
 }
@@ -115,6 +118,7 @@ function goToInfo(){
     dataDisplay.innerHTML = prevPage
 }
 
+// Fetch of artist releases
 function goToReleases(event) {
     const button = event.target
     const url = button.dataset["url"]
@@ -126,7 +130,8 @@ function goToReleases(event) {
     })
 }
 
-function renderReleases(releasesJson) { // filters the releases to 'master' releases
+// Filters the releases to 'master' releases
+function renderReleases(releasesJson) { 
     const releases = releasesJson.releases.filter(release => (release.type === "master")) // array of objects describing 'master' releases
     
     console.log(releases)
@@ -182,7 +187,6 @@ function renderAlbum(albumJson) {
     toRender.append(dataDisplay)
 }
 
-
 function renderStyles(albumJson) {
     return albumJson.styles.map(style => `${style}`)
 }
@@ -202,6 +206,57 @@ function renderVideos(albumJson) {
         return albumJson.videos.map(current => 
             `<li><a href="${current.uri}" target="_blank">${current.title}</a></li>`).join("")
     } else return `No videos to display`
+}
+
+class ArtistLike {
+    constructor(name, likes){
+        this.name = name;
+        this.likes = likes;
+    }
+}
+
+function likeArtist(event) { // like function broken - only stores first name of artist in value of name
+    const button = event.target
+    const currentArtistName = button.dataset["name"]
+    console.log(currentArtistName)
+    checkIfLikes()
     
-    
+    if (artistLikes.find(x => x.name === `${currentArtistName}`)) { // broken - name isn't removed on like second click
+        const currentObj = artistLikes.findIndex(x => x.name === `${currentArtistName}`) //returns 1 if true or -1
+        // artistLikes[currentObj].likes = 0
+        const updatedArray = artistLikes.splice(artistLikes[currentObj], 1)
+        artistLikes.length = 0
+        console.log(`updated Array:`, updatedArray)
+        artistLikes = updatedArray
+        likesSection.remove()
+        const newLike = document.createElement("div")
+        newLike.innerHTML = artistLikes.map(current => 
+            `<p class="artist-like ${current.name}"><strong>${current.name}</strong></p>`
+        )
+        likesSection.append(newLike)
+    } else {
+        const artist = new ArtistLike(currentArtistName, 1)
+        artistLikes.push(artist)
+    }
+    renderArtistLikes(currentArtistName)
+}
+
+function checkIfLikes() {
+    if (artistLikes.length > 0) {
+        console.log("like's section already rendered")
+    } else {
+        likesSection.innerHTML = `<h3>Likes</h3>`
+    }
+}
+
+function renderArtistLikes(currentArtistName) {
+    const newLike = document.createElement("div")
+    newLike.innerHTML = artistLikes.map(current => 
+        `<p class="artist-like ${currentArtistName}"><strong>${current.name}</strong></p>`
+    )
+    likesSection.append(newLike)
+}
+
+function removeArtistLike() {
+
 }
