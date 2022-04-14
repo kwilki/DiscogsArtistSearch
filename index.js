@@ -12,37 +12,74 @@ const information = document.querySelector("#information")
 const dataDisplay = document.createElement("div")
 const artistPicture = document.querySelector("#cover-img")
 
+let searchedArtists =[]
+let favourites = []
+
+// search submit event listener
 form.addEventListener("submit", function(event) {
     event.preventDefault()
-    artist = input.value
-    searchArtist(artist)
+    artistName = input.value
+    searchArtist(artistName)
     input.value = "";
 })
 
 // initial Discogs Fetch - initial Artist Search
-function searchArtist(artist) {
-    const url = `https://api.discogs.com/database/search?q=${artist}&${apiKey}&${secret}&per_page=200`
+function searchArtist(artistName) {
+    const url = `https://api.discogs.com/database/search?q=${artistName}&${apiKey}&${secret}&per_page=200`
 
     information.innerHTML = ""
+    // if artist has been searched before:
+    if(searchedArtists.find(x => x.name === artistName)){
+        console.log(searchedArtists)
+        let obj = searchedArtists.find(x => x.name === artistName)
+        pageHeading.innerHTML =  `<h2 class="artist-name">${obj.name}</h2>`
 
-    fetch(url)
-    .then(response => response.json())
-    .then(function(json) {
-        const search = json
-        console.log(search.results)
-        console.log(search.results.find(x => x.type === "artist"))
-        artist = search.results.find(x => x.type === "artist")
-        const newUrl = artist.resource_url
-        const coverImg = artist.cover_image // This is where the cover image comes from
-        fetchArtistInfo(newUrl)
-        renderCoverImg(coverImg)
-    })
+        dataDisplay.innerHTML =
+            `<button data-url=${obj.releases_url} onclick="goToReleases(event)">Artist Releases</button>
+            <button id="favourite-artist" data-name=${obj.name}>Favourite</button>
+            <p>Real Name: <em>${obj.realname}</em></p>
+            <h4>Members:</h4>
+            <ul>${renderMembers(obj.members, obj.name)}</ul>
+            <h4>About</h4>
+            <p class="about">${obj.profile}</p>
+            <div class="links">
+            <h4>Links</h4>
+        
+            <ul>
+                <li><a href="${obj.uri}" target="_blank">Dicogs Page</a></li>
+                ${renderAssociatedUrls(obj.urls)}
+            </ul>
+            </div>
+            `
+        console.log(obj.name)
+        renderCoverImg(obj.coverImage)
+        information.append(dataDisplay)
+        prevPage = information.innerHTML
+
+    // else new search    
+    } else {
+        fetch(url)
+        .then(response => response.json())
+        .then(function(json) {
+            const search = json
+            console.log(search.results)
+            console.log(search.results.find(x => x.type === "artist"))
+            artist = search.results.find(x => x.type === "artist")
+            const searchedArtistUrl = artist.resource_url
+            const coverImg = artist.cover_image // This is where the cover image comes from
+            fetchArtistInfo(searchedArtistUrl, coverImg)
+            renderCoverImg(coverImg)
+        })
+    }
 }
 
-function fetchArtistInfo(newUrl) {
+function fetchArtistInfo(newUrl, coverImg) {
     fetch(newUrl)
     .then(response => response.json())
-    .then(renderArtist)
+    .then(function(json){
+        let data = json
+        renderArtist(data, coverImg)
+    })
 }
 
 function renderCoverImg(coverImg) {
@@ -52,42 +89,44 @@ function renderCoverImg(coverImg) {
 
 
 
-function renderArtist(data) {
+function renderArtist(data, coverImg) {
     console.log(data)
-    class artist {
-        constructor(name, realname, members, about, releases, links){
-            this.name = name;
-            this.realname = realname;
-            this.members = members;
-            this.about = about;
-            this.releases = releases;
-            this.links = links;
-    
-        }
+
+    let artist1 = {
+        name: data.name,
+        realname: data.realname,
+        members: data.members,
+        profile: data.profile,
+        releases_url: data.releases_url,
+        uri: data.uri,
+        urls: data.urls,
+        coverImage: coverImg
     }
 
-    let artistOne = new artist(data.name, data.realname, data.members, data.profile, data.releases_url, data.urls)
-
-    pageHeading.innerHTML =  `<h2 class="artist-name">${artistOne.name}</h2>`
+    searchedArtists.push(artist1)
+    
+    console.log(searchedArtists)
+    
+    pageHeading.innerHTML =  `<h2 class="artist-name">${artist1.name}</h2>`
+    console.log(artist1.name)
 
     dataDisplay.innerHTML =
-    `<button data-url=${artistOne.releases} data-artist=${artistOne} onclick="goToReleases(event)">Artist Releases</button>
-    <button id="favourite-artist" data-name=${artistOne.name}>Favourite</button>
-    <p>Real Name: <em>${artistOne.realname}</em></p>
+    `<button data-url=${artist1.releases_url} onclick="goToReleases(event)">Artist Releases</button>
+    <button id="favourite-artist" data-name=${artist1.name}>Favourite</button>
+    <p>Real Name: <em>${artist1.realname}</em></p>
     <h4>Members:</h4>
-    <ul>${renderMembers(artistOne.members, artistOne.name)}</ul>
+    <ul>${renderMembers(artist1.members, artist1.name)}</ul>
     <h4>About</h4>
-    <p class="about">${data.profile}</p>
+    <p class="about">${artist1.profile}</p>
     <div class="links">
         <h4>Links</h4>
         
         <ul>
-            <li><a href="${data.uri}" target="_blank">Dicogs Page</a></li>
-            ${renderAssociatedUrls(artistOne.links)}
+            <li><a href="${artist1.uri}" target="_blank">Dicogs Page</a></li>
+            ${renderAssociatedUrls(artist1.urls)}
         </ul>
-    </div>
-    `
-    console.log(artistOne.name)
+    </div>`
+
     information.append(dataDisplay)
     prevPage = information.innerHTML
 }
@@ -109,24 +148,54 @@ function renderMembers(members, artistName) {
 
 // Fetch of artist releases
 function goToReleases(event) {
-    const button = event.target
-    const url = button.dataset["url"]
-    const artist = button.dataset["artist"]
-    fetch(url)
-    .then(releases => releases.json())
-    .then(function(releasesJson) {
+    let currentArtistHtml = document.getElementsByClassName("artist-name")
+    let currentArtistName = currentArtistHtml[0].innerText
+    let obj = find(x => x.name === currentArtistName)
+
+    // check if releases are stored in searchedArtists array
+    if(obj.releases) {
+        let albums = obj.releases
+        const releaseObj = (albums.map(current => 
+            `<p><strong>Title:</strong> ${current.title} </p>
+            <p><strong>Year:</strong> ${current.year}</p>
+            <button data-url=${current.resource_url} onclick="goToAlbum(event)">View Album</button>
+            <button id="favourite-album">Favourite</button>
+            <hr>`)) // button not working
+    
+        const noOfReleases = releases.length.toString()
+        dataDisplay.innerHTML = 
+        `<button onclick="goToInfo()">Artist Info</button>
+        <h3>Releases (${noOfReleases})</h3>
+        
+        ${releaseObj.join("")} `
+    
+        information.append(dataDisplay)
+    
+    // if they are not stored - fetch the information
+    } else {
+        const button = event.target
+        const url = button.dataset["url"]
+        fetch(url)
+        .then(releases => releases.json())
+        .then(function(releasesJson) {
         console.log(releasesJson)
         console.log(artist)
-        renderReleases(releasesJson, name) // this is where the artist releases come from
-    })
+        renderReleases(releasesJson) // this is where the artist releases come from
+        })
+    }
+    
 }
 
 // Filters the releases to 'master' releases
-function renderReleases(releasesJson, name) { 
+function renderReleases(releasesJson) { 
     const releases = releasesJson.releases.filter(release => (release.type === "master")) // array of objects describing 'master' releases
-    
     console.log(releases)
-    console.log(name)
+    //adds releases to searchedArtists array
+    let currentArtistHtml = document.getElementsByClassName("artist-name")
+    let currentArtistName = currentArtistHtml[0].innerText
+    let obj = searchedArtists.find(x => x.name === currentArtistName)
+    obj.releases = releases
+
     const releaseObj = (releases.map(current => 
         `<p><strong>Title:</strong> ${current.title} </p>
         <p><strong>Year:</strong> ${current.year}</p>
@@ -135,9 +204,9 @@ function renderReleases(releasesJson, name) {
         <hr>`)) // button not working
 
     const noOfReleases = releases.length.toString()
-    pageHeading.innerHTML = `<h2 class="artist-name">${releases[0].artist} - Releases (${noOfReleases})</h2>`
     dataDisplay.innerHTML = 
     `<button onclick="goToInfo()">Artist Info</button>
+    <h3>Releases (${noOfReleases})</h3>
     
     ${releaseObj.join("")} `
 
@@ -147,4 +216,64 @@ function renderReleases(releasesJson, name) {
 // Artist Info Button Function
 function goToInfo(){
     dataDisplay.innerHTML = prevPage
+}
+
+function goToAlbum(event) {
+    const button = event.target
+    const url = button.dataset["url"]
+    fetch(url)
+    .then(album => album.json())
+    .then(function(albumJson) {
+        console.log(albumJson)
+        renderAlbum(albumJson)
+    })
+}
+
+function renderAlbum(albumJson) {
+    let currentArtistHtml = document.getElementsByClassName("artist-name")
+    let currentArtistName = currentArtistHtml[0].innerText
+    let obj = searchedArtists.find(x => x.name === currentArtistName)
+    console.log(obj)
+
+    const albumObj = `
+    <button onclick="goToInfo()">Artist Info</button>
+    <button data-url=${obj.releases_url} onclick="goToReleases(event)">Artist Releases</button>
+    <div class="album-title-info">
+        <h2>${albumJson.title}</h2>
+        <h3><em>By ${albumJson.artists[0].name}</em></h3>
+        <p>${albumJson.year}</p>
+    </div>
+    <p><strong>Genre:</strong> ${albumJson.genres[0]}</p>
+    <p><strong>Styles:</strong> ${renderStyles(albumJson).join(", ")}</p>
+    <div class="tracklist">
+        <h3>Tracklist</h3>
+        <p>${renderTracklist(albumJson).join("")}</p>
+    </div>
+    <div class="album-videos">
+        <h3>Videos</h3>
+        <ul>${renderVideos(albumJson)}</ul>
+    </div>
+    `
+    dataDisplay.innerHTML = albumObj
+}
+
+function renderStyles(albumJson) {
+    return albumJson.styles.map(style => `${style}`)
+}
+
+function renderTracklist(albumJson) {
+    console.log(albumJson.tracklist.map(current => `${current.title}`))
+    return albumJson.tracklist.map(current => 
+        `<p>${current.position} - <em>${current.title}</em>
+        <button id="like-song">Like</button>
+        <button id="comment-song">Comment</button></p>
+        <hr>`
+    )
+}
+
+function renderVideos(albumJson) {
+    if (albumJson.videos) {
+        return albumJson.videos.map(current => 
+            `<li><a href="${current.uri}" target="_blank">${current.title}</a></li>`).join("")
+    } else return `No videos to display`
 }
