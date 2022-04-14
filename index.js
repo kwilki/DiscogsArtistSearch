@@ -171,7 +171,7 @@ function goToReleases(event) {
     
         information.append(dataDisplay)
     
-    // if they are not stored - fetch the information
+    // else - fetch the information
     } else {
         const button = event.target
         const url = button.dataset["url"]
@@ -186,8 +186,9 @@ function goToReleases(event) {
     
 }
 
-// Filters the releases to 'master' releases
+
 function renderReleases(releasesJson) { 
+    // Filters the releases to 'master' releases
     const releases = releasesJson.releases.filter(release => (release.type === "master")) // array of objects describing 'master' releases
     console.log(releases)
     //adds releases to searchedArtists array
