@@ -14,8 +14,14 @@ const information = document.querySelector("#information")
 const dataDisplay = document.createElement("div")
 const artistPicture = document.querySelector("#cover-img")
 
+
+const favAlbum = document.querySelector("#favourite-album")
+
 let searchedArtists =[]
-let favourites = []
+let favourites = {
+    artists: [],
+    albums: []
+}
 
 // websiteHeading.onclick = goHome
 
@@ -49,7 +55,7 @@ function searchArtist(artistName) {
         let obj = searchedArtists.find(x => x.name === artistName)
         pageHeading.innerHTML =  `<h2 class="artist-name">${obj.name}</h2>`
         console.log("if outside")
-        
+
         if(obj.members === undefined) {
             dataDisplay.innerHTML =
             `<button data-url=${obj.releases_url} onclick="goToReleases(event)">Artist Releases</button>
@@ -71,6 +77,8 @@ function searchArtist(artistName) {
         renderCoverImg(obj.coverImage)
         information.append(dataDisplay)
         prevPage = information.innerHTML
+        const favArtist = document.querySelector("#favourite-artist")
+        favArtist.addEventListener("click", favouriteArtist)
 
         } else {
             dataDisplay.innerHTML =
@@ -94,7 +102,8 @@ function searchArtist(artistName) {
         renderCoverImg(obj.coverImage)
         information.append(dataDisplay)
         prevPage = information.innerHTML
-
+        const favArtist = document.querySelector("#favourite-artist")
+        favArtist.addEventListener("click", favouriteArtist)
         }
     
     // else new search    
@@ -171,6 +180,9 @@ function renderArtist(data, coverImg) {
 
     information.append(dataDisplay)
     prevPage = information.innerHTML
+    const favArtist = document.querySelector("#favourite-artist")
+    favArtist.addEventListener("click", favouriteArtist)
+    
     console.log("no members")
     // if there is members
     } else {
@@ -193,6 +205,8 @@ function renderArtist(data, coverImg) {
 
     information.append(dataDisplay)
     prevPage = information.innerHTML
+    const favArtist = document.querySelector("#favourite-artist")
+    favArtist.addEventListener("click", favouriteArtist)
     console.log("members")
     }
     
@@ -250,11 +264,12 @@ function goToReleases(event) {
     
 }
 
-
 function renderReleases(releasesJson) { 
     // Filters the releases to 'master' releases
     const releases = releasesJson.releases.filter(release => (release.type === "master")) // array of objects describing 'master' releases
     console.log(releases)
+    
+
     //adds releases to searchedArtists array
     let currentArtistHtml = document.getElementsByClassName("artist-name")
     let currentArtistName = currentArtistHtml[0].innerText
@@ -262,20 +277,23 @@ function renderReleases(releasesJson) {
     obj.releases = releases
 
     const releaseObj = (releases.map(current => 
-        `<p><strong>Title:</strong> ${current.title} </p>
+        `<div id="${current.title}">
+        <p><strong>Title:</strong> ${current.title} </p>
         <p><strong>Year:</strong> ${current.year}</p>
         <button data-url=${current.resource_url} onclick="goToAlbum(event)">View Album</button>
-        <button id="favourite-album">Favourite</button>
-        <hr>`)) // button not working
-
+        <button data-url=${current.resource_url} onclick="favouriteAlbum(event)"">Favourite</button>
+        <hr>
+        </div>`
+    )) // button not working
+    
     const noOfReleases = releases.length.toString()
     dataDisplay.innerHTML = 
     `<button onclick="goToInfo()">Artist Info</button>
     <h3>Releases (${noOfReleases})</h3>
-    
     ${releaseObj.join("")} `
-
+    
     information.append(dataDisplay)
+    console.log(releaseObj)
 }
 
 // Artist Info Button Function
@@ -341,4 +359,42 @@ function renderVideos(albumJson) {
         return albumJson.videos.map(current => 
             `<li><a href="${current.uri}" target="_blank">${current.title}</a></li>`).join("")
     } else return `No videos to display`
+}
+
+function favouriteArtist() {
+    console.log("clicked me")
+    let obj = searchedArtists.find(x => x.name === artistName)
+    favourites.artists.push(obj)
+}
+
+function favouriteAlbum(event) {
+    const button = event.target
+    const url = button.dataset["url"]
+    fetch(url)
+    .then(album => album.json())
+    .then(function(albumJson) {
+        console.log(albumJson)
+        updateFavouriteAlbums(albumJson)
+    })
+}
+
+function updateFavouriteAlbums(albumJson) {
+    console.log("clicked me")
+    console.log(albumJson)
+    let obj = {
+        artists: albumJson.artists,
+        title: albumJson.title,
+        genres: albumJson.genres,
+        styles: albumJson.styles,
+        images: albumJson.images,
+        notes: albumJson.notes,
+        resourceUrl: albumJson.resource_url,
+        tracklist: albumJson.tracklist,
+        uri: albumJson.uri,
+        videos: albumJson.videos,
+        year: albumJson.year
+    }
+
+    favourites.albums.push(obj)
+    console.log(favourites)
 }
