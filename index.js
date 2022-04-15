@@ -3,6 +3,8 @@ const apiKey = "key=BvZVUiBAAUkaPKFlsowt"
 const secret = "secret=FGcSHfPOplxpojCdQmjjZOEgMUDEVRRG"
 
 // form selectors & events
+const websiteHeading = document.querySelector("#website-heading")
+const main = document.querySelector("#main")
 const form = document.querySelector("#search-form")
 const formBody = document.querySelector("#search-body")
 const input = document.querySelector("#artist-input")
@@ -14,6 +16,19 @@ const artistPicture = document.querySelector("#cover-img")
 
 let searchedArtists =[]
 let favourites = []
+
+// websiteHeading.onclick = goHome
+
+//return to home
+// function goHome() {
+//     pageHeading.innerHTML = ""
+//     artistPicture.innerHTML = ""
+//     information.innerHTML = 
+//     `<p class="home-paragraph">Search for music artists to learn about them and their albums.
+//         <br>
+//     Favourite, comment on and create playlists for personal viewing and later reference.</p>
+//     <p class="home-disclaimer">Disclaimer: All content made possible with the use of Discogs API for use in learning and portfolio</p>`
+// }
 
 // search submit event listener
 form.addEventListener("submit", function(event) {
@@ -33,8 +48,32 @@ function searchArtist(artistName) {
         console.log(searchedArtists)
         let obj = searchedArtists.find(x => x.name === artistName)
         pageHeading.innerHTML =  `<h2 class="artist-name">${obj.name}</h2>`
+        console.log("if outside")
+        
+        if(obj.members === undefined) {
+            dataDisplay.innerHTML =
+            `<button data-url=${obj.releases_url} onclick="goToReleases(event)">Artist Releases</button>
+            <button id="favourite-artist" data-name=${obj.name}>Favourite</button>
+            <p>Real Name: <em>${obj.realname}</em></p>
+            <h4>About</h4>
+            <p class="about">${obj.profile}</p>
+            <div class="links">
+            <h4>Links</h4>
+        
+            <ul>
+                <li><a href="${obj.uri}" target="_blank">Dicogs Page</a></li>
+                ${renderAssociatedUrls(obj.urls)}
+            </ul>
+            </div>`
 
-        dataDisplay.innerHTML =
+        console.log("if inside")
+        console.log(obj.name)
+        renderCoverImg(obj.coverImage)
+        information.append(dataDisplay)
+        prevPage = information.innerHTML
+
+        } else {
+            dataDisplay.innerHTML =
             `<button data-url=${obj.releases_url} onclick="goToReleases(event)">Artist Releases</button>
             <button id="favourite-artist" data-name=${obj.name}>Favourite</button>
             <p>Real Name: <em>${obj.realname}</em></p>
@@ -49,13 +88,15 @@ function searchArtist(artistName) {
                 <li><a href="${obj.uri}" target="_blank">Dicogs Page</a></li>
                 ${renderAssociatedUrls(obj.urls)}
             </ul>
-            </div>
-            `
+            </div>`
+        console.log("else inside")
         console.log(obj.name)
         renderCoverImg(obj.coverImage)
         information.append(dataDisplay)
         prevPage = information.innerHTML
 
+        }
+    
     // else new search    
     } else {
         fetch(url)
@@ -69,6 +110,7 @@ function searchArtist(artistName) {
             const coverImg = artist.cover_image // This is where the cover image comes from
             fetchArtistInfo(searchedArtistUrl, coverImg)
             renderCoverImg(coverImg)
+            console.log("else outside")
         })
     }
 }
@@ -83,12 +125,12 @@ function fetchArtistInfo(newUrl, coverImg) {
 }
 
 function renderCoverImg(coverImg) {
-    const imgToRender = `<img src="${coverImg}">`
+    const imgToRender = `<img id="cover-photo" src="${coverImg}">`
     artistPicture.innerHTML = imgToRender
 }
 
 
-
+// renders the artist initial search
 function renderArtist(data, coverImg) {
     console.log(data)
 
@@ -110,25 +152,50 @@ function renderArtist(data, coverImg) {
     pageHeading.innerHTML =  `<h2 class="artist-name">${artist1.name}</h2>`
     console.log(artist1.name)
 
-    dataDisplay.innerHTML =
-    `<button data-url=${artist1.releases_url} onclick="goToReleases(event)">Artist Releases</button>
-    <button id="favourite-artist" data-name=${artist1.name}>Favourite</button>
-    <p>Real Name: <em>${artist1.realname}</em></p>
-    <h4>Members:</h4>
-    <ul>${renderMembers(artist1.members, artist1.name)}</ul>
-    <h4>About</h4>
-    <p class="about">${artist1.profile}</p>
-    <div class="links">
-        <h4>Links</h4>
+    // if no memebers
+    if(!artist1.members) {
+        dataDisplay.innerHTML =
+            `<button data-url=${artist1.releases_url} onclick="goToReleases(event)">Artist Releases</button>
+            <button id="favourite-artist" data-name=${artist1.name}>Favourite</button>
+            <p>Real Name: <em>${artist1.realname}</em></p>
+            <h4>About</h4>
+            <p class="about">${artist1.profile}</p>
+            <div class="links">
+                <h4>Links</h4>
         
-        <ul>
-            <li><a href="${artist1.uri}" target="_blank">Dicogs Page</a></li>
-            ${renderAssociatedUrls(artist1.urls)}
-        </ul>
-    </div>`
+                <ul>
+                    <li><a href="${artist1.uri}" target="_blank">Dicogs Page</a></li>
+                    ${renderAssociatedUrls(artist1.urls)}
+                </ul>
+            </div>`
 
     information.append(dataDisplay)
     prevPage = information.innerHTML
+    console.log("no members")
+    // if there is members
+    } else {
+        dataDisplay.innerHTML =
+            `<button data-url=${artist1.releases_url} onclick="goToReleases(event)">Artist Releases</button>
+            <button id="favourite-artist" data-name=${artist1.name}>Favourite</button>
+            <p>Real Name: <em>${artist1.realname}</em></p>
+            <h4>Members:</h4>
+            <ul>${renderMembers(artist1.members, artist1.name)}</ul>
+            <h4>About</h4>
+            <p class="about">${artist1.profile}</p>
+            <div class="links">
+                <h4>Links</h4>
+        
+                <ul>
+                    <li><a href="${artist1.uri}" target="_blank">Dicogs Page</a></li>
+                    ${renderAssociatedUrls(artist1.urls)}
+                </ul>
+            </div>`
+
+    information.append(dataDisplay)
+    prevPage = information.innerHTML
+    console.log("members")
+    }
+    
 }
 
 function renderAssociatedUrls(associatedUrls) {
@@ -139,12 +206,9 @@ function renderAssociatedUrls(associatedUrls) {
 }
 
 function renderMembers(members, artistName) {
-    if (members){
         return members.map(current => `<li><strong>${current.name}</strong></li>
         Active: ${current.active}`).join("")
-    } else return `${artistName}`
-    
-}
+} 
 
 // Fetch of artist releases
 function goToReleases(event) {
