@@ -47,8 +47,46 @@ form.addEventListener("submit", function(event) {
 // initial Discogs Fetch - initial Artist Search
 function searchArtist(artistName) {
     const url = `https://api.discogs.com/database/search?q=${artistName}&${apiKey}&${secret}&per_page=200`
+        fetch(url)
+        .then(response => response.json())
+        .then(function(json) {
+            const search = json
+            console.log(search.results)
+            console.log(search.results.filter(x => x.type === "artist"))
+            artistSearchResults = search.results.filter(x => x.type === "artist")
+            displaySearchResults(artistSearchResults)
+            // console.log("else outside")
+        })
+    }
 
+function displaySearchResults(artistSearchResults) {
+    let searchResults = []
+    artistSearchResults.map(current => {
+        fetch(current.resource_url)
+        .then(response => response.json())
+        .then(function(json) {
+            console.log(json)
+            let coverImg = current.cover_image
+            console.log(coverImg)
+            searchResults.push(
+                `<div id="search-results" data-artistApi="${current.resource_url}" onclick="renderSelectedArtist(${json}, ${coverImg})">
+                    <img src="${coverImg}">
+                    <a data-artistApi="${current.resource_url}">${json.name}</a>
+                    <hr>
+                </div>
+            `)
+            dataDisplay.innerHTML = searchResults.join(" ")
+            information.append(dataDisplay)
+            // console.log(dataDisplay)
+        })
+    })
+    
+}
+
+function renderSelectedArtist(json, coverImg) {
     information.innerHTML = ""
+    let artistName = json.name
+
     // if artist has been searched before:
     if(searchedArtists.find(x => x.name === artistName)){
         console.log(searchedArtists)
@@ -72,9 +110,9 @@ function searchArtist(artistName) {
             </ul>
             </div>`
 
-        console.log("if inside")
+        console.log("1st")
         console.log(obj.name)
-        renderCoverImg(obj.coverImage)
+        renderCoverImg(obj.coverImg)
         information.append(dataDisplay)
         prevPage = information.innerHTML
         const favArtist = document.querySelector("#favourite-artist")
@@ -97,50 +135,45 @@ function searchArtist(artistName) {
                 ${renderAssociatedUrls(obj.urls)}
             </ul>
             </div>`
-        console.log("else inside")
+        console.log("2nd")
         console.log(obj.name)
-        renderCoverImg(obj.coverImage)
+        renderCoverImg(obj.coverImg)
         information.append(dataDisplay)
         prevPage = information.innerHTML
         const favArtist = document.querySelector("#favourite-artist")
         favArtist.addEventListener("click", favouriteArtist)
         }
-    
-    // else new search    
+        
     } else {
-        fetch(url)
-        .then(response => response.json())
-        .then(function(json) {
-            const search = json
-            console.log(search.results)
-            console.log(search.results.find(x => x.type === "artist"))
-            artist = search.results.find(x => x.type === "artist")
-            const searchedArtistUrl = artist.resource_url
-            const coverImg = artist.cover_image // This is where the cover image comes from
-            fetchArtistInfo(searchedArtistUrl, coverImg)
-            renderCoverImg(coverImg)
-            console.log("else outside")
-        })
+        let artistInfo = json
+        console.log("3rd")
+        console.log(artistInfo)
+        const searchedArtistUrl = json.resource_url
+        // const coverImg = coverImage // This is where the cover image comes from
+
+        var search = document.querySelector("#search-results")
+        search.addEventListener("click",renderArtistInfo(artistInfo, coverImg))
+        renderCoverImg(coverImg)
     }
 }
 
-function fetchArtistInfo(newUrl, coverImg) {
-    fetch(newUrl)
-    .then(response => response.json())
-    .then(function(json){
-        let data = json
-        renderArtist(data, coverImg)
-    })
-}
+// function fetchArtistInfo(newUrl, coverImg) {
+//     fetch(newUrl)
+//     .then(response => response.json())
+//     .then(function(json){
+//         let data = json
+//         renderArtist(data, coverImg)
+//     })
+// }
 
-function renderCoverImg(coverImg) {
-    const imgToRender = `<img id="cover-photo" src="${coverImg}">`
+function renderCoverImg(coverImage) {
+    const imgToRender = `<img id="cover-photo" src="${coverImage}">`
     artistPicture.innerHTML = imgToRender
 }
 
 
 // renders the artist initial search
-function renderArtist(data, coverImg) {
+function renderArtistInfo(data, coverImg) {
     console.log(data)
 
     let artist1 = {
