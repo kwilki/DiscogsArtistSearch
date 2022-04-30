@@ -1,7 +1,33 @@
+* {
+    font-size: 16px;
+}
+
+body {
+    margin: 20px;
+}
+
+h1 {
+    font-size: 2.5rem;
+}
+
 img {
     max-height: 200px;
 }
 
 .initial-artist-search {
     cursor: pointer;
+}
+
+header {
+    padding-bottom: 2rem;
+}
+
+.search-result {
+    cursor: pointer;
+}
+
+.search-result img{
+    max-height: 200px;
+    cursor: pointer;
+    object-fit: cover;
 }
