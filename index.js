@@ -22,6 +22,7 @@ let favourites = {
     artists: [],
     albums: []
 }
+
 let homeIntro
 
 // search submit event listener
@@ -69,6 +70,24 @@ function removePrvDisplayed() {
     information.innerHTML = ""
 }
 
+// checks if image link is provided and if not uses default
+function checkImgLink(current) {
+    return coverImg = current.cover_image.endsWith('spacer.gif') ? '/Images/noPic.png' : current.cover_image
+}
+
+function searchToDisplay(artistName, artistResource, coverImg, current) {
+    return `<div 
+                id="${artistName}"
+                class="search-result" 
+                data-artistResource="${artistResource}" 
+                data-artistName="${artistName}" 
+                data-coverImg="${coverImg}">
+                <img src="${coverImg}">
+                <a>${current.title}</a>
+                <hr>
+            </div>`
+}
+
 function displaySearchResults(artistSearchResults) {
     if(homeIntro === undefined) {
         removePrvDisplayed()
@@ -77,21 +96,11 @@ function displaySearchResults(artistSearchResults) {
         let searchResults = []
         let aName = []
         searchResults = artistSearchResults.map(current => {
-            let coverImg = current.cover_image.endsWith('spacer.gif') ? '/Images/noPic.png' : current.cover_image
+            checkImgLink(current)
             let artistName = current.title
             let artistResource = current.resource_url
             aName.push(artistName)
-            return `<div 
-                    id="${artistName}"
-                    class="search-result" 
-                    data-artistResource="${artistResource}" 
-                    data-artistName="${artistName}" 
-                    data-coverImg="${coverImg}">
-                    <img src="${coverImg}">
-                    <a>${current.title}</a>
-                    <hr>
-                </div>
-                `
+            return searchToDisplay(artistName, artistResource, coverImg, current)
         })
         searchContainer.innerHTML = searchResults.join(" ")
         information.append(searchContainer)
@@ -112,24 +121,12 @@ function displaySearchResults(artistSearchResults) {
 
         let searchResults = []
         let aName = []
-        artistSearchResults.map(current => {
-            let coverImg = current.cover_image.endsWith('spacer.gif') ? '/Images/noPic.png' : current.cover_image
+        searchResults = artistSearchResults.map(current => {
+            checkImgLink(current)
             let artistName = current.title
             let artistResource = current.resource_url
             aName.push(artistName)
-            searchResults.push(
-                `<div 
-                    id="${artistName}"
-                    class="search-result" 
-                    data-artistResource="${artistResource}" 
-                    data-artistName="${artistName}" 
-                    data-coverImg="${coverImg}">
-
-                    <img src="${coverImg}">
-                    <a>${current.title}</a>
-                    <hr>
-                </div>
-            `)
+            return searchToDisplay(artistName, artistResource, coverImg, current)
         })
         searchContainer.innerHTML = searchResults.join(" ")
         information.append(searchContainer)
@@ -231,7 +228,6 @@ function renderCoverImg(coverImage) {
 
 // renders the artist initial search
 function renderArtist(data, coverImg) {
-    console.log(data)
 
     let artist1 = {
         name: data.name,
@@ -246,10 +242,7 @@ function renderArtist(data, coverImg) {
 
     searchedArtists.push(artist1)
     
-    console.log(searchedArtists)
-    
     pageHeading.innerHTML =  `<h2 class="artist-name">${artist1.name}</h2>`
-    console.log(artist1.name)
 
     // if no memebers
     if(!artist1.members) {
@@ -368,11 +361,10 @@ function renderReleases(releasesJson) {
         <p><strong>Title:</strong> ${current.title} </p>
         <p><strong>Year:</strong> ${current.year}</p>
         <button data-url="${current.resource_url}" onclick="goToAlbum(event)">View Album</button>
-        <button class="favourite-album" data-url="${current.resource_url}" onclick="favouriteAlbum(event)">Favourite</button>
+        <button id="${current.title} Album" data-url="${current.resource_url}" data-title="${current.title}" onclick="favouriteAlbum(event)">Favourite</button>
         <hr>
         </div>`
     ))
-    console.log(releaseObj)
     const noOfReleases = releases.length.toString()
     dataDisplay.innerHTML = 
     `<button onclick="goToInfo()">Artist Info</button>
@@ -452,6 +444,8 @@ function renderVideos(albumJson) {
     } else return `No videos to display`
 }
 
+
+// FAOURITES FUNCTIONS
 function favouriteArtist() {
     let button = document.getElementById("favourite-artist")
     let artistName = button.getAttribute("data-name")
@@ -467,7 +461,7 @@ function favouriteArtist() {
             removeFavArtist(artistName)
             console.log(favourites)
             console.log("removed Favourite")
-            colourFavArtist()
+            colourFavArtist(button, artistName, favArtistCheck)
     }
 }
 
@@ -492,19 +486,28 @@ function removeFavArtist(artistName) {
 }
 
 function favouriteAlbum(event) {
-    const button = event.target
-    const url = button.dataset["url"]
-    fetch(url)
-    .then(album => album.json())
-    .then(function(albumJson) {
-        console.log(albumJson)
-        updateFavouriteAlbums(albumJson)
-    })
+    let buttonElement = event.target
+    let albumTitle = buttonElement.getAttribute("data-title")
+    let favouriteAlbButton = document.getElementById(albumTitle + " Album")
+    let favAlbumCheck = favourites.albums.find(x => x.title === albumTitle)
+    if(favAlbumCheck === undefined) {
+        const button = event.target
+        const url = button.dataset["url"]
+        fetch(url)
+        .then(album => album.json())
+        .then(function(albumJson) {
+            updateFavouriteAlbums(albumJson)
+            console.log(favourites)
+            colourFavAlbum(albumTitle)
+        })
+    } else {
+        removeFavAlbum(albumTitle)
+        console.log(favourites)
+        colourFavAlbum(albumTitle)
+    }
 }
 
 function updateFavouriteAlbums(albumJson) {
-    console.log("clicked me")
-    console.log(albumJson)
     let obj = {
         artists: albumJson.artists,
         title: albumJson.title,
@@ -519,5 +522,127 @@ function updateFavouriteAlbums(albumJson) {
         year: albumJson.year
     }
     favourites.albums.push(obj)
-    console.log(favourites)
+}
+
+function colourFavAlbum(albumTitle){
+    let favouriteAlbButton = document.getElementById(albumTitle + " Album")
+    let favAlbumCheck = favourites.albums.find(x => x.title === albumTitle)
+    if(favAlbumCheck === undefined) {
+        console.log("button black")
+        favouriteAlbButton.style.backgroundColor = ""
+        favouriteAlbButton.style.color = "black"
+        } else {
+            console.log("button blue")
+            // console.log(favouriteAlbButton)
+            favouriteAlbButton.style.backgroundColor = "blue"
+            favouriteAlbButton.style.color = "white"
+    }
+}
+
+function removeFavAlbum(albumTitle) {
+    let index = favourites.albums.map(x => x.title).indexOf(albumTitle)
+    favourites.albums.splice(index, 1)
+}
+
+// MENU FUNCTIONS
+let favMenu = document.getElementById("ham-favourites-nav")
+favMenu.addEventListener("click", function(){
+    console.log("clicked")
+    renderFavourites()
+})
+
+function renderFavourites() {
+    console.log("clicked")
+    toggleHamburger()
+    removePrvDisplayed()
+    renderFavArtistList()
+}
+
+function renderFavArtistList() {
+    let toRender = []
+    pageHeading.innerHTML = `<h2>Favourites</h2>`
+    favourites.artists.forEach(element => {
+        console.log(element)
+        toRender.push(
+            `<div id="${element.name}" class="search-result">
+                <img src="${element.coverImage}">
+                <a>${element.name}</a>
+                <hr>
+            </div>`)
+    })
+    information.innerHTML = toRender.join("") //UP TO HERE
+}
+
+function renderSelectedFavourite() {
+    
+    let selectedFavourite = favourites.artists.find(x => x.name === ) // up to here
+    if(obj.members === undefined) {
+        dataDisplay.innerHTML =
+        `<button data-url="${obj.releases_url}" onclick="goToReleases(event)">Artist Releases</button>
+        <button id="favourite-artist" data-name="${obj.name}" onclick="favouriteArtist()">Favourite</button>
+        <p>Real Name: <em>${obj.realname}</em></p>
+        <h4>About</h4>
+        <p class="about">${obj.profile}</p>
+        <div class="links">
+        <h4>Links</h4>
+    
+        <ul>
+            <li><a href="${obj.uri}" target="_blank">Dicogs Page</a></li>
+            ${renderAssociatedUrls(obj.urls)}
+        </ul>
+        </div>`
+        console.log("1st")
+        console.log(obj)
+        renderCoverImg(obj.coverImage)
+        information.append(dataDisplay)
+        colourFavArtist()
+        prevPage = information.innerHTML
+    } else {
+        dataDisplay.innerHTML =
+        `<button data-url="${obj.releases_url}" onclick="goToReleases(event)">Artist Releases</button>
+        <button id="favourite-artist" data-name="${obj.name}" onclick="favouriteArtist()">Favourite</button>
+        <p>Real Name: <em>${obj.realname}</em></p>
+        <h4>Members:</h4>
+        <ul>${renderMembers(obj.members, obj.name)}</ul>
+        <h4>About</h4>
+        <p class="about">${obj.profile}</p>
+        <div class="links">
+        <h4>Links</h4>
+    
+        <ul>
+            <li><a href="${obj.uri}" target="_blank">Dicogs Page</a></li>
+            ${renderAssociatedUrls(obj.urls)}
+        </ul>
+        </div>`
+        console.log("2nd")
+        console.log(obj.name)
+        renderCoverImg(obj.coverImage)
+        information.append(dataDisplay)
+        colourFavArtist()
+        prevPage = information.innerHTML
+    }
+}
+
+//HOME FUNCTION
+let homeButton = document.getElementById("ham-home-nav")
+homeButton.addEventListener("click", function() {
+    goHome()
+})
+
+function goHome() {
+    removePrvDisplayed()
+    toggleHamburger()
+    information.innerHTML = `<div class="welcome-content">
+                                <p class="home-paragraph">Search for music artists to learn about them and their albums.
+                                <br>
+                                Favourite, comment on and create playlists for personal viewing and later reference.</p>
+                                <p class="home-disclaimer">Disclaimer: All content made possible with the use of Discogs API for use in learning and portfolio</p>
+                            </div>`
+}
+
+function toggleHamburger() {
+    const menu_btn = document.querySelector(".hamburger")
+    const mobile_menu = document.querySelector(".mobile-nav")
+    menu_btn.classList.toggle("is-active")
+    mobile_menu.classList.toggle("is-active")
 }
