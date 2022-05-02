@@ -72,7 +72,7 @@ function removePrvDisplayed() {
 
 // checks if image link is provided and if not uses default
 function checkImgLink(current) {
-    return coverImg = current.cover_image.endsWith('spacer.gif') ? '/Images/noPic.png' : current.cover_image
+    return coverImg = current.cover_image.endsWith('spacer.gif') ? './Images/noPic.png' : current.cover_image
 }
 
 function searchToDisplay(artistName, artistResource, coverImg, current) {
