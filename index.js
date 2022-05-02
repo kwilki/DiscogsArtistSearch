@@ -393,7 +393,7 @@ function renderAlbum(albumJson) {
 
     const albumObj = `
     <button onclick="goToInfo()">Artist Info</button>
-    <button data-url="${obj.releases_url}" onclick="goToReleases(event)">Artist Releases</button>
+    <button data-url="${obj.releases_url}" data-name="${currentArtistName}"onclick="goToReleases(event)">Artist Releases</button>
     <div class="album-title-info">
         <h2>${albumJson.title}</h2>
         <h3><em>By ${albumJson.artists[0].name}</em></h3>
