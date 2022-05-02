@@ -23,7 +23,12 @@ let favourites = {
     albums: []
 }
 
-let homeIntro
+let homeIntro = `<div class="welcome-content">
+                    <p class="home-paragraph">Search for music artists to learn about them and their albums.
+                    <br>
+                    Favourite, comment on and create playlists for personal viewing and later reference.</p>
+                    <p class="home-disclaimer">Disclaimer: All content made possible with the use of Discogs API for use in learning and portfolio</p>
+                </div>`
 
 // search submit event listener
 form.addEventListener("submit", function(event) {
@@ -88,117 +93,53 @@ function searchToDisplay(artistName, artistResource, coverImg, current) {
             </div>`
 }
 
+function searchListListener(array, artistSearchResults) {
+    let searchContainer = document.createElement("div")
+        searchContainer.className = "search-container"
+        let searchResults = []
+        
+        searchResults = artistSearchResults.map(current => {
+            checkImgLink(current)
+            let artistName = current.title
+            let artistResource = current.resource_url
+            array.push(artistName)
+            return searchToDisplay(artistName, artistResource, coverImg, current)
+        })
+        searchContainer.innerHTML = searchResults.join(" ")
+        information.append(searchContainer)
+        array.forEach(element => {
+            let searchList = document.getElementById(`${element}`)
+            let data = searchList.getAttribute("data-artistResource")
+            let artistName = searchList.getAttribute("data-artistName")
+            let coverImg = searchList.getAttribute("data-coverImg")
+
+            searchList.addEventListener("click", function() {
+                searchArtist(data, artistName, coverImg)
+            })
+        })
+}
+
 function displaySearchResults(artistSearchResults) {
     if(homeIntro === undefined) {
+        let array = []
         removePrvDisplayed()
-        let searchContainer = document.createElement("div")
-        searchContainer.className = "search-container"
-        let searchResults = []
-        let aName = []
-        searchResults = artistSearchResults.map(current => {
-            checkImgLink(current)
-            let artistName = current.title
-            let artistResource = current.resource_url
-            aName.push(artistName)
-            return searchToDisplay(artistName, artistResource, coverImg, current)
-        })
-        searchContainer.innerHTML = searchResults.join(" ")
-        information.append(searchContainer)
-        aName.forEach(element => {
-            let searchList = document.getElementById(`${element}`)
-            let data = searchList.getAttribute("data-artistResource")
-            let artistName = searchList.getAttribute("data-artistName")
-            let coverImg = searchList.getAttribute("data-coverImg")
-
-            searchList.addEventListener("click", function() {
-                searchArtist(data, artistName, coverImg)
-            })
-        })
+        searchListListener(array, artistSearchResults)
     } else {
+        let array = []
         removePrvDisplayed()
-        let searchContainer = document.createElement("div")
-        searchContainer.className = "search-container"
-
-        let searchResults = []
-        let aName = []
-        searchResults = artistSearchResults.map(current => {
-            checkImgLink(current)
-            let artistName = current.title
-            let artistResource = current.resource_url
-            aName.push(artistName)
-            return searchToDisplay(artistName, artistResource, coverImg, current)
-        })
-        searchContainer.innerHTML = searchResults.join(" ")
-        information.append(searchContainer)
-        aName.forEach(element => {
-            let searchList = document.getElementById(`${element}`)
-            let data = searchList.getAttribute("data-artistResource")
-            let artistName = searchList.getAttribute("data-artistName")
-            let coverImg = searchList.getAttribute("data-coverImg")
-
-            searchList.addEventListener("click", function() {
-                searchArtist(data, artistName, coverImg)
-            })
-        })
+        searchListListener(array, artistSearchResults)
     }
-        
 }
 
 function searchArtist(data, artistName ,coverImg) {
     console.log("clicked!")
     information.innerHTML = ""
-
     // if artist has been searched before:
     if(searchedArtists.find(x => x.name === artistName)){
-        console.log(searchedArtists)
         let obj = searchedArtists.find(x => x.name === artistName)
+        console.log(searchedArtists)
         pageHeading.innerHTML =  `<h2 class="artist-name">${obj.name}</h2>`
-
-        if(obj.members === undefined) {
-            dataDisplay.innerHTML =
-            `<button data-url="${obj.releases_url}" onclick="goToReleases(event)">Artist Releases</button>
-            <button id="favourite-artist" data-name="${obj.name}" onclick="favouriteArtist()">Favourite</button>
-            <p>Real Name: <em>${obj.realname}</em></p>
-            <h4>About</h4>
-            <p class="about">${obj.profile}</p>
-            <div class="links">
-            <h4>Links</h4>
-        
-            <ul>
-                <li><a href="${obj.uri}" target="_blank">Dicogs Page</a></li>
-                ${renderAssociatedUrls(obj.urls)}
-            </ul>
-            </div>`
-            console.log("1st")
-            console.log(obj)
-            renderCoverImg(obj.coverImage)
-            information.append(dataDisplay)
-            colourFavArtist()
-            prevPage = information.innerHTML
-        } else {
-            dataDisplay.innerHTML =
-            `<button data-url="${obj.releases_url}" onclick="goToReleases(event)">Artist Releases</button>
-            <button id="favourite-artist" data-name="${obj.name}" onclick="favouriteArtist()">Favourite</button>
-            <p>Real Name: <em>${obj.realname}</em></p>
-            <h4>Members:</h4>
-            <ul>${renderMembers(obj.members, obj.name)}</ul>
-            <h4>About</h4>
-            <p class="about">${obj.profile}</p>
-            <div class="links">
-            <h4>Links</h4>
-        
-            <ul>
-                <li><a href="${obj.uri}" target="_blank">Dicogs Page</a></li>
-                ${renderAssociatedUrls(obj.urls)}
-            </ul>
-            </div>`
-            console.log("2nd")
-            console.log(obj.name)
-            renderCoverImg(obj.coverImage)
-            information.append(dataDisplay)
-            colourFavArtist()
-            prevPage = information.innerHTML
-        }
+        checkInfoPgDisplay(obj)
     } else {
         fetch(data)
         .then(response => response.json())
@@ -208,6 +149,54 @@ function searchArtist(data, artistName ,coverImg) {
             fetchArtistInfo(searchedArtistUrl, coverImg)
             renderCoverImg(coverImg)
         })
+    }
+}
+
+function checkInfoPgDisplay(obj) {
+    if(obj.members === undefined) {
+        dataDisplay.innerHTML =
+        `<button data-url="${obj.releases_url}" onclick="goToReleases(event)">Artist Releases</button>
+        <button id="favourite-artist" data-name="${obj.name}" onclick="favouriteArtist()">Favourite</button>
+        <p>Real Name: <em>${obj.realname}</em></p>
+        <h4>About</h4>
+        <p class="about">${obj.profile}</p>
+        <div class="links">
+        <h4>Links</h4>
+    
+        <ul>
+            <li><a href="${obj.uri}" target="_blank">Dicogs Page</a></li>
+            ${renderAssociatedUrls(obj.urls)}
+        </ul>
+        </div>`
+        console.log("1st")
+        console.log(obj)
+        renderCoverImg(obj.coverImage)
+        information.append(dataDisplay)
+        colourFavArtist()
+        prevPage = information.innerHTML
+    } else {
+        dataDisplay.innerHTML =
+        `<button data-url="${obj.releases_url}" onclick="goToReleases(event)">Artist Releases</button>
+        <button id="favourite-artist" data-name="${obj.name}" onclick="favouriteArtist()">Favourite</button>
+        <p>Real Name: <em>${obj.realname}</em></p>
+        <h4>Members:</h4>
+        <ul>${renderMembers(obj.members, obj.name)}</ul>
+        <h4>About</h4>
+        <p class="about">${obj.profile}</p>
+        <div class="links">
+        <h4>Links</h4>
+    
+        <ul>
+            <li><a href="${obj.uri}" target="_blank">Dicogs Page</a></li>
+            ${renderAssociatedUrls(obj.urls)}
+        </ul>
+        </div>`
+        console.log("2nd")
+        console.log(obj.name)
+        renderCoverImg(obj.coverImage)
+        information.append(dataDisplay)
+        colourFavArtist()
+        prevPage = information.innerHTML
     }
 }
 
@@ -574,54 +563,61 @@ function renderFavArtistList() {
 }
 
 function renderSelectedFavourite() {
-    
-    let selectedFavourite = favourites.artists.find(x => x.name === ) // up to here
-    if(obj.members === undefined) {
-        dataDisplay.innerHTML =
-        `<button data-url="${obj.releases_url}" onclick="goToReleases(event)">Artist Releases</button>
-        <button id="favourite-artist" data-name="${obj.name}" onclick="favouriteArtist()">Favourite</button>
-        <p>Real Name: <em>${obj.realname}</em></p>
-        <h4>About</h4>
-        <p class="about">${obj.profile}</p>
-        <div class="links">
-        <h4>Links</h4>
-    
-        <ul>
-            <li><a href="${obj.uri}" target="_blank">Dicogs Page</a></li>
-            ${renderAssociatedUrls(obj.urls)}
-        </ul>
-        </div>`
-        console.log("1st")
-        console.log(obj)
-        renderCoverImg(obj.coverImage)
-        information.append(dataDisplay)
-        colourFavArtist()
-        prevPage = information.innerHTML
-    } else {
-        dataDisplay.innerHTML =
-        `<button data-url="${obj.releases_url}" onclick="goToReleases(event)">Artist Releases</button>
-        <button id="favourite-artist" data-name="${obj.name}" onclick="favouriteArtist()">Favourite</button>
-        <p>Real Name: <em>${obj.realname}</em></p>
-        <h4>Members:</h4>
-        <ul>${renderMembers(obj.members, obj.name)}</ul>
-        <h4>About</h4>
-        <p class="about">${obj.profile}</p>
-        <div class="links">
-        <h4>Links</h4>
-    
-        <ul>
-            <li><a href="${obj.uri}" target="_blank">Dicogs Page</a></li>
-            ${renderAssociatedUrls(obj.urls)}
-        </ul>
-        </div>`
-        console.log("2nd")
-        console.log(obj.name)
-        renderCoverImg(obj.coverImage)
-        information.append(dataDisplay)
-        colourFavArtist()
-        prevPage = information.innerHTML
-    }
+    let selectedFavourite = favourites.artists.find(x => x.name === artistName)
+    console.log(selectedFavourite)
+    displaySearchResults(selectedFavourite)
 }
+
+// function renderSelectedFavourite() {
+    
+//     let selectedFavourite = favourites.artists.find(x => x.name === artistName)
+//     if(obj.members === undefined) {
+//         dataDisplay.innerHTML =
+//         `<button data-url="${obj.releases_url}" onclick="goToReleases(event)">Artist Releases</button>
+//         <button id="favourite-artist" data-name="${obj.name}" onclick="favouriteArtist()">Favourite</button>
+//         <p>Real Name: <em>${obj.realname}</em></p>
+//         <h4>About</h4>
+//         <p class="about">${obj.profile}</p>
+//         <div class="links">
+//         <h4>Links</h4>
+    
+//         <ul>
+//             <li><a href="${obj.uri}" target="_blank">Dicogs Page</a></li>
+//             ${renderAssociatedUrls(obj.urls)}
+//         </ul>
+//         </div>`
+//         console.log("1st")
+//         console.log(obj)
+//         renderCoverImg(obj.coverImage)
+//         information.append(dataDisplay)
+//         colourFavArtist()
+//         prevPage = information.innerHTML
+//     } else {
+//         dataDisplay.innerHTML =
+//         `<button data-url="${obj.releases_url}" onclick="goToReleases(event)">Artist Releases</button>
+//         <button id="favourite-artist" data-name="${obj.name}" onclick="favouriteArtist()">Favourite</button>
+//         <p>Real Name: <em>${obj.realname}</em></p>
+//         <h4>Members:</h4>
+//         <ul>${renderMembers(obj.members, obj.name)}</ul>
+//         <h4>About</h4>
+//         <p class="about">${obj.profile}</p>
+//         <div class="links">
+//         <h4>Links</h4>
+    
+//         <ul>
+//             <li><a href="${obj.uri}" target="_blank">Dicogs Page</a></li>
+//             ${renderAssociatedUrls(obj.urls)}
+//         </ul>
+//         </div>`
+//         console.log("2nd")
+//         console.log(obj.name)
+//         renderCoverImg(obj.coverImage)
+//         information.append(dataDisplay)
+//         colourFavArtist()
+//         prevPage = information.innerHTML
+//     }
+// }
+
 
 //HOME FUNCTION
 let homeButton = document.getElementById("ham-home-nav")
