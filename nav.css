@@ -73,9 +73,14 @@
 li.menu-item:hover {
     color: pink;
     cursor: pointer;
+    font-size: 1.2rem;
 }
 
 li {
     
     list-style: none;
+}
+
+.favourites-sub-menu {
+    padding-left: 20px;
 }

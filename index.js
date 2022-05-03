@@ -23,7 +23,12 @@ let favourites = {
     albums: []
 }
 
-let homeIntro
+let homeIntro = `<div class="welcome-content">
+                    <p class="home-paragraph">Search for music artists to learn about them and their albums.
+                    <br>
+                    Favourite, comment on and create playlists for personal viewing and later reference.</p>
+                    <p class="home-disclaimer">Disclaimer: All content made possible with the use of Discogs API for use in learning and portfolio</p>
+                </div>`
 
 // search submit event listener
 form.addEventListener("submit", function(event) {
@@ -36,32 +41,18 @@ form.addEventListener("submit", function(event) {
 // initial Discogs Fetch - initial Artist Search
 function search(artistName) {
     const url = `https://api.discogs.com/database/search?q=${artistName}&${apiKey}&${secret}&per_page=200`
-        
-    if(homeIntro === undefined) {
-        fetch(url)
-        .then(response => response.json())
-        .then(function(json) {
-            const search = json
-            console.log(search.results)
-            console.log(search.results.filter(x => x.type === "artist"))
-            artistSearchResults = search.results.filter(x => x.type === "artist")
-            let welcome = document.querySelector(".welcome-content")
-            console.log(welcome)
-            welcome.remove()
-            homeIntro = welcome
-            displaySearchResults(artistSearchResults)
-        })
-    } else {
-        fetch(url)
-        .then(response => response.json())
-        .then(function(json) {
-            const search = json
-            console.log(search.results)
-            console.log(search.results.filter(x => x.type === "artist"))
-            artistSearchResults = search.results.filter(x => x.type === "artist")
-            displaySearchResults(artistSearchResults)
-        })
-    }
+    
+    fetch(url)
+    .then(response => response.json())
+    .then(function(json) {
+        const search = json
+        console.log(search.results)
+        console.log(search.results.filter(x => x.type === "artist"))
+        artistSearchResults = search.results.filter(x => x.type === "artist")
+        let welcome = document.querySelector(".welcome-content")
+        removePrvDisplayed()
+        displaySearchResults(artistSearchResults)
+    })
 }
 
 function removePrvDisplayed() {
@@ -292,21 +283,7 @@ function renderMembers(members, artistName) {
 
 function listReleases(obj) {
     let albums = obj.releases
-    const releaseObj = (albums.map(current => 
-        `<p><strong>Title:</strong> ${current.title} </p>
-        <p><strong>Year:</strong> ${current.year}</p>
-        <button data-url="${current.resource_url}" onclick="goToAlbum(event)">View Album</button>
-        <button id="${current.title} data-url="${current.resource_url}" onclick="favouriteAlbum(event)">Favourite</button>
-        <hr>`)) // button not working
-
-    const noOfReleases = albums.length.toString()
-    dataDisplay.innerHTML = 
-    `<button onclick="goToInfo()">Artist Info</button>
-    <h3>Releases (${noOfReleases})</h3>
-    
-    ${releaseObj.join("")} `
-
-    information.append(dataDisplay)
+    releasesToRender(albums)
 }
 
 // Fetch of artist releases
@@ -341,6 +318,31 @@ function goToReleases(event) {
     
 }
 
+function releasesToRender(releases) {
+    const releaseObj = (releases.map(current => {
+        return `<div id="${current.title}">
+                    <p><strong>Title:</strong> ${current.title} </p>
+                    <p><strong>Year:</strong> ${current.year}</p>
+                    <button data-url="${current.resource_url}" onclick="goToAlbum(event)">View Album</button>
+                    <button id="${current.title} Album" data-url="${current.resource_url}" 
+                    data-title="${current.title}" onclick="favouriteAlbum(event)">Favourite</button>
+                    <hr>
+                </div>`
+    }))
+    const noOfReleases = releases.length.toString()
+    dataDisplay.innerHTML = 
+    `<button onclick="goToInfo()">Artist Info</button>
+    <h3>Releases (${noOfReleases})</h3>
+    <div id="list-of-albums">${releaseObj.join("")}</div>`
+    
+    information.append(dataDisplay)
+    let listOfAlbums = document.getElementById("list-of-albums").childNodes
+    listOfAlbums.forEach(element => {
+        albumTitle = element.id
+        colourFavAlbum(albumTitle)
+    })
+}
+
 function renderReleases(releasesJson) { 
     // Filters the releases to 'master' releases
     const releases = releasesJson.releases.filter(release => (release.type === "master")) // array of objects describing 'master' releases
@@ -351,23 +353,8 @@ function renderReleases(releasesJson) {
     let currentArtistName = currentArtistHtml[0].innerText
     let obj = searchedArtists.find(x => x.name === currentArtistName)
     obj.releases = releases
-
-    const releaseObj = (releases.map(current => 
-        `<div id="${current.title}">
-        <p><strong>Title:</strong> ${current.title} </p>
-        <p><strong>Year:</strong> ${current.year}</p>
-        <button data-url="${current.resource_url}" onclick="goToAlbum(event)">View Album</button>
-        <button id="${current.title} Album" data-url="${current.resource_url}" data-title="${current.title}" onclick="favouriteAlbum(event)">Favourite</button>
-        <hr>
-        </div>`
-    ))
-    const noOfReleases = releases.length.toString()
-    dataDisplay.innerHTML = 
-    `<button onclick="goToInfo()">Artist Info</button>
-    <h3>Releases (${noOfReleases})</h3>
-    ${releaseObj.join("")} `
+    releasesToRender(releases)
     
-    information.append(dataDisplay)
 }
 
 // Artist Info Button Function
@@ -557,29 +544,37 @@ function renderFavourites() {
 }
 
 function renderFavArtistList() {
-    let searchContainer = document.createElement("div")
-    searchContainer.className = "search-container"
-    let searchResults = []
-    array = []
-    searchResults = favourites.artists.map(current => {
-        checkImgLink(current)
-        let artistName = current.name
-        let artistResource = current.resource_url
-        array.push(artistName)
-        return searchToDisplay(artistName, artistResource, coverImg, current)
-    })
-    searchContainer.innerHTML = searchResults.join(" ")
-    information.append(searchContainer)
-    array.forEach(element => {
-        let searchList = document.getElementById(`${element}`)
-        let data = searchList.getAttribute("data-artistResource")
-        let artistName = searchList.getAttribute("data-artistName")
-        let coverImg = searchList.getAttribute("data-coverImg")
-
-        searchList.addEventListener("click", function() {
-            searchArtist(data, artistName, coverImg)
+    if((favourites.artists.length > 0) || favourites.artists.length > 0 ) {
+        let searchContainer = document.createElement("div")
+        searchContainer.className = "search-container"
+        let searchResults = []
+        array = []
+        searchResults = favourites.artists.map(current => {
+            checkImgLink(current)
+            let artistName = current.name
+            let artistResource = current.resource_url
+            array.push(artistName)
+            return searchToDisplay(artistName, artistResource, coverImg, current)
         })
-    })
+        searchContainer.innerHTML = searchResults.join(" ")
+        information.append(searchContainer)
+        array.forEach(element => {
+            let searchList = document.getElementById(`${element}`)
+            let data = searchList.getAttribute("data-artistResource")
+            let artistName = searchList.getAttribute("data-artistName")
+            let coverImg = searchList.getAttribute("data-coverImg")
+
+            searchList.addEventListener("click", function() {
+                searchArtist(data, artistName, coverImg)
+            })
+        })
+    } else {
+        removePrvDisplayed()
+        dataDisplay.innerHTML = `<p><strong>You have no favourites yet!</strong></p>
+        <p>Hit that favourite button on an Artist or Album to save some</p>`
+        information.append(dataDisplay)
+    }
+    
 }
 
 function renderSelectedFavourite() {
@@ -587,6 +582,18 @@ function renderSelectedFavourite() {
     console.log(selectedFavourite)
     displaySearchResults(selectedFavourite)
 }
+
+let artistFavMenu = document.getElementById("artist-fav-menu")
+artistFavMenu.addEventListener("click", function(){
+    console.log("artist Fav Menu")
+    removePrvDisplayed()
+    toggleHamburger()
+    renderFavArtistList()
+})
+
+// let albumFavMenu = document.getElementById("album-fav-menu") {
+
+// }
 
 
 //HOME FUNCTION
@@ -598,12 +605,7 @@ homeButton.addEventListener("click", function() {
 function goHome() {
     removePrvDisplayed()
     toggleHamburger()
-    information.innerHTML = `<div class="welcome-content">
-                                <p class="home-paragraph">Search for music artists to learn about them and their albums.
-                                <br>
-                                Favourite, comment on and create playlists for personal viewing and later reference.</p>
-                                <p class="home-disclaimer">Disclaimer: All content made possible with the use of Discogs API for use in learning and portfolio</p>
-                            </div>`
+    information.innerHTML = homeIntro
 }
 
 function toggleHamburger() {
