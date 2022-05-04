@@ -1,0 +1,144 @@
+@import url(./fonts.css);
+
+* {
+    font-size: 16px;
+    color: #D8DBE2;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+@media only screen and (max-width: 650px) {
+    div#search-body {
+        width: 100%;
+        display: flex;
+    }
+
+    p.home-paragraph {
+        padding-right: 3em;
+        padding-left: 3em;
+    }
+
+    p.home-disclaimer {
+        padding-right: 5em;
+        padding-left: 6em;
+    }
+}
+
+html {
+    height: 100%
+}
+
+body {
+    background-color: #373F51;
+}
+
+header {
+    padding-bottom: 2rem;
+}
+
+#website-heading {
+    cursor: pointer;
+}
+
+#search-body {
+    margin-top: 2em;
+    margin-right: 1em;
+    margin-left: 1em;
+    display: flex;
+    justify-content: center;
+}
+
+input[type=text] {
+    width: auto;
+    max-width: 800px;
+    background-color: #A9BCD0;
+    border: none;
+    border-radius: 1em;
+    color: #373F51;
+    height: 3em;
+    flex-grow: 1;
+    padding-left: 1rem;
+    /* font-size: 1.2; */
+    margin-bottom: 1em;
+}
+
+input[type=text]:hover {
+    color: #373F51;
+    background-color: #96ADC5;
+}
+
+hr {
+    color: #F3F4F6;
+}
+
+input[type=submit] {
+    color: black;
+    background-color: #F3F4F6;
+    border: none;
+    border-radius: 1em;
+    flex-grow: 0;
+    flex-wrap: nowrap;
+    height: 3em;
+    margin-left: 0.5em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+}
+
+input[type=submit]:hover {
+    color: #F3F4F6;
+    background-color: #58A4B0;
+    cursor: pointer;
+}
+
+::placeholder {
+    color: #373F51;
+    /* padding-left: 1rem; */
+}
+
+#main {
+    width: 100%;
+}
+
+#information {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: #58A4B0;
+    font-family: 'ClarendonTextProRegular', serif;
+}
+
+p {
+    font-family: 'ClarendonTextProLight', serif;
+}
+
+.welcome-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+}
+
+.home-paragraph {
+    max-width: 800px;
+    margin-top: 2em;
+    padding-left: 5em;
+    padding-right: 5em;
+    font-size: 1.5em;
+    align-items: center;
+}
+
+.home-disclaimer {
+    /* align-items: center; */
+    margin-top: 3em;
+    padding-left: 8em;
+    padding-right: 9em;
+    font-size: 1em;
+    font-family: 'CaeciliaLTStd-Light', serif;
+}
+

@@ -1,6 +1,9 @@
+@import url(./fonts.css);
+
 .nav {
     display:flex;
     align-items: center;
+    margin: 2em;
 }
 
 .hamburger {
@@ -52,7 +55,7 @@
     position: fixed;
     top: 0;
     left: 100%;
-    width: 65%;
+    width: 100%;
     min-height: 100vh;
     z-index: 98;
     background-color: grey;
@@ -61,7 +64,7 @@
 }
 
 .mobile-nav.is-active {
-    left: 65%;
+    left: 40%;
 }
 
 .mobile-nav .menu-item {
@@ -83,4 +86,8 @@ li {
 
 .favourites-sub-menu {
     padding-left: 20px;
+}
+
+.menu-items {
+    font-family: 'CaeciliaLTStd-Light', serif;
 }

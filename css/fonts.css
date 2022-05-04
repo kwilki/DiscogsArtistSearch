@@ -1,0 +1,34 @@
+@font-face {
+    font-family: 'ClarendonTextProRegular';
+    src: url(../Fonts/Clarendon/Clarendon\ Text\ Pro-Regular.otf);
+    /* font-weight: normal;
+    font-style: normal; */
+}
+
+@font-face {
+    font-family: 'ClarendonTextProLight';
+    src: url(../Fonts/Clarendon/ClarendonLTStd-Light.otf);
+    /* font-weight: normal;
+    font-style: normal; */
+}
+
+@font-face {
+    font-family: 'ClarendonTextProBold';
+    src: url(../Fonts/Clarendon/Clarendon\ Text\ Pro-Bold.otf);
+    /* font-weight: normal;
+    font-style: normal; */
+}
+
+@font-face {
+    font-family: 'ClarendonTextProItalic';
+    src: url(../Fonts/Clarendon/Clarendon\ Text\ Pro\ Italic.otf);
+    /* font-weight: normal;
+    font-style: normal; */
+}
+
+@font-face {
+    font-family: 'CaeciliaLTStd-Light';
+    src: url(../Fonts/Caecilia/CaeciliaLTStd-Light.otf);
+    /* font-weight: normal;
+    font-style: normal; */
+}

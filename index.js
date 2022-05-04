@@ -3,7 +3,6 @@ const apiKey = "key=BvZVUiBAAUkaPKFlsowt"
 const secret = "secret=FGcSHfPOplxpojCdQmjjZOEgMUDEVRRG"
 
 // form selectors & events
-const websiteHeading = document.querySelector("#website-heading")
 const main = document.querySelector("#main")
 const form = document.querySelector("#search-form")
 const formBody = document.querySelector("#search-body")
@@ -26,7 +25,8 @@ let favourites = {
 let homeIntro = `<div class="welcome-content">
                     <p class="home-paragraph">Search for music artists to learn about them and their albums.
                     <br>
-                    Favourite, comment on and create playlists for personal viewing and later reference.</p>
+                    <br>
+                    Favourite, and create account for personal viewing and later reference.</p>
                     <p class="home-disclaimer">Disclaimer: All content made possible with the use of Discogs API for use in learning and portfolio</p>
                 </div>`
 
@@ -73,9 +73,10 @@ function searchToDisplay(artistName, artistResource, coverImg, current) {
                 data-artistResource="${artistResource}" 
                 data-artistName="${artistName}" 
                 data-coverImg="${coverImg}">
-                <img src="${coverImg}">
-                <a>${artistName}</a>
-                <hr>
+                <div class="img-container">
+                    <img src="${coverImg}">
+                </div>
+                <a class="a-search">${artistName}</a>
             </div>`
 }
 
@@ -347,7 +348,6 @@ function renderReleases(releasesJson) {
     // Filters the releases to 'master' releases
     const releases = releasesJson.releases.filter(release => (release.type === "master")) // array of objects describing 'master' releases
     console.log(releases)
-
     //adds releases to searchedArtists array
     let currentArtistHtml = document.getElementsByClassName("artist-name")
     let currentArtistName = currentArtistHtml[0].innerText
@@ -382,7 +382,8 @@ function renderAlbum(albumJson) {
     <button onclick="goToInfo()">Artist Info</button>
     <button data-url="${obj.releases_url}" data-name="${currentArtistName}"onclick="goToReleases(event)">Artist Releases</button>
     <div class="album-title-info">
-        <h2>${albumJson.title}</h2>
+        <h2>${albumJson.title}</h2> <button id="${currentArtistName} Album" data-url="${obj.resource_url}" 
+        data-title="${currentArtistName}" onclick="favouriteAlbum(event)">Favourite</button>
         <h3><em>By ${albumJson.artists[0].name}</em></h3>
         <p>${albumJson.year}</p>
     </div>
@@ -413,9 +414,7 @@ function renderStyles(albumJson) {
 function renderTracklist(albumJson) {
     console.log(albumJson.tracklist.map(current => `${current.title}`))
     return albumJson.tracklist.map(current => 
-        `<p>${current.position} - <em>${current.title}</em>
-        <button id="like-song">Like</button>
-        <button id="comment-song">Comment</button></p>
+        `<p>${current.position} - <em>${current.title}</em></p>
         <hr>`
     )
 }
@@ -510,14 +509,13 @@ function updateFavouriteAlbums(albumJson) {
 function colourFavAlbum(albumTitle){
     let favouriteAlbButton = document.getElementById(albumTitle + " Album")
     let favAlbumCheck = favourites.albums.find(x => x.title === albumTitle)
-    console.log(favAlbumCheck)
+    // console.log(favAlbumCheck)
     if(favAlbumCheck === undefined) {
-        console.log("button black")
+        // console.log("button black")
         favouriteAlbButton.style.backgroundColor = ""
         favouriteAlbButton.style.color = "black"
         } else {
-            console.log("button blue")
-            // console.log(favouriteAlbButton)
+            // console.log("button blue")
             favouriteAlbButton.style.backgroundColor = "blue"
             favouriteAlbButton.style.color = "white"
     }
@@ -600,11 +598,11 @@ artistFavMenu.addEventListener("click", function(){
 let homeButton = document.getElementById("ham-home-nav")
 homeButton.addEventListener("click", function() {
     goHome()
+    toggleHamburger()
 })
 
 function goHome() {
     removePrvDisplayed()
-    toggleHamburger()
     information.innerHTML = homeIntro
 }
 
@@ -614,3 +612,8 @@ function toggleHamburger() {
     menu_btn.classList.toggle("is-active")
     mobile_menu.classList.toggle("is-active")
 }
+
+let websiteHeading = document.getElementById("website-heading")
+websiteHeading.addEventListener("click", function() {
+    goHome()
+})
