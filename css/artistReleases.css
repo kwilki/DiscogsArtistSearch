@@ -1,0 +1,27 @@
+@import url(./fonts.css);
+
+.releases-list {
+    background-color: #F4F5F6;
+    padding: 1em;
+    border-radius: 0.5em;
+    margin-bottom: 2em;
+    max-width: 1000px;
+}
+
+.releases-list p {
+    color: #373F51;
+    margin-bottom: 0.5em;
+}
+
+.releases-list p strong{
+    font-family: 'ClarendonTextProRegular';
+    color: #373F51;
+}
+
+.releases-list button {
+    margin-top: 0.5em;
+}
+
+#list-of-albums .releases-list:nth-child(even) {
+    background-color: #CAD6E2;
+}

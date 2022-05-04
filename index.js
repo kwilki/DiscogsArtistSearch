@@ -76,7 +76,7 @@ function searchToDisplay(artistName, artistResource, coverImg, current) {
                 <div class="img-container">
                     <img src="${coverImg}">
                 </div>
-                <a class="a-search">${artistName}</a>
+                <span class="a-search">${artistName}</span>
             </div>`
 }
 
@@ -140,13 +140,18 @@ function searchArtist(data, artistName ,coverImg) {
 }
 
 function checkInfoPgDisplay(obj) {
+    let infoDisplay = document.createElement("div")
+    infoDisplay.setAttribute("class", "artist-info-div")
     if(obj.members === undefined) {
-        dataDisplay.innerHTML =
+        infoDisplay.innerHTML =
         `<button data-url="${obj.releases_url}" data-name="${obj.name}" onclick="goToReleases(event)">Artist Releases</button>
         <button id="favourite-artist" data-name="${obj.name}" onclick="favouriteArtist()">Favourite</button>
-        <p>Real Name: <em>${obj.realname}</em></p>
+        <h4>Real Name:</h4> 
+        <p>${obj.realname}</p>
+        <br>
         <h4>About</h4>
         <p class="about">${obj.profile}</p>
+        <br>
         <div class="links">
         <h4>Links</h4>
     
@@ -158,18 +163,22 @@ function checkInfoPgDisplay(obj) {
         console.log("1st")
         console.log(obj)
         renderCoverImg(obj.cover_image)
-        information.append(dataDisplay)
+        information.append(infoDisplay)
         colourFavArtist()
         prevPage = information.innerHTML
     } else {
-        dataDisplay.innerHTML =
+        infoDisplay.innerHTML =
         `<button data-url="${obj.releases_url}" data-name="${obj.name}" onclick="goToReleases(event)">Artist Releases</button>
         <button id="favourite-artist" data-name="${obj.name}" onclick="favouriteArtist()">Favourite</button>
-        <p>Real Name: <em>${obj.realname}</em></p>
+        <h4>Real Name:</h4> 
+        <p>${obj.realname}</p>
+        <br>
         <h4>Members:</h4>
         <ul>${renderMembers(obj.members, obj.name)}</ul>
+        <br>
         <h4>About</h4>
         <p class="about">${obj.profile}</p>
+        <br>
         <div class="links">
         <h4>Links</h4>
     
@@ -181,7 +190,7 @@ function checkInfoPgDisplay(obj) {
         console.log("2nd")
         console.log(obj.name)
         renderCoverImg(obj.cover_image)
-        information.append(dataDisplay)
+        information.append(infoDisplay)
         colourFavArtist()
         prevPage = information.innerHTML
     }
@@ -221,14 +230,21 @@ function renderArtist(data, coverImg) {
     
     pageHeading.innerHTML =  `<h2 class="artist-name">${artist1.name}</h2>`
 
+    let infoDisplay = document.createElement("div")
+    infoDisplay.setAttribute("class", "artist-info-div")
+
     // if no memebers
     if(!artist1.members) {
-        dataDisplay.innerHTML =
+        
+        infoDisplay.innerHTML =
             `<button data-url="${artist1.releases_url}" data-name="${artist1.name}" onclick="goToReleases(event)">Artist Releases</button>
             <button id="favourite-artist" data-name="${artist1.name}" onclick="favouriteArtist()">Favourite</button>
-            <p>Real Name: <em>${artist1.realname}</em></p>
+            <h4>Real Name:</h4>
+            <p>${artist1.realname}</p>
+            <br>
             <h4>About</h4>
             <p class="about">${artist1.profile}</p>
+            <br>
             <div class="links">
                 <h4>Links</h4>
         
@@ -237,22 +253,26 @@ function renderArtist(data, coverImg) {
                     ${renderAssociatedUrls(artist1.urls)}
                 </ul>
             </div>`
-
-    information.append(dataDisplay)
+    
+    information.append(infoDisplay)
     colourFavArtist()
     prevPage = information.innerHTML
     
     console.log("no members")
     // if there is members
     } else {
-        dataDisplay.innerHTML =
+        infoDisplay.innerHTML =
             `<button data-url="${artist1.releases_url}" data-name="${artist1.name}" onclick="goToReleases(event)">Artist Releases</button>
             <button id="favourite-artist" data-name="${artist1.name}" onclick="favouriteArtist()">Favourite</button>
-            <p>Real Name: <em>${artist1.realname}</em></p>
+            <h4>Real Name:</h4>
+            <p>${artist1.realname}</p>
+            <br>
             <h4>Members:</h4>
             <ul>${renderMembers(artist1.members, artist1.name)}</ul>
+            <br>
             <h4>About</h4>
             <p class="about">${artist1.profile}</p>
+            <br>
             <div class="links">
                 <h4>Links</h4>
         
@@ -262,7 +282,7 @@ function renderArtist(data, coverImg) {
                 </ul>
             </div>`
 
-    information.append(dataDisplay)
+    information.append(infoDisplay)
     colourFavArtist()
     prevPage = information.innerHTML
     console.log("members")
@@ -321,21 +341,21 @@ function goToReleases(event) {
 
 function releasesToRender(releases) {
     const releaseObj = (releases.map(current => {
-        return `<div id="${current.title}">
+        return `<div class="releases-list" id="${current.title}">
                     <p><strong>Title:</strong> ${current.title} </p>
                     <p><strong>Year:</strong> ${current.year}</p>
                     <button data-url="${current.resource_url}" onclick="goToAlbum(event)">View Album</button>
                     <button id="${current.title} Album" data-url="${current.resource_url}" 
                     data-title="${current.title}" onclick="favouriteAlbum(event)">Favourite</button>
-                    <hr>
                 </div>`
     }))
     const noOfReleases = releases.length.toString()
     dataDisplay.innerHTML = 
     `<button onclick="goToInfo()">Artist Info</button>
-    <h3>Releases (${noOfReleases})</h3>
+    <h2>Number of Releases: ${noOfReleases}</h2>
     <div id="list-of-albums">${releaseObj.join("")}</div>`
     
+    information.innerHTML = ""
     information.append(dataDisplay)
     let listOfAlbums = document.getElementById("list-of-albums").childNodes
     listOfAlbums.forEach(element => {
@@ -382,19 +402,22 @@ function renderAlbum(albumJson) {
     <button onclick="goToInfo()">Artist Info</button>
     <button data-url="${obj.releases_url}" data-name="${currentArtistName}"onclick="goToReleases(event)">Artist Releases</button>
     <div class="album-title-info">
-        <h2>${albumJson.title}</h2> <button id="${currentArtistName} Album" data-url="${obj.resource_url}" 
-        data-title="${currentArtistName}" onclick="favouriteAlbum(event)">Favourite</button>
+        <h2>${albumJson.title}</h2>
         <h3><em>By ${albumJson.artists[0].name}</em></h3>
         <p>${albumJson.year}</p>
+        <button id="${currentArtistName} Album" data-url="${obj.resource_url}" 
+        data-title="${currentArtistName}" onclick="favouriteAlbum(event)">Favourite</button>
     </div>
-    <p><strong>Genre:</strong> ${albumJson.genres[0]}</p>
-    <p><strong>Styles:</strong> ${renderStyles(albumJson).join(", ")}</p>
+    <div class="album-genre">
+        <p><strong>Genre:</strong> ${albumJson.genres[0]}</p>
+        <p><strong>Styles:</strong> ${renderStyles(albumJson).join(", ")}</p>
+    </div>
     <div class="tracklist">
-        <h3>Tracklist</h3>
+        <h3>Tracklist:</h3>
         <p>${renderTracklist(albumJson).join("")}</p>
     </div>
     <div class="album-videos">
-        <h3>Videos</h3>
+        <h3>Videos:</h3>
         <ul>${renderVideos(albumJson)}</ul>
     </div>
     `
@@ -414,8 +437,10 @@ function renderStyles(albumJson) {
 function renderTracklist(albumJson) {
     console.log(albumJson.tracklist.map(current => `${current.title}`))
     return albumJson.tracklist.map(current => 
-        `<p>${current.position} - <em>${current.title}</em></p>
-        <hr>`
+        `<div class="track-info">
+            <p>${current.position} - ${current.title}</p>
+        </div>`
+        
     )
 }
 
@@ -453,11 +478,11 @@ function colourFavArtist(){
     let favArtistCheck = favourites.artists.find(x => x.name === artistName)
     if(favArtistCheck === undefined) {
         console.log("button black")
-        button.style.backgroundColor = ""
+        button.style.backgroundColor = "#F4F5F6"
         button.style.color = "black"
         } else {
-            console.log("button blue")
-            button.style.backgroundColor = "blue"
+            console.log("button yellow")
+            button.style.backgroundColor = "#EDAE49"
             button.style.color = "white"
     }
 }
@@ -512,11 +537,11 @@ function colourFavAlbum(albumTitle){
     // console.log(favAlbumCheck)
     if(favAlbumCheck === undefined) {
         // console.log("button black")
-        favouriteAlbButton.style.backgroundColor = ""
+        favouriteAlbButton.style.backgroundColor = "#F4F5F6"
         favouriteAlbButton.style.color = "black"
         } else {
             // console.log("button blue")
-            favouriteAlbButton.style.backgroundColor = "blue"
+            favouriteAlbButton.style.backgroundColor = "#EDAE49"
             favouriteAlbButton.style.color = "white"
     }
 }

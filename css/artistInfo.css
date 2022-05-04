@@ -1,0 +1,54 @@
+@import url(./fonts.css);
+
+h2 {
+    font-family: 'ClarendonTextProBold';
+    font-size: 1.5em;
+    margin-bottom: 1em;
+    color: #F4F5F6;
+}
+
+#cover-img {
+    margin-bottom: 1em;
+    margin-left: 2em;
+}
+
+button {
+    background-color: #F4F5F6;
+    color: #373F51;
+    border-radius: 0.7em;
+    height: 2em;
+    font-size: 1em;
+    margin-bottom: 1em;
+    cursor: pointer;
+}
+
+h4 {
+    font-family: 'ClarendonTextProRegular', serif;
+    margin-bottom: 0.5em;
+}
+
+li {
+    font-family: 'CaeciliaLTStd-Light';
+    margin-bottom: 0.5em;
+}
+
+.artist-div-info a {
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    color: pink;
+    text-decoration: underline;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
+.links {
+    padding-bottom: 2em;
+}

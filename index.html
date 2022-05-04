@@ -4,9 +4,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/hamburger-nav.css">
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/searchResults.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/nav.css">
+    <link rel="stylesheet" href="./css/hamburgerNav.css">
+    <link rel="stylesheet" href="./css/searchResults.css">
+    <link rel="stylesheet" href="./css/artistInfo.css">
+    <link rel="stylesheet" href="./css/artistReleases.css">
+    <link rel="stylesheet" href="./css/albumView.css">
+
     <script src="index.js" defer></script>
     <script src="hamburger_menu.js" defer></script>
     
@@ -17,11 +22,22 @@
         <div class="nav-container">
             <div class="nav">
                 <h1 id="website-heading">Artist Search</h1>
+                <nav class="desktop-nav">
+                    <div class="menu-items">
+                        <span class="menu-item" id="desktop-home-nav">Home</span>
+                        <span class="menu-item favourites" id="desktop-favourites-nav">Favourites</span>
+                            <ul class="favourites-sub-menu">
+                                <li class="desktop menu-item artist-favourites-sub" id="artist-fav-menu">Artists</li>
+                                <li class="desktop menu-item albums-favourites-sub" id="album-fav-menu">Albums</li>
+                            </ul>
+                    </div>
+                </nav>
                 <button class="hamburger">
                     <div class="bar"></div>
                 </button>
             </div>
         </div>
+        
         <nav class="mobile-nav">
             <ul class="menu-items">
                 <li class="menu-item" id="ham-home-nav">Home</li>

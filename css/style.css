@@ -7,29 +7,76 @@
     box-sizing: border-box;
 }
 
-@media only screen and (max-width: 650px) {
+@media only screen and (min-width: 1400px) {
+    body main#main {
+        margin-right: 15em;
+        margin-left: 15em;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    body main#main {
+        margin-right: 2rem;
+        margin-left: 2rem;
+    }
+
     div#search-body {
         width: 100%;
-        display: flex;
     }
 
+    div.welcome-content p.home-paragraph {
+        padding-left: 1em;
+    }
+
+    #information div.welcome-content p.home-disclaimer {
+        /* padding-right: 5em; */
+        padding-left: 2em;
+    }
+}
+
+@media only screen and (max-width: 650px) {
+    main#main {
+        margin-right: 2rem;
+        margin-left: 2rem;
+    }
+
+    div#search-body {
+        width: 100%;
+    }
+
+    .welcome-content p.home-paragraph {
+        padding-left: 1em;
+    }
+
+    div.welcome-content p.home-disclaimer {
+        /* padding-right: 5em; */
+        padding-left: 6em;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .welcome-content p.home-paragraph {
+        padding-left: 1em;
+    }
+}
+
+@media only screen and (max-width: 1050px) {
     p.home-paragraph {
-        padding-right: 3em;
-        padding-left: 3em;
+        padding-left: 2em;
     }
-
     p.home-disclaimer {
-        padding-right: 5em;
+        /* padding-right: 5em; */
         padding-left: 6em;
     }
 }
 
 html {
-    height: 100%
+    height: 100%;
 }
 
 body {
     background-color: #373F51;
+    max-width: 100%;
 }
 
 header {
@@ -38,6 +85,9 @@ header {
 
 #website-heading {
     cursor: pointer;
+    font-size: 2.5rem;
+    color: #58A4B0;
+    font-family: 'ClarendonTextProRegular', serif;
 }
 
 #search-body {
@@ -46,6 +96,7 @@ header {
     margin-left: 1em;
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 input[type=text] {
@@ -98,34 +149,28 @@ input[type=submit]:hover {
 }
 
 #main {
-    width: 100%;
+    margin-right: 5rem;
+    margin-left: 5rem;
+    /* width: 100%; */
 }
 
 #information {
-    display: flex;
-    flex-direction: row;
+    /* display: flex;
+    flex-direction: row; */
     justify-content: center;
-}
-
-h1 {
-    font-size: 2.5rem;
-    color: #58A4B0;
-    font-family: 'ClarendonTextProRegular', serif;
+    margin-left: 2em;
 }
 
 p {
-    font-family: 'ClarendonTextProLight', serif;
+    font-family: 'CaeciliaLTStd-Light', serif;
 }
 
 .welcome-content {
     height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: end;
 }
 
 .home-paragraph {
-    max-width: 800px;
+    max-width: 900px;
     margin-top: 2em;
     padding-left: 5em;
     padding-right: 5em;
@@ -137,6 +182,7 @@ p {
     /* align-items: center; */
     margin-top: 3em;
     padding-left: 8em;
+    max-width: 800px;
     padding-right: 9em;
     font-size: 1em;
     font-family: 'CaeciliaLTStd-Light', serif;
