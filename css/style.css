@@ -1,6 +1,8 @@
 @import url(./fonts.css);
 
 * {
+    /* Enable below to sho margin and paddings */
+    /* outline: 1px solid #f00 !important; */
     font-size: 16px;
     color: #D8DBE2;
     margin: 0;
@@ -15,13 +17,14 @@
 }
 
 @media only screen and (max-width: 500px) {
+
+    * {
+        font-size: 12px;
+    }
+
     body main#main {
         margin-right: 2rem;
         margin-left: 2rem;
-    }
-
-    div#search-body {
-        width: 100%;
     }
 
     div.welcome-content p.home-paragraph {
@@ -40,16 +43,11 @@
         margin-left: 2rem;
     }
 
-    div#search-body {
-        width: 100%;
-    }
-
     .welcome-content p.home-paragraph {
         padding-left: 1em;
     }
 
     div.welcome-content p.home-disclaimer {
-        /* padding-right: 5em; */
         padding-left: 6em;
     }
 }
@@ -65,22 +63,21 @@
         padding-left: 2em;
     }
     p.home-disclaimer {
-        /* padding-right: 5em; */
         padding-left: 6em;
     }
 }
 
-html {
-    height: 100%;
-}
-
 body {
     background-color: #373F51;
-    max-width: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
 }
 
 header {
     padding-bottom: 2rem;
+    left: 0;
+    top: 0;
 }
 
 #website-heading {
@@ -91,6 +88,7 @@ header {
 }
 
 #search-body {
+    min-width: 0;
     margin-top: 2em;
     margin-right: 1em;
     margin-left: 1em;
@@ -123,6 +121,7 @@ hr {
 }
 
 input[type=submit] {
+    min-width: 0;
     color: black;
     background-color: #F3F4F6;
     border: none;

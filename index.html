@@ -23,13 +23,16 @@
             <div class="nav">
                 <h1 id="website-heading">Artist Search</h1>
                 <nav class="desktop-nav">
-                    <div class="menu-items">
-                        <span class="menu-item" id="desktop-home-nav">Home</span>
-                        <span class="menu-item favourites" id="desktop-favourites-nav">Favourites</span>
-                            <ul class="favourites-sub-menu">
-                                <li class="desktop menu-item artist-favourites-sub" id="artist-fav-menu">Artists</li>
-                                <li class="desktop menu-item albums-favourites-sub" id="album-fav-menu">Albums</li>
-                            </ul>
+                    <div class="menu-bar">
+                        <a class="menu-item" id="desktop-home-nav">Home</a>
+                        <div class="dropdown">
+                            <a class="menu-item dropbtn" id="desktop-favourites-nav">Favourites</a>
+                            <div class="dropdown-content" class="favourites-sub-menu">
+                                <a class="desktop menu-item artist-favourites-sub" id="desktop-artist-fav-menu">Artists</a>
+                                <a class="desktop menu-item albums-favourites-sub" id="desktop-album-fav-menu">Albums</a>
+                            </div>
+                        </div>
+                        
                     </div>
                 </nav>
                 <button class="hamburger">
@@ -39,14 +42,14 @@
         </div>
         
         <nav class="mobile-nav">
-            <ul class="menu-items">
+            <div class="menu-items">
                 <li class="menu-item" id="ham-home-nav">Home</li>
                 <li class="menu-item favourites" id="ham-favourites-nav">Favourites</li>
                     <ul class="favourites-sub-menu">
-                        <li class="menu-item artist-favourites-sub" id="artist-fav-menu">Artists</li>
-                        <li class="menu-item albums-favourites-sub" id="album-fav-menu">Albums</li>
+                        <li class="menu-item artist-favourites-sub" id="ham-artist-fav-menu">Artists</li>
+                        <li class="menu-item albums-favourites-sub" id="ham-album-fav-menu">Albums</li>
                     </ul>
-            </ul>
+            </div>
         </nav>
         <form id="search-form">
             <div id="search-body">

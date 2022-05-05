@@ -1,15 +1,15 @@
 @import url(./fonts.css);
 
 .nav {
-    display:flex;
+    display: flex;
     align-items: center;
-    margin: 2em;
+    margin: 1em;
 }
 
 .hamburger {
-    display: block;
-    position: relative;
+    display: none;
     margin-left: auto;
+    position: relative;
     width: 35px;
     cursor: pointer;
     appearance: none;
@@ -58,7 +58,7 @@
     width: 100%;
     min-height: 100vh;
     z-index: 98;
-    background-color: grey;
+    background-color: #A9BCD0;
     padding-top: 5rem;
     transition: 0.4s;
 }
@@ -80,7 +80,6 @@ li.menu-item:hover {
 }
 
 li {
-    
     list-style: none;
 }
 
@@ -88,6 +87,6 @@ li {
     padding-left: 20px;
 }
 
-.menu-items {
-    font-family: 'CaeciliaLTStd-Light', serif;
+div.menu-items {
+    padding: 2em;
 }

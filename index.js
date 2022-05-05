@@ -297,7 +297,7 @@ function renderAssociatedUrls(associatedUrls) {
     
 }
 
-function renderMembers(members, artistName) {
+function renderMembers(members) {
         return members.map(current => `<li><strong>${current.name}</strong></li>
         Active: ${current.active}`).join("")
 } 
@@ -374,7 +374,6 @@ function renderReleases(releasesJson) {
     let obj = searchedArtists.find(x => x.name === currentArtistName)
     obj.releases = releases
     releasesToRender(releases)
-    
 }
 
 // Artist Info Button Function
@@ -451,8 +450,7 @@ function renderVideos(albumJson) {
     } else return `No videos to display`
 }
 
-
-// FAOURITES FUNCTIONS
+//FAVOURITES FUNCTIONS
 function favouriteArtist() {
     let button = document.getElementById("favourite-artist")
     let artistName = button.getAttribute("data-name")
@@ -495,7 +493,6 @@ function removeFavArtist(artistName) {
 function favouriteAlbum(event) {
     let buttonElement = event.target
     let albumTitle = buttonElement.getAttribute("data-title")
-    let favouriteAlbButton = document.getElementById(albumTitle + " Album")
     let favAlbumCheck = favourites.albums.find(x => x.title === albumTitle)
     if(favAlbumCheck === undefined) {
         const button = event.target
@@ -515,6 +512,7 @@ function favouriteAlbum(event) {
 }
 
 function updateFavouriteAlbums(albumJson) {
+    console.log(albumJson)
     let obj = {
         artists: albumJson.artists,
         title: albumJson.title,
@@ -522,7 +520,7 @@ function updateFavouriteAlbums(albumJson) {
         styles: albumJson.styles,
         images: albumJson.images,
         notes: albumJson.notes,
-        resourceUrl: albumJson.resource_url,
+        resource_url: albumJson.resource_url,
         tracklist: albumJson.tracklist,
         uri: albumJson.uri,
         videos: albumJson.videos,
@@ -551,27 +549,45 @@ function removeFavAlbum(albumTitle) {
     favourites.albums.splice(index, 1)
 }
 
-// MENU FUNCTIONS
-let favMenu = document.getElementById("ham-favourites-nav")
-favMenu.addEventListener("click", function(){
+// DESKTOP MENU FUNCTIONS
+let desktopHome = document.getElementById("desktop-home-nav")
+desktopHome.addEventListener("click", function() {
+    goHome()
+})
+
+let desktopFavMenu = document.getElementById("desktop-favourites-nav")
+desktopFavMenu.addEventListener("click", function(){
     console.log("clicked")
     renderFavourites()
 })
 
-function renderFavourites() {
-    let selectedFavourite = favourites.artists
+let desktopArtistFavMenu = document.getElementById("desktop-artist-fav-menu")
+desktopArtistFavMenu.addEventListener("click", function(){
+    console.log("artist Fav Menu")
+    removePrvDisplayed()
+    renderFavArtistList()
+})
+
+// HAMBURGER MENU FUNCTIONS
+let favMenu = document.getElementById("ham-favourites-nav")
+favMenu.addEventListener("click", function(){
     console.log("clicked")
     toggleHamburger()
+    renderFavourites()
+})
+
+function renderFavourites() {
+    console.log("clicked")
     removePrvDisplayed()
     renderFavArtistList()
 }
 
 function renderFavArtistList() {
-    if((favourites.artists.length > 0) || favourites.artists.length > 0 ) {
+    if(favourites.artists.length > 0) {
         let searchContainer = document.createElement("div")
         searchContainer.className = "search-container"
         let searchResults = []
-        array = []
+        let array = []
         searchResults = favourites.artists.map(current => {
             checkImgLink(current)
             let artistName = current.name
@@ -593,12 +609,14 @@ function renderFavArtistList() {
         })
     } else {
         removePrvDisplayed()
-        dataDisplay.innerHTML = `<p><strong>You have no favourites yet!</strong></p>
-        <p>Hit that favourite button on an Artist or Album to save some</p>`
+        dataDisplay.innerHTML = `<p><strong>Oh no, looks like you dont have any favourites yet.</strong></p>
+                                <br>
+                                <p>Hit that favourite button on an Artist or Album to save some.</p>`
         information.append(dataDisplay)
     }
-    
 }
+
+
 
 function renderSelectedFavourite() {
     let selectedFavourite = favourites.artists.find(x => x.name === artistName)
@@ -606,16 +624,57 @@ function renderSelectedFavourite() {
     displaySearchResults(selectedFavourite)
 }
 
-let artistFavMenu = document.getElementById("artist-fav-menu")
-artistFavMenu.addEventListener("click", function(){
+let hamArtistFavMenu = document.getElementById("ham-artist-fav-menu")
+hamArtistFavMenu.addEventListener("click", function(){
     console.log("artist Fav Menu")
     removePrvDisplayed()
     toggleHamburger()
     renderFavArtistList()
 })
 
-// let albumFavMenu = document.getElementById("album-fav-menu") {
+let hamAlbumFavMenu = document.getElementById("ham-album-fav-menu")
+hamAlbumFavMenu.addEventListener("click", function() {
+    console.log("Album Fav Menu")
+    removePrvDisplayed()
+    toggleHamburger()
+    renderFavAlbumsList()
+})
 
+// function renderFavAlbumsList() {
+//     if(favourites.albums.length > 0) {
+//         let searchContainer = document.createElement("div")
+//         searchContainer.className = "search-container"
+//         let searchResults = []
+//         let array = []
+//         searchResults = favourites.albums.map(current => {
+//             // checkImgLink(current)
+//             let artistNameArray = current.artists
+//             let artistName = artistNameArray.name
+//             console.log(artistName)
+//             array.push(artistName)
+//             return releasesToRender(searchResults)
+//         })
+//         console.log(favourites.albums)
+//         console.log(array)
+//         searchContainer.innerHTML = searchResults.join(" ")
+//         information.append(searchContainer)
+//         array.forEach(element => {
+//             let searchList = document.getElementById(`${element}`)
+//             // let data = searchList.getAttribute("data-artistResource")
+//             // let artistName = searchList.getAttribute("data-artistName")
+//             // let coverImg = searchList.getAttribute("data-coverImg")
+
+//             searchList.addEventListener("click", function() {
+//                 releasesToRender(releases)
+//             })
+//         })
+//     } else {
+//         removePrvDisplayed()
+//         dataDisplay.innerHTML = `<p><strong>Oh no, looks like you dont have any favourites yet.</strong></p>
+//                                 <br>
+//                                 <p>Hit that favourite button on an Artist or Album to save some.</p>`
+//         information.append(dataDisplay)
+//     }
 // }
 
 

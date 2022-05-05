@@ -1,5 +1,99 @@
 @import url(./fonts.css);
 
+@media only screen and (max-width : 800px)  {
+    button.hamburger {
+        display: block;
+    }
+    nav.desktop-nav {
+        display: none;
+    }
+}
+
+.desktop-nav {
+    margin-left: auto;
+    display: block;
+}
+
 .menu-items {
+    font-family: 'CaeciliaLTStd-Light', serif;
     display: inline-block;
+}
+
+.menu-bar {
+    display: flex;
+    overflow: hidden;
+}
+
+.menu-bar a {
+    font-family: 'CaeciliaLTStd-Light', serif;
+    font-size: 1rem;
+    color: #F3F4F6;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#desktop-home-nav.menu-item {
+    padding-right: 1rem;
+}
+
+#desktop-home-nav.menu-item:hover {
+    padding-right: 1rem;
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+
+.dropdown {
+    overflow: hidden;
+}
+
+#desktop-favourites-nav.dropbtn:hover {
+    color: pink;
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+
+.dropdown .dropbtn {
+    font-family: 'CaeciliaLTStd-Light', serif;
+    font-size: 1rem; 
+    border: none;
+    outline: none;
+    color: white;
+    background-color: inherit;
+    margin: 0;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #A9BCD0;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: #F3F4F6;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    border-radius: 0 0 0.5em 0.5em;
+}
+
+.dropdown-content a:hover {
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+
+/* .dropdown-content a:hover {
+    color: pink;
+} */
+
+.dropdown:hover .dropdown-content {
+    display: block;
+    color: pink;
+}
+
+#information div p strong {
+    font-family: 'CaeciliaLTStd-Bold', serif;
 }
