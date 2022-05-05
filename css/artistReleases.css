@@ -25,3 +25,10 @@
 #list-of-albums .releases-list:nth-child(even) {
     background-color: #CAD6E2;
 }
+
+#list-of-albums .releases-list button:nth-child(even) {
+    border-width: 2px;
+    border-style: outset;
+    border-color: buttonborder;
+    border-image: initial;
+}

@@ -49,7 +49,6 @@ function search(artistName) {
         console.log(search.results)
         console.log(search.results.filter(x => x.type === "artist"))
         artistSearchResults = search.results.filter(x => x.type === "artist")
-        let welcome = document.querySelector(".welcome-content")
         removePrvDisplayed()
         displaySearchResults(artistSearchResults)
     })
