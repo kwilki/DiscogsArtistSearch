@@ -9,15 +9,19 @@
     box-sizing: border-box;
 }
 
-@media only screen and (min-width: 1400px) {
-    body main#main {
-        margin-right: 15em;
-        margin-left: 15em;
+@media only screen and (max-width: 310px) {
+    p.home-paragraph {
+        font-size: 1em;
+        padding-right: 1em;
+    }
+
+    p.home-disclaimer {
+        font-size: 0.8em;
+        padding-right: 1em;
     }
 }
 
 @media only screen and (max-width: 500px) {
-
     * {
         font-size: 12px;
     }
@@ -32,7 +36,6 @@
     }
 
     #information div.welcome-content p.home-disclaimer {
-        /* padding-right: 5em; */
         padding-left: 2em;
     }
 }
@@ -67,10 +70,16 @@
     }
 }
 
+@media only screen and (min-width: 1400px) {
+    body main#main {
+        margin-right: 15em;
+        margin-left: 15em;
+    }
+}
+
 body {
     background-color: #373F51;
     width: 100%;
-    top: 0;
     left: 0;
 }
 

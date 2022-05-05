@@ -9,8 +9,7 @@
 .hamburger {
     display: none;
     margin-left: auto;
-    position: relative;
-    width: 35px;
+    min-width: 35px;
     cursor: pointer;
     appearance: none;
     background: none;
