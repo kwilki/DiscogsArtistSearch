@@ -34,12 +34,22 @@ li {
     margin-bottom: 0.5em;
 }
 
+.members-div {
+    margin-bottom: 0.5em;
+}
+
+li.members {
+    margin-bottom: 0;
+    list-style: "- ";
+}
+
 .artist-div-info a {
     cursor: pointer;
 }
 
 a {
     text-decoration: none;
+    word-wrap: break-word;
 }
 
 a:hover {
