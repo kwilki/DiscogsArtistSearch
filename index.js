@@ -505,7 +505,6 @@ function favouriteAlbum(event) {
     let buttonElement = event.target
     let albumTitle = buttonElement.getAttribute("data-title")
     let name = buttonElement.getAttribute("data-artistName")
-    // let coverImg = document.getElementById("cover-photo").getAttribute("src")
     console.log(coverImg)
     let favAlbumCheck = favourites.albums.find(x => x.title === albumTitle)
     if(favAlbumCheck === undefined) {
