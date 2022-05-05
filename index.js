@@ -386,11 +386,11 @@ function goToAlbum(event) {
     fetch(url)
     .then(album => album.json())
     .then(function(albumJson) {
-        renderAlbum(albumJson)
+        renderAlbum(albumJson, url)
     })
 }
 
-function renderAlbum(albumJson) {
+function renderAlbum(albumJson, url) {
     let currentArtistHtml = document.getElementsByClassName("artist-name")
     let currentArtistName = currentArtistHtml[0].innerText
     let obj = searchedArtists.find(x => x.name === currentArtistName)
@@ -403,8 +403,8 @@ function renderAlbum(albumJson) {
         <h2>${albumJson.title}</h2>
         <h3><em>By ${albumJson.artists[0].name}</em></h3>
         <p>${albumJson.year}</p>
-        <button id="${currentArtistName} Album" data-url="${obj.resource_url}" 
-        data-title="${currentArtistName}" onclick="favouriteAlbum(event)">Favourite</button>
+        <button id="${albumJson.title} Album" data-url="${url}" 
+        data-title="${albumJson.title}" onclick="favouriteAlbum(event)">Favourite</button>
     </div>
     <div class="album-genre">
         <p><strong>Genre:</strong> ${albumJson.genres[0]}</p>
@@ -420,6 +420,9 @@ function renderAlbum(albumJson) {
     </div>
     `
     dataDisplay.innerHTML = albumObj
+    information.append(dataDisplay)
+    console.log(albumJson.title)
+    colourFavAlbum(albumJson.title)
 }
 
 function renderStyles(albumJson) {
@@ -529,6 +532,7 @@ function updateFavouriteAlbums(albumJson) {
 }
 
 function colourFavAlbum(albumTitle){
+    console.log(albumTitle)
     let favouriteAlbButton = document.getElementById(albumTitle + " Album")
     let favAlbumCheck = favourites.albums.find(x => x.title === albumTitle)
     // console.log(favAlbumCheck)
