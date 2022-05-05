@@ -38,6 +38,10 @@
     #information div.welcome-content p.home-disclaimer {
         padding-left: 2em;
     }
+
+    section#information {
+        margin-left: 0;
+    }
 }
 
 @media only screen and (max-width: 650px) {
