@@ -55,6 +55,7 @@ function search(artistName) {
 }
 
 function removePrvDisplayed() {
+    console.log("removing display")
     pageHeading.innerHTML = ""
     artistPicture.innerHTML = ""
     information.innerHTML = ""
@@ -112,6 +113,7 @@ function displaySearchResults(artistSearchResults) {
 }
 
 function searchArtist(data, artistName ,coverImg) {
+    window.scrollTo(0, 0)
     console.log("clicked!")
     information.innerHTML = ""
     console.log("emptied information")
@@ -325,6 +327,7 @@ function goToReleases(event) {
     //     console.log("FavObj")
     // } else 
     if(obj.releases) {
+        window.scrollTo(0, 0)
         listReleases(obj)
     // else - fetch the information
     console.log("obj")
@@ -336,6 +339,7 @@ function goToReleases(event) {
         .then(function(releasesJson) {
         console.log(releasesJson)
         console.log("else")
+        window.scrollTo(0, 0)
         renderReleases(releasesJson) // this is where the artist releases come from
         })
     }
@@ -343,6 +347,7 @@ function goToReleases(event) {
 }
 
 function releasesToRender(releases) {
+    window.scrollTo(0, 0)
     console.log("releases to render")
     const releaseObj = (releases.map(current => {
         return `<div class="releases-list" id="${current.title}">
@@ -382,6 +387,7 @@ function renderReleases(releasesJson) {
 
 // Artist Info Button Function
 function goToInfo(){
+    window.scrollTo(0, 0)
     dataDisplay.innerHTML = prevPage
     colourFavArtist()
 }
@@ -394,6 +400,7 @@ function goToAlbum(event) {
     fetch(url)
     .then(album => album.json())
     .then(function(albumJson) {
+        window.scrollTo(0, 0)
         renderAlbum(albumJson, url)
     })
 }
@@ -565,9 +572,28 @@ function removeFavAlbum(albumTitle) {
 
 function renderFavourites() {
     console.log("clicked")
-    removePrvDisplayed()
-    renderFavArtistList()
-    renderFavAlbumsList()
+    if((favourites.artists.length > 0) && (favourites.albums.length > 0)){
+        removePrvDisplayed()
+        renderFavArtistList()
+        renderFavAlbumsList()
+        console.log("if albums + Artists")
+    } else if(favourites.artists.length > 0){
+        removePrvDisplayed()
+        renderFavArtistList()
+        console.log("if artists")
+    } else if(favourites.albums.length >0) {
+        removePrvDisplayed()
+        renderFavAlbumsList()
+        console.log("if albums")
+    } else {
+        console.log("no albums or artists")
+        removePrvDisplayed()
+        dataDisplay.innerHTML = `<p><strong>Looks like you dont have any favourites yet.</strong></p>
+                                <br>
+                                <p>Hit that favourite button on an Artist or Album to save some.</p>`
+        information.append(dataDisplay)
+    }
+        
 }
 
 function favAndReRender(event) {
