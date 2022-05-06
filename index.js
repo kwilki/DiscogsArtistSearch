@@ -829,14 +829,61 @@ createAccountButton.addEventListener("click", function() {
 function displayCreateAccountForm() {
     removePrvDisplayed()
     let createAccForm = document.createElement("form")
-    createAccForm.setAttribute("action", "http://localhost:3000/users")
-    createAccForm.setAttribute("method", "POST")
+    // createAccForm.setAttribute("action", "http://localhost:3000/users")
+    // createAccForm.setAttribute("method", "POST")
     createAccForm.innerHTML = 
-    `<input class="user-input" id="user-input" type="text" placeholder="Email">
+    `<div class="acc-intro"><h2>Create Account</h2>
+    <p>Creating an account will let you save favourites for later</p></div>
     <br>
-    <input class="user-password" id="user-password" type="password" placeholder="Password">
-    <br>
-    <input class="user-pass-submit" type="submit" value="submit">`
+    <div class="create-acc-form">
+    <input class="user-input" id="user-input" type="text" placeholder="Enter email" required>
+    <input class="user-password" id="user-password" type="password" placeholder="Enter password" required>
+    <input class="user-pass-submit" id="user-pass-submit" type="submit" value="Submit"></div>`
 
     information.append(createAccForm)
+    let passSubmitBtn = document.getElementById("user-pass-submit")
+    passSubmitBtn.addEventListener("click", function(event) {
+        event.preventDefault()
+        createNewUser()
+    })
+}
+
+function createNewUser() {
+    let email = document.getElementById("user-input").value
+    let password = document.getElementById("user-password").value
+    // createdAccPage()
+    let userCredentials = {
+        email,
+        password
+    }
+
+    let configObj = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify(userCredentials)
+    }
+
+    return fetch("http://localhost:3000/users", configObj)
+    .then(function(response) {
+        return response.json()
+    })
+    .then(function(object) {
+        console.log(object)
+        document.body.innerHTML = object["id"]
+    })
+    .catch(function(error) {
+        document.body.innerHTML = error.message
+    })
+}
+
+function createdAccPage() {
+    removePrvDisplayed()
+    dataDisplay.innerHTML = `
+        <h2>Create Account</h2>
+        <p>Nice! Now you can log in and save your own favourites</p>`
+    
+    information.append(dataDisplay)
 }

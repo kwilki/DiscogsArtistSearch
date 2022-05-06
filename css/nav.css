@@ -34,6 +34,11 @@
     cursor: pointer;
 }
 
+.menu-bar a:hover {
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+
 #desktop-home-nav.menu-item {
     padding-right: 1rem;
 }
@@ -108,12 +113,13 @@
     background-color: orange;
     border: none;
     border-radius: 1.5em;
-    /* flex-grow: 0; */
-    /* flex-wrap: nowrap; */
-    /* height: 3em; */
     margin-right: 0.5em;
     padding-top: 0.5em;
     padding-bottom: 0.5em;
     padding-left: 1.5em;
     padding-right: 1.5em;
+}
+
+.menu-item.login-button:hover {
+    background-color: #fac500;
 }

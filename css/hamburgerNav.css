@@ -4,6 +4,7 @@
     display: flex;
     align-items: center;
     margin: 2em 1em 1em 1em;
+    /* align-items: stretch; */
 }
 
 .hamburger {
