@@ -10,6 +10,7 @@
     display: none;
     margin-left: auto;
     min-width: 35px;
+    min-height: 100%;
     cursor: pointer;
     appearance: none;
     background: none;
@@ -21,7 +22,7 @@
 .hamburger .bar, .hamburger::after, .hamburger::before  {
     content: '';
     display: block;
-    width: 100%;
+    min-width: 100%;
     height: 5px;
     background-color: #000000;
     margin: 4px 0px;
