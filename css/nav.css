@@ -22,6 +22,7 @@
 .menu-bar {
     display: flex;
     overflow: hidden;
+    align-items: center;
 }
 
 .menu-bar a {
@@ -96,4 +97,23 @@
 
 #information div p strong {
     font-family: 'CaeciliaLTStd-Bold', serif;
+}
+
+.menu-item {
+    padding-right: 1em;
+}
+
+.menu-item.login-button {
+    color: black;
+    background-color: orange;
+    border: none;
+    border-radius: 1.5em;
+    /* flex-grow: 0; */
+    /* flex-wrap: nowrap; */
+    /* height: 3em; */
+    margin-right: 0.5em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    padding-left: 1.5em;
+    padding-right: 1.5em;
 }
