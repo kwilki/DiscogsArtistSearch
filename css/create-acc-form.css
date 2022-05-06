@@ -1,0 +1,29 @@
+@import url(./fonts.css);
+
+input[type=password]#user-password.user-password, input[type=text]#user-input.user-input{
+    height: 2em;
+    width: auto;
+    max-width: 800px;
+    background-color: #A9BCD0;
+    border: none;
+    border-radius: 1em;
+    color: #373F51;
+    padding-left: 1rem;
+    font-size: 1.2em;
+    margin-bottom: 0.5em;
+}
+
+input[type=submit].user-pass-submit {
+    font-size: 1.2em;
+    /* min-width: 0; */
+    color: black;
+    background-color: orange;
+    border: none;
+    border-radius: 1em;
+    /* flex-grow: 0; */
+    /* flex-wrap: nowrap; */
+    height: 2em;
+    padding-top: 0.5em;
+    padding-bottom: 1em;
+    margin-left: 0;
+}

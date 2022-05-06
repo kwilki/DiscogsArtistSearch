@@ -818,3 +818,25 @@ let websiteHeading = document.getElementById("website-heading")
 websiteHeading.addEventListener("click", function() {
     goHome()
 })
+
+//LOGIN FUNCTIONS
+
+let createAccountButton = document.getElementById("create-account-button")
+createAccountButton.addEventListener("click", function() {
+    displayCreateAccountForm()
+})
+
+function displayCreateAccountForm() {
+    removePrvDisplayed()
+    let createAccForm = document.createElement("form")
+    createAccForm.setAttribute("action", "http://localhost:3000/users")
+    createAccForm.setAttribute("method", "POST")
+    createAccForm.innerHTML = 
+    `<input class="user-input" id="user-input" type="text" placeholder="Email">
+    <br>
+    <input class="user-password" id="user-password" type="password" placeholder="Password">
+    <br>
+    <input class="user-pass-submit" type="submit" value="submit">`
+
+    information.append(createAccForm)
+}
