@@ -873,6 +873,7 @@ function createNewUser() {
     .then(function(object) {
         console.log(object)
         document.body.innerHTML = object["id"]
+        // createdAccPage()
     })
     .catch(function(error) {
         document.body.innerHTML = error.message
