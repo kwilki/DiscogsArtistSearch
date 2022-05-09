@@ -1,0 +1,44 @@
+@import url(./fonts.css);
+
+input[type=password]#login-user-password.user-password, input[type=text]#login-user-input.user-input{
+    height: 2em;
+    width: auto;
+    max-width: 800px;
+    background-color: #A9BCD0;
+    border: none;
+    border-radius: 1em;
+    color: #373F51;
+    padding-left: 1rem;
+    font-size: 1.2em;
+    margin-bottom: 0.5em;
+}
+
+input[type=submit].user-login-submit {
+    font-size: 1.2em;
+    color: black;
+    background-color: orange;
+    border: none;
+    border-radius: 1em;
+    height: 2em;
+    padding-top: 0.5em;
+    padding-bottom: 1em;
+    margin-left: auto;
+}
+
+input[type=submit].user-login-submit:hover {
+    font-size: 1.4em;
+}
+
+.login-form {
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.acc-intro {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 500px;
+}

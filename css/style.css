@@ -23,7 +23,15 @@
 
 @media only screen and (max-width: 500px) {
     * {
-        font-size: 12px;
+        font-size: 0.9rem;
+    }
+
+    /* #artist-input {
+        font-size: 1em;
+    } */
+
+    #search-body input {
+        font-size: 20px;
     }
 
     body main#main {
@@ -103,7 +111,7 @@ header {
     margin-top: 1em;
     margin-right: 1em;
     margin-left: 1em;
-    margin-bottom: 1em;
+    margin-bottom: 0.5em;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
@@ -121,6 +129,10 @@ input[type=text] {
     padding-left: 1rem;
     font-size: 1.2em;
     /* margin-bottom: 1em; */
+}
+
+#artist-input {
+    margin-bottom: 0.5em;
 }
 
 input[type=text]:hover {
@@ -149,7 +161,10 @@ input[type=submit] {
     padding-bottom: 1em; */
     padding-left: 1.5em;
     padding-right: 1.5em;
+    margin-bottom: 0.5em;
 }
+
+
 
 input[type=submit]:hover {
     color: #F3F4F6;

@@ -22,6 +22,8 @@ let favourites = {
     albums: []
 }
 
+let loggedIn = false
+
 let homeIntro = `<div class="welcome-content">
                     <p class="home-paragraph">Search for music artists to learn about them and their albums.
                     <br>
@@ -819,19 +821,17 @@ websiteHeading.addEventListener("click", function() {
     goHome()
 })
 
-//LOGIN FUNCTIONS
+//CREATE USER FUNCTIONS
 
 let createAccountButton = document.getElementById("create-account-button")
 createAccountButton.addEventListener("click", function() {
     displayCreateAccountForm()
 })
 
-function displayCreateAccountForm() {
-    removePrvDisplayed()
-    let createAccForm = document.createElement("form")
-    // createAccForm.setAttribute("action", "http://localhost:3000/users")
-    // createAccForm.setAttribute("method", "POST")
-    createAccForm.innerHTML = 
+let createAccForm = document.createElement("form")
+// createAccForm.setAttribute("action", "http://localhost:3000/users")
+// createAccForm.setAttribute("method", "POST")
+createAccForm.innerHTML = 
     `<div class="acc-intro"><h2>Create Account</h2>
     <p>Creating an account will let you save favourites for later</p></div>
     <br>
@@ -840,6 +840,9 @@ function displayCreateAccountForm() {
     <input class="user-password" id="user-password" type="password" placeholder="Enter password" required>
     <input class="user-pass-submit" id="user-pass-submit" type="submit" value="Submit"></div>`
 
+
+function displayCreateAccountForm() {
+    removePrvDisplayed()
     information.append(createAccForm)
     let passSubmitBtn = document.getElementById("user-pass-submit")
     passSubmitBtn.addEventListener("click", function(event) {
@@ -872,8 +875,7 @@ function createNewUser() {
     })
     .then(function(object) {
         console.log(object)
-        document.body.innerHTML = object["id"]
-        // createdAccPage()
+        createdAccPage()
     })
     .catch(function(error) {
         document.body.innerHTML = error.message
@@ -887,4 +889,95 @@ function createdAccPage() {
         <p>Nice! Now you can log in and save your own favourites</p>`
     
     information.append(dataDisplay)
+}
+
+//LOGIN FUNCTIONS
+let loginButton = document.getElementById("login-button")
+loginButton.addEventListener("click", logInListener)
+
+function logInListener() {
+    console.log("clicked")
+    displayLoginForm()
+
+    let loginBtn = document.getElementById("user-login-submit")
+    loginBtn.addEventListener("click", function(event) {
+        event.preventDefault()
+        checkIfUser()
+        goHome()
+    })
+}
+
+function displayLoginForm() {
+    loginForm = document.createElement("form")
+    removePrvDisplayed()
+    loginForm.innerHTML = 
+    `<div class="acc-intro"><h2>Log In</h2>
+    <p>Log in to view your favourites</p></div>
+    <br>
+    <div class="login-form">
+    <input class="user-input" id="login-user-input" type="text" placeholder="Enter email" required>
+    <input class="user-password" id="login-user-password" type="password" placeholder="Enter password" required>
+    <input class="user-login-submit" id="user-login-submit" type="submit" value="Submit"></div>`
+
+    information.append(loginForm)
+}
+
+function checkIfUser() {
+    let email = document.getElementById("login-user-input").value
+    let password = document.getElementById("login-user-password").value
+
+    fetch("http://localhost:3000/users")
+    .then(response => response.json())
+    .then(function(json) {
+        console.log(json)
+        let findUser = json.find(x => x.email === email)
+        let findPass = json.find(x => x.password === password)
+
+        if((findUser && findPass) && (findUser.id === findPass.id)) {
+            console.log("Found!")
+            removePrvDisplayed()
+            dataDisplay.innerHTML = 
+                `<h2>You successfully Logged in!</h2> 
+                <p>Your favourites will now be saved under the menu.</p>`
+
+            loggedIn = true
+
+            let loginBtn = document.getElementById("login-button")
+            loginBtn.removeEventListener("click", logInListener)
+            loginBtn.innerText = "Log Out"
+            loginBtn.id= "log-out-button"
+
+            loginBtn.addEventListener("click", logOutListener)
+            information.append(dataDisplay)
+
+        } else {
+            console.log("User not found")
+            removePrvDisplayed()
+            dataDisplay.innerHTML = 
+                `<h2>User not found</h2> 
+                <p>Try logging in again or set up an account using the link below or the create account page</p>`
+            information.append(dataDisplay)
+        }
+    })
+}
+
+function logOutListener() {
+    logOut()
+}
+
+function logOut() {
+    loggedIn = false
+    removePrvDisplayed()
+
+    let logOutBtn = document.getElementById("log-out-button")
+    logOutBtn.removeEventListener("click", logOutListener)
+    logOutBtn.innerText = "Log In"
+    logOutBtn.id = "login-button"
+
+    dataDisplay.innerHTML = 
+    `<h2>You successfully logged out</h2>` 
+    information.append(dataDisplay)
+
+    let loginButton = document.getElementById("login-button")
+    loginButton.addEventListener("click", logInListener())
 }
