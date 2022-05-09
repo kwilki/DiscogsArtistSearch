@@ -955,8 +955,11 @@ function checkIfUser() {
             removePrvDisplayed()
             dataDisplay.innerHTML = 
                 `<h2>User not found</h2> 
-                <p>Try logging in again or set up an account using the link below or the create account page</p>`
+                <p class="user-not-found">Try logging in again or set up an account using the link below or the create account page</p>
+                <a id="create-acc">Create Account</a>`
             information.append(dataDisplay)
+            let createAccLink = document.getElementById("create-acc")
+            createAccLink.addEventListener("click", displayCreateAccountForm)
         }
     })
 }

@@ -42,3 +42,14 @@ input[type=submit].user-pass-submit:hover {
     margin-right: auto;
     max-width: 500px;
 }
+
+#create-acc {
+    margin-top: 1em;
+    font-family: 'CaeciliaLTStd-Light', serif;
+    text-decoration: underline;
+}
+
+.user-not-found {
+    margin-bottom: 1em;
+    max-width: 600px;
+}
