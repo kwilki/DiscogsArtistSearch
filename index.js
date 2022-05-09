@@ -823,9 +823,15 @@ websiteHeading.addEventListener("click", function() {
 
 //CREATE USER FUNCTIONS
 
-let createAccountButton = document.getElementById("create-account-button")
-createAccountButton.addEventListener("click", function() {
+let desktopCreateAccountButton = document.getElementById("desktop-create-account-button")
+desktopCreateAccountButton.addEventListener("click", function() {
     displayCreateAccountForm()
+})
+
+let mobileCreateAccountButton = document.getElementById("ham-create-account-button")
+mobileCreateAccountButton.addEventListener("click", function() {
+    displayCreateAccountForm()
+    toggleHamburger()
 })
 
 let createAccForm = document.createElement("form")
@@ -885,15 +891,19 @@ function createNewUser() {
 function createdAccPage() {
     removePrvDisplayed()
     dataDisplay.innerHTML = `
-        <h2>Create Account</h2>
+        <h2>Success!</h2>
         <p>Nice! Now you can log in and save your own favourites</p>`
     
     information.append(dataDisplay)
 }
 
 //LOGIN FUNCTIONS
-let loginButton = document.getElementById("login-button")
-loginButton.addEventListener("click", logInListener)
+let desktopLoginButton = document.getElementById("desktop-login-button")
+desktopLoginButton.addEventListener("click", logInListener)
+
+let mobileLoginButton = document.getElementById("ham-login-button")
+mobileLoginButton.addEventListener("click", logInListener)
+mobileLoginButton.addEventListener("click", toggleHamburger)
 
 function logInListener() {
     console.log("clicked")
@@ -942,12 +952,19 @@ function checkIfUser() {
 
             loggedIn = true
 
-            let loginBtn = document.getElementById("login-button")
-            loginBtn.removeEventListener("click", logInListener)
-            loginBtn.innerText = "Log Out"
-            loginBtn.id= "log-out-button"
+            let desktopLoginBtn = document.getElementById("desktop-login-button")
+            desktopLoginBtn.removeEventListener("click", logInListener)
+            desktopLoginBtn.innerText = "Log Out"
+            desktopLoginBtn.id= "desktop-log-out-button"
 
-            loginBtn.addEventListener("click", logOutListener)
+            let hamLoginBtn = document.getElementById("ham-login-button")
+            hamLoginBtn.removeEventListener("click", logInListener)
+            hamLoginBtn.innerText = "Log Out"
+            hamLoginBtn.id= "ham-log-out-button"
+
+            desktopLoginBtn.addEventListener("click", logOutListener)
+            hamLoginBtn.addEventListener("click", logOutListener)
+
             information.append(dataDisplay)
 
         } else {
@@ -972,15 +989,23 @@ function logOut() {
     loggedIn = false
     removePrvDisplayed()
 
-    let logOutBtn = document.getElementById("log-out-button")
-    logOutBtn.removeEventListener("click", logOutListener)
-    logOutBtn.innerText = "Log In"
-    logOutBtn.id = "login-button"
+    let desktopLogOutBtn = document.getElementById("desktop-log-out-button")
+    desktopLogOutBtn.removeEventListener("click", logOutListener)
+    desktopLogOutBtn.innerText = "Log In"
+    desktopLogOutBtn.id = "desktop-login-button"
+
+    let mobileLogOutBtn = document.getElementById("ham-log-out-button")
+    mobileLogOutBtn.removeEventListener("click", logOutListener)
+    mobileLogOutBtn.innerText = "Log In"
+    mobileLogOutBtn.id = "ham-login-button"
 
     dataDisplay.innerHTML = 
     `<h2>You successfully logged out</h2>` 
     information.append(dataDisplay)
 
-    let loginButton = document.getElementById("login-button")
-    loginButton.addEventListener("click", logInListener())
+    let desktopLoginButton = document.getElementById("desktop-login-button")
+    desktopLoginButton.addEventListener("click", logInListener)
+
+    let mobileLoginButton = document.getElementById("ham-login-button")
+    mobileLoginButton.addEventListener("click", logInListener)
 }

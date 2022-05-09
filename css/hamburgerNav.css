@@ -60,7 +60,7 @@
     min-height: 100vh;
     z-index: 98;
     background-color: #A9BCD0;
-    padding-top: 5rem;
+    padding-top: 3rem;
     transition: 0.4s;
 }
 
@@ -90,4 +90,8 @@ li {
 
 div.menu-items {
     padding: 2em;
+}
+
+#ham-login-button, #ham-log-out-button {
+    margin-bottom: 2em;
 }
