@@ -4,7 +4,19 @@
       "email": "kyle@kylesemail.com.au",
       "password": "12345",
       "id": 1
+    },
+    {
+      "email": "LivFish",
+      "password": "123456",
+      "id": 2
     }
   ],
-  "favourites": []
+  "favourites": [
+    {
+      "artists": []
+    },
+    {
+      "albums": []
+    }
+  ]
 }

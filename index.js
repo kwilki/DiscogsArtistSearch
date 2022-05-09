@@ -472,12 +472,37 @@ function renderVideos(albumJson) {
 
 //FAVOURITES FUNCTIONS
 function favouriteArtist() {
-    let button = document.getElementById("favourite-artist")
-    let artistName = button.getAttribute("data-name")
-    let obj = searchedArtists.find(x => x.name === artistName)
-    let favArtistCheck = favourites.artists.find(x => x.name === artistName)
-    console.log(obj)
-    if(favArtistCheck === undefined) {
+
+    if(loggedIn === true) {
+        fetch("http://localhost:3000/favourites")
+        .then(response => response.json())
+        .then(function(json){
+            console.log(json)
+            let button = document.getElementById("favourite-artist")
+            let artistName = button.getAttribute("data-name")
+            let obj = searchedArtists.find(x => x.name === artistName)
+            let favArtistCheck = json.artists.find(x => x.name === artistName)
+            console.log(obj)
+            if(favArtistCheck === undefined) {
+                pushArtistToDb(obj)
+                // json.artists.push(obj)
+                console.log(favourites)
+                console.log("added Favourite")
+                colourFavArtist()
+            } else {
+                removeFavArtist(artistName)
+                console.log(favourites)
+                console.log("removed Favourite")
+                colourFavArtist(button, artistName, favArtistCheck)
+            }
+        })
+    } else {
+        let button = document.getElementById("favourite-artist")
+        let artistName = button.getAttribute("data-name")
+        let obj = searchedArtists.find(x => x.name === artistName)
+        let favArtistCheck = favourites.artists.find(x => x.name === artistName)
+        console.log(obj)
+        if(favArtistCheck === undefined) {
             favourites.artists.push(obj)
             console.log(favourites)
             console.log("added Favourite")
@@ -487,7 +512,23 @@ function favouriteArtist() {
             console.log(favourites)
             console.log("removed Favourite")
             colourFavArtist(button, artistName, favArtistCheck)
+        }
     }
+}
+
+function pushArtistToDb(obj) {
+    let configObj = {
+        method:"POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify(obj)
+    }
+
+    return fetch("http://localhost:3000/favourites", configObj)
+    .then(response => {return response.json()})
+    .then(console.log(response))
 }
 
 function colourFavArtist(){
