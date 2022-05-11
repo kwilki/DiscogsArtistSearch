@@ -36,6 +36,7 @@ let homeIntro = `<div class="welcome-content">
 form.addEventListener("submit", function(event) {
     event.preventDefault()
     let artistName = input.value
+    loadingScreen()
     search(artistName)
     input.value = "";
 })
@@ -308,9 +309,9 @@ function renderMembers(members) {
                                     </div>`).join("")
 } 
 
-function listReleases(obj) {
+function listReleases(obj, coverImg) {
     let albums = obj.releases
-    releasesToRender(albums)
+    releasesToRender(albums, coverImg)
 }
 
 // Fetch of artist releases
@@ -321,6 +322,8 @@ function goToReleases(event) {
     console.log(artistName)
     let obj = searchedArtists.find(x => x.name === artistName)
     let favObj = favourites.artists.find(x => x.name === artistName)
+    let coverImg = obj.cover_image
+    loadingScreen()
     console.log(obj)
     console.log(favObj)
     // check if releases are stored in favourites or searchedArtists array
@@ -330,27 +333,29 @@ function goToReleases(event) {
     // } else 
     if(obj.releases) {
         window.scrollTo(0, 0)
-        listReleases(obj)
+        listReleases(obj, coverImg)
     // else - fetch the information
     console.log("obj")
     } else {
         const button = event.target
         const url = button.dataset["url"]
+        loadingScreen()
         fetch(url)
         .then(releases => releases.json())
         .then(function(releasesJson) {
         console.log(releasesJson)
         console.log("else")
         window.scrollTo(0, 0)
-        renderReleases(releasesJson) // this is where the artist releases come from
+        renderReleases(releasesJson, artistName, coverImg) // this is where the artist releases come from
         })
     }
     
 }
 
-function releasesToRender(releases) {
+function releasesToRender(releases, coverImg) {
     window.scrollTo(0, 0)
     console.log("releases to render")
+    renderCoverImg(coverImg)
     const releaseObj = (releases.map(current => {
         return `<div class="releases-list" id="${current.title}">
                     <p><strong>Title:</strong> ${current.title} </p>
@@ -375,16 +380,15 @@ function releasesToRender(releases) {
     })
 }
 
-function renderReleases(releasesJson) { 
+function renderReleases(releasesJson, artistName, coverImg) { 
     // Filters the releases to 'master' releases
     const releases = releasesJson.releases.filter(release => (release.type === "master")) // array of objects describing 'master' releases
     console.log(releases)
     //adds releases to searchedArtists array
     let currentArtistHtml = document.getElementsByClassName("artist-name")
-    let currentArtistName = currentArtistHtml[0].innerText
-    let obj = searchedArtists.find(x => x.name === currentArtistName)
+    let obj = searchedArtists.find(x => x.name === artistName)
     obj.releases = releases
-    releasesToRender(releases)
+    releasesToRender(releases, coverImg)
 }
 
 // Artist Info Button Function
@@ -397,32 +401,32 @@ function goToInfo(){
 function goToAlbum(event) {
     const button = event.target
     const url = button.dataset["url"]
-    // let currentArtistName = button.dataset["artistname"]
+    let artistName = button.dataset["artistname"]
     // console.log(currentArtistName)
     fetch(url)
     .then(album => album.json())
     .then(function(albumJson) {
         window.scrollTo(0, 0)
-        renderAlbum(albumJson, url)
+        renderAlbum(albumJson, url, artistName)
     })
 }
 
-function renderAlbum(albumJson, url) {
-    let currentArtistHtml = document.getElementsByClassName("artist-name")
-    let currentArtistName = currentArtistHtml[0].innerText
-    let obj = searchedArtists.find(x => x.name === currentArtistName)
+function renderAlbum(albumJson, url, artistName) {
+    // let currentArtistHtml = document.getElementsByClassName("artist-name")
+    // let currentArtistName = currentArtistHtml[0].innerText
+    let obj = searchedArtists.find(x => x.name === artistName)
     console.log(albumJson)
     console.log(obj)
 
     const albumObj = `
     <button onclick="goToInfo()">Artist Info</button>
-    <button data-url="${url}" data-name="${currentArtistName}"onclick="goToReleases(event)">Artist Releases</button>
+    <button data-url="${url}" data-name="${artistName}"onclick="goToReleases(event)">Artist Releases</button>
     <div class="album-title-info">
         <h2>${albumJson.title}</h2>
         <h3><em>By ${albumJson.artists[0].name}</em></h3>
         <p>${albumJson.year}</p>
         <button id="${albumJson.title} Album" data-url="${url}" 
-        data-title="${albumJson.title}" data-artistName="${currentArtistName}" onclick="favouriteAlbum(event)">Favourite</button>
+        data-title="${albumJson.title}" data-artistName="${artistName}" onclick="favouriteAlbum(event)">Favourite</button>
     </div>
     <div class="album-genre">
         <p><strong>Genre:</strong> ${albumJson.genres[0]}</p>
@@ -472,18 +476,25 @@ function renderVideos(albumJson) {
 
 //FAVOURITES FUNCTIONS
 function favouriteArtist() {
-
     if(loggedIn === true) {
         fetch("http://localhost:3000/favourites")
         .then(response => response.json())
-        .then(function(json){
+        .then(function(json) {
             console.log(json)
+            return json
+        })
+        .then(function(json) {
             let button = document.getElementById("favourite-artist")
             let artistName = button.getAttribute("data-name")
             let obj = searchedArtists.find(x => x.name === artistName)
-            let favArtistCheck = json.artists.find(x => x.name === artistName)
-            console.log(obj)
-            if(favArtistCheck === undefined) {
+            console.log(json.artists) // is undefined
+            if(json.artists === undefined) {
+                pushArtistToDb(obj)
+                // json.artists.push(obj)
+                console.log(favourites)
+                console.log("added Favourite")
+                colourFavArtist()
+            } else if((json.artists.find(x => x.name === artistName)) === undefined) {
                 pushArtistToDb(obj)
                 // json.artists.push(obj)
                 console.log(favourites)
@@ -500,7 +511,10 @@ function favouriteArtist() {
         let button = document.getElementById("favourite-artist")
         let artistName = button.getAttribute("data-name")
         let obj = searchedArtists.find(x => x.name === artistName)
+        console.log(favourites)
+        console.log(favourites.artists) // empty arrays in object
         let favArtistCheck = favourites.artists.find(x => x.name === artistName)
+        console.log(favArtistCheck)
         console.log(obj)
         if(favArtistCheck === undefined) {
             favourites.artists.push(obj)
@@ -517,6 +531,7 @@ function favouriteArtist() {
 }
 
 function pushArtistToDb(obj) {
+    console.log(obj)
     let configObj = {
         method:"POST",
         headers: {
@@ -528,7 +543,7 @@ function pushArtistToDb(obj) {
 
     return fetch("http://localhost:3000/favourites", configObj)
     .then(response => {return response.json()})
-    .then(console.log(response))
+    // .then(console.log(response))
 }
 
 function colourFavArtist(){
@@ -556,6 +571,7 @@ function favouriteAlbum(event) {
     let albumTitle = buttonElement.getAttribute("data-title")
     let name = buttonElement.getAttribute("data-artistName")
     console.log(coverImg)
+    console.log(favourites.albums)
     let favAlbumCheck = favourites.albums.find(x => x.title === albumTitle)
     if(favAlbumCheck === undefined) {
         const button = event.target
@@ -1049,4 +1065,30 @@ function logOut() {
 
     let mobileLoginButton = document.getElementById("ham-login-button")
     mobileLoginButton.addEventListener("click", logInListener)
+}
+
+// LOADING SCREEN
+function loadingScreen() {
+    removePrvDisplayed()
+    dataDisplay.innerHTML = 
+    `
+    <section class="loading-section">
+            <div class="loading-div">
+                <div class="loading"></div>
+                <div class="loading one"></div>
+                <div class="loading two"></div>
+                <div class="loading three"></div>
+                <div class="loading four"></div>
+                <div class="loading five"></div>
+                <div class="loading six"></div>
+                <div class="loading seven"><p>DISCOGS</p></div>
+                <div class="loading eight"></div>
+            </div>
+        </section>
+        <div class="loading-text-container">
+            <h2 class="line loading-text">Loading...</h2>
+        </div>
+    `
+
+    information.append(dataDisplay)
 }

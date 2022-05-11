@@ -1,0 +1,108 @@
+.loading-section {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.loading-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: rotation 1.4s infinite linear;
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(359deg);
+    }
+}
+
+div.loading {
+    display: block;
+    height: 100px;
+    width: 100px;
+    background-color: black;
+    border-radius: 50px;
+    border: solid 0.5px white;
+    position: absolute;
+
+}
+
+div.loading.one {
+    height: 90px;
+    width: 90px;
+}
+
+div.loading.two {
+    height: 80px;
+    width: 80px;
+}
+
+div.loading.three {
+    height: 70px;
+    width: 70px;
+}
+
+div.loading.four {
+    height: 60px;
+    width: 60px;
+}
+
+div.loading.five {
+    height: 50px;
+    width: 50px;
+}
+
+div.loading.six {
+    height: 40px;
+    width: 40px;
+    
+}
+
+div.loading.seven {
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+div.loading.seven p {
+    font-size: 4px;
+    margin-top: 7px;
+}
+
+div.loading.eight {
+    height: 2px;
+    width: 2px;
+}
+
+.line {
+    overflow: hidden;
+    margin-top: 60px;
+    align-self: flex-end;
+}
+
+.loading-text {
+    animation: typewriter 3s steps(44) 1s 1 normal both
+}
+
+.loading-text-container {
+    max-width: 140px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
+
+@keyframes typewriter{
+    from {
+        width: 0;
+    }
+    to {
+        width: 24em;
+    }
+}
