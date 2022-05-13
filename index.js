@@ -477,34 +477,34 @@ function renderVideos(albumJson) {
 //FAVOURITES FUNCTIONS
 function favouriteArtist() {
     if(loggedIn === true) {
-        fetch("http://localhost:3000/favourites")
+        fetch("http://localhost:3000/favouriteArtists")
         .then(response => response.json())
         .then(function(json) {
             console.log(json)
-            return json
-        })
-        .then(function(json) {
             let button = document.getElementById("favourite-artist")
             let artistName = button.getAttribute("data-name")
             let obj = searchedArtists.find(x => x.name === artistName)
-            console.log(json.artists) // is undefined
-            if(json.artists === undefined) {
+            console.log(json) // is undefined
+            if(json === undefined) {
                 pushArtistToDb(obj)
                 // json.artists.push(obj)
                 console.log(favourites)
                 console.log("added Favourite")
                 colourFavArtist()
-            } else if((json.artists.find(x => x.name === artistName)) === undefined) {
+            } else if((json.find(x => x.name === artistName)) === undefined) {
                 pushArtistToDb(obj)
                 // json.artists.push(obj)
                 console.log(favourites)
                 console.log("added Favourite")
-                colourFavArtist()
+                colourFavArtist(json)
             } else {
-                removeFavArtist(artistName)
+                let currentArtistObj = json.find(x => x.name === artistName)
+                console.log(currentArtistObj)
+                let id = currentArtistObj.id
+                deleteArtistFromDb(id)
                 console.log(favourites)
                 console.log("removed Favourite")
-                colourFavArtist(button, artistName, favArtistCheck)
+                colourFavArtist()
             }
         })
     } else {
@@ -541,57 +541,132 @@ function pushArtistToDb(obj) {
         body: JSON.stringify(obj)
     }
 
-    return fetch("http://localhost:3000/favourites", configObj)
+    return fetch("http://localhost:3000/favouriteArtists", configObj)
     .then(response => {return response.json()})
     // .then(console.log(response))
 }
 
-function colourFavArtist(){
-    let button = document.getElementById("favourite-artist")
-    let artistName = button.getAttribute("data-name")
-    let favArtistCheck = favourites.artists.find(x => x.name === artistName)
-    if(favArtistCheck === undefined) {
-        console.log("button black")
-        button.style.backgroundColor = "#F4F5F6"
-        button.style.color = "black"
-        } else {
-            console.log("button yellow")
-            button.style.backgroundColor = "#EDAE49"
-            button.style.color = "white"
+function deleteArtistFromDb(id) {
+    
+    let deleteArtistConfig = {
+        method:"DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        }
     }
+
+    fetch(`http://localhost:3000/favouriteArtists/${id}`, deleteArtistConfig)
+}
+
+function colourFavArtist(){
+    if(loggedIn === true) {
+        let button = document.getElementById("favourite-artist")
+        let artistName = button.getAttribute("data-name")
+        fetch("http://localhost:3000/favouriteArtists")
+        .then(response => response.json())
+        .then(function(json) {
+            console.log(json)
+            if(json === undefined){
+                console.log("button black")
+                button.style.backgroundColor = "#F4F5F6"
+                button.style.color = "black"
+            } else if((json.find(x => x.name === artistName)) === undefined) {
+                console.log("button black")
+                button.style.backgroundColor = "#F4F5F6"
+                button.style.color = "black"
+            } else {
+                    console.log("button yellow")
+                    button.style.backgroundColor = "#EDAE49"
+                    button.style.color = "white"
+            }
+        })
+    } else {
+        let button = document.getElementById("favourite-artist")
+        let artistName = button.getAttribute("data-name")
+        let favArtistCheck = favourites.artists.find(x => x.name === artistName)
+        if(favArtistCheck === undefined) {
+            console.log("button black")
+            button.style.backgroundColor = "#F4F5F6"
+            button.style.color = "black"
+            } else {
+                console.log("button yellow")
+                button.style.backgroundColor = "#EDAE49"
+                button.style.color = "white"
+        }
+    }
+    
 }
 
 function removeFavArtist(artistName) {
-    let index = favourites.artists.map(x => x.name).indexOf(artistName)
-    favourites.artists.splice(index, 1)
+        let index = favourites.artists.map(x => x.name).indexOf(artistName)
+        favourites.artists.splice(index, 1)
 }
 
 function favouriteAlbum(event) {
-    let buttonElement = event.target
-    let albumTitle = buttonElement.getAttribute("data-title")
-    let name = buttonElement.getAttribute("data-artistName")
-    console.log(coverImg)
-    console.log(favourites.albums)
-    let favAlbumCheck = favourites.albums.find(x => x.title === albumTitle)
-    if(favAlbumCheck === undefined) {
-        const button = event.target
-        const url = button.dataset["url"]
-        fetch(url)
-        .then(album => album.json())
-        .then(function(albumJson) {
-            updateFavouriteAlbums(albumJson, name, coverImg)
-            console.log(favourites)
-            colourFavAlbum(albumTitle)
+    if(loggedIn === true) {
+        fetch("http://localhost:3000/favouriteAlbums")
+        .then(response => response.json())
+        .then(function(json) {
+            console.log(json)
+            let buttonElement = event.target
+            let albumTitle = buttonElement.getAttribute("data-title")
+            let name = buttonElement.getAttribute("data-artistName")
+            if(json === undefined) {
+                const button = event.target
+                const url = button.dataset["url"]
+                fetch(url)
+                .then(album => album.json())
+                .then(function(albumJson) {
+                    updateFavouriteAlbums(albumJson, name, coverImg)
+                    console.log(favourites)
+                    colourFavAlbum(albumTitle)
+                })
+            } else if((json.find(x => x.title === albumTitle)) === undefined) {
+                const button = event.target
+                const url = button.dataset["url"]
+                fetch(url)
+                .then(album => album.json())
+                .then(function(albumJson) {
+                    updateFavouriteAlbums(albumJson, name, coverImg)
+                    console.log(favourites)
+                    colourFavAlbum(albumTitle)
+                })
+            } else {
+                let currentArtistObj = json.find(x => x.title === albumTitle)
+                console.log(currentArtistObj)
+                let id = currentArtistObj.id
+                deleteAlbumFromDb(id)
+                console.log(favourites)
+                colourFavAlbum(albumTitle)
+            }
         })
     } else {
-        removeFavAlbum(albumTitle)
-        console.log(favourites)
-        colourFavAlbum(albumTitle)
+        let buttonElement = event.target
+        let albumTitle = buttonElement.getAttribute("data-title")
+        let name = buttonElement.getAttribute("data-artistName")
+        console.log(coverImg)
+        console.log(favourites.albums)
+        let favAlbumCheck = favourites.albums.find(x => x.title === albumTitle)
+        if(favAlbumCheck === undefined) {
+            const button = event.target
+            const url = button.dataset["url"]
+            fetch(url)
+            .then(album => album.json())
+            .then(function(albumJson) {
+                updateFavouriteAlbums(albumJson, name, coverImg)
+                console.log(favourites)
+                colourFavAlbum(albumTitle)
+            })
+        } else {
+            removeFavAlbum(albumTitle)
+            console.log(favourites)
+            colourFavAlbum(albumTitle)
+        }
     }
 }
 
 function updateFavouriteAlbums(albumJson, name, coverImg) {
-    console.log(albumJson)
     let obj = {
         artist: name,
         title: albumJson.title,
@@ -606,22 +681,75 @@ function updateFavouriteAlbums(albumJson, name, coverImg) {
         year: albumJson.year,
         cover_image: coverImg
     }
-    favourites.albums.push(obj)
+
+    if(loggedIn === true) {
+        pushAlbumToDb(obj)
+    } else {
+        console.log(albumJson)
+        favourites.albums.push(obj)
+    }
+}
+
+function pushAlbumToDb(obj) {
+    console.log(obj)
+    let configObj = {
+        method:"POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify(obj)
+    }
+
+    return fetch("http://localhost:3000/favouriteAlbums", configObj)
+    .then(response => {return response.json()})
+}
+
+function deleteAlbumFromDb(id) {
+    let deleteAlbumConfig = {
+        method:"DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        }
+    }
+
+    return fetch(`http://localhost:3000/favouriteAlbums/${id}`, deleteAlbumConfig)
 }
 
 function colourFavAlbum(albumTitle){
-    let favouriteAlbButton = document.getElementById(albumTitle + " Album")
-    let favAlbumCheck = favourites.albums.find(x => x.title === albumTitle)
-    // console.log(favAlbumCheck)
-    if(favAlbumCheck === undefined) {
-        // console.log("button black")
-        favouriteAlbButton.style.backgroundColor = "#F4F5F6"
-        favouriteAlbButton.style.color = "black"
+    if(loggedIn === true) {
+        let favouriteAlbButton = document.getElementById(albumTitle + " Album")
+        fetch(`http://localhost:3000/favouriteAlbums`)
+        .then(response => response.json())
+        .then(function(json) {
+            if(json === undefined) {
+                favouriteAlbButton.style.backgroundColor = "#EDAE49"
+                favouriteAlbButton.style.color = "white"
+            } else if(json.find(x => x.title === albumTitle)) {
+                favouriteAlbButton.style.backgroundColor = "#EDAE49"
+                favouriteAlbButton.style.color = "white"
+            } else {
+                favouriteAlbButton.style.backgroundColor = "#F4F5F6"
+                favouriteAlbButton.style.color = "black"
+                
+            }
+        })
+    } else {
+        let favouriteAlbButton = document.getElementById(albumTitle + " Album")
+        let favAlbumCheck = favourites.albums.find(x => x.title === albumTitle)
+        // console.log(favAlbumCheck)
+        if(favAlbumCheck === undefined) {
+            // console.log("button black")
+            favouriteAlbButton.style.backgroundColor = "#F4F5F6"
+            favouriteAlbButton.style.color = "black"
         } else {
             // console.log("button blue")
             favouriteAlbButton.style.backgroundColor = "#EDAE49"
             favouriteAlbButton.style.color = "white"
+        }
     }
+    
 }
 
 function removeFavAlbum(albumTitle) {
@@ -955,10 +1083,10 @@ function createdAccPage() {
 }
 
 //LOGIN FUNCTIONS
-let desktopLoginButton = document.getElementById("desktop-login-button")
+let desktopLoginButton = document.getElementById("desktop-btn-login")
 desktopLoginButton.addEventListener("click", logInListener)
 
-let mobileLoginButton = document.getElementById("ham-login-button")
+let mobileLoginButton = document.getElementById("ham-btn-login")
 mobileLoginButton.addEventListener("click", logInListener)
 mobileLoginButton.addEventListener("click", toggleHamburger)
 
@@ -1009,15 +1137,17 @@ function checkIfUser() {
 
             loggedIn = true
 
-            let desktopLoginBtn = document.getElementById("desktop-login-button")
+            let desktopLoginBtn = document.getElementById("desktop-btn-login")
             desktopLoginBtn.removeEventListener("click", logInListener)
             desktopLoginBtn.innerText = "Log Out"
-            desktopLoginBtn.id= "desktop-log-out-button"
+            desktopLoginBtn.id= "desktop-btn-logout"
+            // desktopLoginButton.onclick = "logout()"
 
-            let hamLoginBtn = document.getElementById("ham-login-button")
+            let hamLoginBtn = document.getElementById("ham-btn-login")
             hamLoginBtn.removeEventListener("click", logInListener)
             hamLoginBtn.innerText = "Log Out"
-            hamLoginBtn.id= "ham-log-out-button"
+            hamLoginBtn.id= "ham-btn-logout"
+            // hamLoginButton.onclick = "logout()"
 
             desktopLoginBtn.addEventListener("click", logOutListener)
             hamLoginBtn.addEventListener("click", logOutListener)
