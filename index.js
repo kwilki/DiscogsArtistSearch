@@ -403,6 +403,7 @@ function goToAlbum(event) {
     const url = button.dataset["url"]
     let artistName = button.dataset["artistname"]
     // console.log(currentArtistName)
+    loadingScreen()
     fetch(url)
     .then(album => album.json())
     .then(function(albumJson) {
@@ -732,8 +733,10 @@ function colourFavAlbum(albumTitle){
             } else {
                 favouriteAlbButton.style.backgroundColor = "#F4F5F6"
                 favouriteAlbButton.style.color = "black"
-                
             }
+        })
+        .catch(error => {
+            console.log("An error happened", error)
         })
     } else {
         let favouriteAlbButton = document.getElementById(albumTitle + " Album")
@@ -757,30 +760,82 @@ function removeFavAlbum(albumTitle) {
     favourites.albums.splice(index, 1)
 }
 
+function fetchAlbums() {
+    fetch(`http://localhost:3000/favouriteAlbums`)
+        .then(response => response.json())
+        .then(function(json) {
+            let favAlbums = json
+            return favAlbums
+        })
+}
+
+function fetchArtists() {
+    fetch(`http://localhost:3000/favouriteAlbums`)
+    .then(response => response.json())
+    .then(function(json) {
+        let favArtists = json
+        return favArtists
+    })
+}
+
 function renderFavourites() {
-    console.log("clicked")
-    if((favourites.artists.length > 0) && (favourites.albums.length > 0)){
-        removePrvDisplayed()
-        renderFavArtistList()
-        renderFavAlbumsList()
-        console.log("if albums + Artists")
-    } else if(favourites.artists.length > 0){
-        removePrvDisplayed()
-        renderFavArtistList()
-        console.log("if artists")
-    } else if(favourites.albums.length >0) {
-        removePrvDisplayed()
-        renderFavAlbumsList()
-        console.log("if albums")
+    if(loggedIn === true) {
+        fetch(`http://localhost:3000/favouriteAlbums`)
+        .then(response => response.json())
+        .then(function(json) {
+            let favArtists = json
+            fetch(`http://localhost:3000/favouriteAlbums`)
+            .then(response => response.json())
+            .then(function(json) {
+                let favAlbums = json
+                if((favArtists.length > 0) && (favAlbums.length > 0)){
+                    removePrvDisplayed()
+                    renderFavArtistList()
+                    renderFavAlbumsList()
+                    console.log("if albums + Artists")
+                } else if(favArtists.length > 0){
+                    removePrvDisplayed()
+                    renderFavArtistList()
+                    console.log("if artists")
+                } else if(favAlbums.length >0) {
+                    removePrvDisplayed()
+                    renderFavAlbumsList()
+                    console.log("if albums")
+                } else {
+                    console.log("no albums or artists")
+                    removePrvDisplayed()
+                    dataDisplay.innerHTML = `<p><strong>Looks like you dont have any favourites yet.</strong></p>
+                                            <br>
+                                            <p>Hit that favourite button on an Artist or Album to save some.</p>`
+                    information.append(dataDisplay)
+                }
+            })
+        })
+        console.log("clicked")
     } else {
-        console.log("no albums or artists")
-        removePrvDisplayed()
-        dataDisplay.innerHTML = `<p><strong>Looks like you dont have any favourites yet.</strong></p>
-                                <br>
-                                <p>Hit that favourite button on an Artist or Album to save some.</p>`
-        information.append(dataDisplay)
+        console.log("clicked")
+        if((favourites.artists.length > 0) && (favourites.albums.length > 0)){
+            removePrvDisplayed()
+            renderFavArtistList()
+            renderFavAlbumsList()
+            console.log("if albums + Artists")
+        } else if(favourites.artists.length > 0){
+            removePrvDisplayed()
+            renderFavArtistList()
+            console.log("if artists")
+        } else if(favourites.albums.length >0) {
+            removePrvDisplayed()
+            renderFavAlbumsList()
+            console.log("if albums")
+        } else {
+            console.log("no albums or artists")
+            removePrvDisplayed()
+            dataDisplay.innerHTML = `<p><strong>Looks like you dont have any favourites yet.</strong></p>
+                                    <br>
+                                    <p>Hit that favourite button on an Artist or Album to save some.</p>`
+            information.append(dataDisplay)
+        }
     }
-        
 }
 
 function favAndReRender(event) {
@@ -789,65 +844,136 @@ function favAndReRender(event) {
 }
 
 function renderFavArtistList() {
-    console.log("render Artists")
-    if(favourites.artists.length > 0) {
-        let searchContainer = document.createElement("div")
-        searchContainer.className = "search-container"
-        let searchResults = []
-        let array = []
-        searchResults = favourites.artists.map(current => {
-            checkImgLink(current)
-            let artistName = current.name
-            let artistResource = current.resource_url
-            array.push(artistName)
-            return searchToDisplay(artistName, artistResource, coverImg, current)
-        })
-        let artistHeading = document.createElement("h2")
-        artistHeading.innerHTML = `Favourite Artists`
-        pageHeading.append(artistHeading)
-        searchContainer.innerHTML = searchResults.join(" ")
-        information.append(searchContainer)
-        array.forEach(element => {
-            let searchList = document.getElementById(`${element}`)
-            let data = searchList.getAttribute("data-artistResource")
-            let artistName = searchList.getAttribute("data-artistName")
-            let coverImg = searchList.getAttribute("data-coverImg")
+    if(loggedIn === true) {
+        fetch(`http://localhost:3000/favouriteArtists`)
+        .then(response => response.json())
+        .then(function(json) {
+            console.log("render Artists")
+            console.log(json)
+            if(json.length > 0) {
+                let searchContainer = document.createElement("div")
+                searchContainer.className = "search-container"
+                let searchResults = []
+                let array = []
+                searchResults = json.map(current => {
+                    checkImgLink(current)
+                    let artistName = current.name
+                    let artistResource = current.resource_url
+                    array.push(artistName)
+                    return searchToDisplay(artistName, artistResource, coverImg, current)
+                })
+                let artistHeading = document.createElement("h2")
+                artistHeading.innerHTML = `Favourite Artists`
+                pageHeading.append(artistHeading)
+                searchContainer.innerHTML = searchResults.join(" ")
+                information.append(searchContainer)
+                array.forEach(element => {
+                    let searchList = document.getElementById(`${element}`)
+                    let data = searchList.getAttribute("data-artistResource")
+                    let artistName = searchList.getAttribute("data-artistName")
+                    let coverImg = searchList.getAttribute("data-coverImg")
 
-            searchList.addEventListener("click", function() {
-                searchArtist(data, artistName, coverImg)
-            })
+                    searchList.addEventListener("click", function() {
+                        searchArtist(data, artistName, coverImg)
+                    })
+                })
+            } else {
+                removePrvDisplayed()
+                dataDisplay.innerHTML = `<p><strong>Looks like you dont have any favourite Artists yet.</strong></p>
+                                        <br>
+                                        <p>Hit that favourite button on an Artist to save some.</p>`
+                information.append(dataDisplay)
+            }
         })
     } else {
-        removePrvDisplayed()
-        dataDisplay.innerHTML = `<p><strong>Looks like you dont have any favourite Artists yet.</strong></p>
-                                <br>
-                                <p>Hit that favourite button on an Artist to save some.</p>`
-        information.append(dataDisplay)
+        console.log("render Artists")
+        if(favourites.artists.length > 0) {
+            let searchContainer = document.createElement("div")
+            searchContainer.className = "search-container"
+            let searchResults = []
+            let array = []
+            searchResults = favourites.artists.map(current => {
+                checkImgLink(current)
+                let artistName = current.name
+                let artistResource = current.resource_url
+                array.push(artistName)
+                return searchToDisplay(artistName, artistResource, coverImg, current)
+            })
+            let artistHeading = document.createElement("h2")
+            artistHeading.innerHTML = `Favourite Artists`
+            pageHeading.append(artistHeading)
+            searchContainer.innerHTML = searchResults.join(" ")
+            information.append(searchContainer)
+            array.forEach(element => {
+                let searchList = document.getElementById(`${element}`)
+                let data = searchList.getAttribute("data-artistResource")
+                let artistName = searchList.getAttribute("data-artistName")
+                let coverImg = searchList.getAttribute("data-coverImg")
+
+                searchList.addEventListener("click", function() {
+                    searchArtist(data, artistName, coverImg)
+                })
+            })
+        } else {
+            removePrvDisplayed()
+            dataDisplay.innerHTML = `<p><strong>Looks like you dont have any favourite Artists yet.</strong></p>
+                                    <br>
+                                    <p>Hit that favourite button on an Artist to save some.</p>`
+            information.append(dataDisplay)
+        }
     }
 }
 
 function renderFavAlbumsList() {
-    console.log("render Albums")
-    if(favourites.albums.length > 0) {
-        let searchContainer = document.createElement("div")
-        searchContainer.className = "search-container"
-        let searchResults = []
-        console.log(favourites.albums)
-        searchResults = favourites.albums
-        return favouriteAlbumsToRender(searchResults)
-            // let data = searchList.getAttribute("data-artistResource")
-            // let artistName = searchList.getAttribute("data-artistName")
-            // let coverImg = searchList.getAttribute("data-coverImg")
+    if(loggedIn === true) {
+        fetch(`http://localhost:3000/favouriteAlbums`)
+        .then(response => response.json())
+        .then(function(json) {
+            console.log("render Albums")
+            if(json.length > 0) {
+                let searchContainer = document.createElement("div")
+                searchContainer.className = "search-container"
+                // let searchResults = []
+                console.log(json)
+                return favouriteAlbumsToRender(json)
+                    // let data = searchList.getAttribute("data-artistResource")
+                    // let artistName = searchList.getAttribute("data-artistName")
+                    // let coverImg = searchList.getAttribute("data-coverImg")
 
-            // searchList.addEventListener("click", function() {
-            //     favouritesToRender(releases)
-            // })
+                    // searchList.addEventListener("click", function() {
+                    //     favouritesToRender(releases)
+                    // })
+            } else {
+                removePrvDisplayed()
+                dataDisplay.innerHTML = `<p><strong>Looks like you dont have any favourite Albums yet.</strong></p>
+                                        <br>
+                                        <p>Hit that favourite button on an Album to save some.</p>`
+                information.append(dataDisplay)
+            }
+        })
     } else {
-        removePrvDisplayed()
-        dataDisplay.innerHTML = `<p><strong>Looks like you dont have any favourite Albums yet.</strong></p>
-                                <br>
-                                <p>Hit that favourite button on an Album to save some.</p>`
-        information.append(dataDisplay)
+        console.log("render Albums")
+        if(favourites.albums.length > 0) {
+            let searchContainer = document.createElement("div")
+            searchContainer.className = "search-container"
+            let searchResults = []
+            console.log(favourites.albums)
+            searchResults = favourites.albums
+            return favouriteAlbumsToRender(searchResults)
+                // let data = searchList.getAttribute("data-artistResource")
+                // let artistName = searchList.getAttribute("data-artistName")
+                // let coverImg = searchList.getAttribute("data-coverImg")
+
+                // searchList.addEventListener("click", function() {
+                //     favouritesToRender(releases)
+                // })
+        } else {
+            removePrvDisplayed()
+            dataDisplay.innerHTML = `<p><strong>Looks like you dont have any favourite Albums yet.</strong></p>
+                                    <br>
+                                    <p>Hit that favourite button on an Album to save some.</p>`
+            information.append(dataDisplay)
+        }
     }
 }
 
@@ -883,41 +1009,84 @@ function favouriteAlbumsToRender(releases) {
 function renderFavouriteAlbum(event) {
     let button = event.target
     let albumTitle = button.getAttribute("data-title")
-    let albumObject = favourites.albums.find(x => x.title === albumTitle)
-    console.log(albumObject)
-    let url = button.getAttribute("data-url")
-    information.innerHTML = ""
-    const albumObj = `
-    <div class="album-title-info">
-        <h2>${albumObject.title}</h2>
-        <h3><em>By ${albumObject.artist}</em></h3>
-        <p>${albumObject.year}</p>
-        <button id="${albumObject.title} Album" data-url="${url}" 
-        data-title="${albumObject.title}" data-artistName="${albumObject.artist}" onclick="favouriteAlbum(event)">Favourite</button>
-    </div>
-    <div class="album-genre">
-        <p><strong>Genre:</strong> ${albumObject.genres[0]}</p>
-        <p><strong>Styles:</strong> ${renderStyles(albumObject).join(", ")}</p>
-    </div>
-    <div class="tracklist">
-        <h3>Tracklist:</h3>
-        <p>${renderTracklist(albumObject).join("")}</p>
-    </div>
-    <div class="album-videos">
-        <h3>Videos:</h3>
-        <ul>${renderVideos(albumObject)}</ul>
-    </div>
-    `
-    dataDisplay.innerHTML = albumObj
-    information.append(dataDisplay)
-    // let heading = document.createElement("h2")
-    // heading.innerHTML = `${albumObject.artist}`
-    // pageHeading.append(heading)
-    // let img = document.createElement("img")
-    // img.setAttribute("id", "cover-photo")
-    // img.setAttribute("src", `${albumObject.cover_image}`)
-    // artistPicture.append(img)
-    colourFavAlbum(albumTitle)
+    if(loggedIn === true) {
+        fetch(`http://localhost:3000/favouriteAlbums`)
+        .then(response => response.json())
+        .then(function(json) {
+            let albumObject = json.find(x => x.title === albumTitle)
+            console.log(albumObject)
+            let url = button.getAttribute("data-url")
+            information.innerHTML = ""
+            const albumObj = `
+            <div class="album-title-info">
+                <h2>${albumObject.title}</h2>
+                <h3><em>By ${albumObject.artist}</em></h3>
+                <p>${albumObject.year}</p>
+                <button id="${albumObject.title} Album" data-url="${url}" 
+                data-title="${albumObject.title}" data-artistName="${albumObject.artist}" onclick="favouriteAlbum(event)">Favourite</button>
+            </div>
+            <div class="album-genre">
+                <p><strong>Genre:</strong> ${albumObject.genres[0]}</p>
+                <p><strong>Styles:</strong> ${renderStyles(albumObject).join(", ")}</p>
+            </div>
+            <div class="tracklist">
+                <h3>Tracklist:</h3>
+                <p>${renderTracklist(albumObject).join("")}</p>
+            </div>
+            <div class="album-videos">
+                <h3>Videos:</h3>
+                <ul>${renderVideos(albumObject)}</ul>
+            </div>
+            `
+            dataDisplay.innerHTML = albumObj
+            information.append(dataDisplay)
+            // let heading = document.createElement("h2")
+            // heading.innerHTML = `${albumObject.artist}`
+            // pageHeading.append(heading)
+            // let img = document.createElement("img")
+            // img.setAttribute("id", "cover-photo")
+            // img.setAttribute("src", `${albumObject.cover_image}`)
+            // artistPicture.append(img)
+            colourFavAlbum(albumTitle)
+        })
+        
+    } else {
+        let albumObject = favourites.albums.find(x => x.title === albumTitle)
+        console.log(albumObject)
+        let url = button.getAttribute("data-url")
+        information.innerHTML = ""
+        const albumObj = `
+        <div class="album-title-info">
+            <h2>${albumObject.title}</h2>
+            <h3><em>By ${albumObject.artist}</em></h3>
+            <p>${albumObject.year}</p>
+            <button id="${albumObject.title} Album" data-url="${url}" 
+            data-title="${albumObject.title}" data-artistName="${albumObject.artist}" onclick="favouriteAlbum(event)">Favourite</button>
+        </div>
+        <div class="album-genre">
+            <p><strong>Genre:</strong> ${albumObject.genres[0]}</p>
+            <p><strong>Styles:</strong> ${renderStyles(albumObject).join(", ")}</p>
+        </div>
+        <div class="tracklist">
+            <h3>Tracklist:</h3>
+            <p>${renderTracklist(albumObject).join("")}</p>
+        </div>
+        <div class="album-videos">
+            <h3>Videos:</h3>
+            <ul>${renderVideos(albumObject)}</ul>
+        </div>
+        `
+        dataDisplay.innerHTML = albumObj
+        information.append(dataDisplay)
+        // let heading = document.createElement("h2")
+        // heading.innerHTML = `${albumObject.artist}`
+        // pageHeading.append(heading)
+        // let img = document.createElement("img")
+        // img.setAttribute("id", "cover-photo")
+        // img.setAttribute("src", `${albumObject.cover_image}`)
+        // artistPicture.append(img)
+        colourFavAlbum(albumTitle)
+    }
 }
 
 function goToInfoFromFavs() {

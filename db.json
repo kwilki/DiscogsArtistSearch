@@ -94,491 +94,13 @@
         "http://www.youtube.com/user/nirvana"
       ],
       "cover_image": "https://i.discogs.com/BS3W-WDYXuQMwoS8pwYBAvXIxT1mNKeLeg7W0A9l5sk/rs:fit/g:sm/q:90/h:450/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTEyNTI0/Ni0xNTI5MTk4Mjg4/LTY0MzAuanBlZw.jpeg",
-      "releases": [
-        {
-          "id": 155876,
-          "title": "Love Buzz b/w Big Cheese",
-          "type": "master",
-          "main_release": 392900,
-          "artist": "Nirvana",
-          "role": "Main",
-          "resource_url": "https://api.discogs.com/masters/155876",
-          "year": 1988,
-          "thumb": "",
-          "stats": {
-            "community": {
-              "in_wantlist": 2848,
-              "in_collection": 346
-            }
-          }
-        },
-        {
-          "id": 13773,
-          "title": "Bleach",
-          "type": "master",
-          "main_release": 2795554,
-          "artist": "Nirvana",
-          "role": "Main",
-          "resource_url": "https://api.discogs.com/masters/13773",
-          "year": 1989,
-          "thumb": "",
-          "stats": {
-            "community": {
-              "in_wantlist": 5145,
-              "in_collection": 978
-            }
-          }
-        },
-        {
-          "id": 42479,
-          "title": "Blew",
-          "type": "master",
-          "main_release": 537401,
-          "artist": "Nirvana",
-          "role": "Main",
-          "resource_url": "https://api.discogs.com/masters/42479",
-          "year": 1989,
-          "thumb": "",
-          "stats": {
-            "community": {
-              "in_wantlist": 1435,
-              "in_collection": 1266
-            }
-          }
-        },
-        {
-          "id": 13934,
-          "title": "Sliver",
-          "type": "master",
-          "main_release": 368047,
-          "artist": "Nirvana",
-          "role": "Main",
-          "resource_url": "https://api.discogs.com/masters/13934",
-          "year": 1990,
-          "thumb": "",
-          "stats": {
-            "community": {
-              "in_wantlist": 708,
-              "in_collection": 2680
-            }
-          }
-        },
-        {
-          "id": 159960,
-          "title": "Live Concert - 10-31-91 Seattle",
-          "type": "master",
-          "main_release": 6655899,
-          "artist": "Nirvana",
-          "role": "Main",
-          "resource_url": "https://api.discogs.com/masters/159960",
-          "year": 1991,
-          "thumb": "",
-          "stats": {
-            "community": {
-              "in_wantlist": 411,
-              "in_collection": 10
-            }
-          }
-        },
-        {
-          "id": 283421,
-          "title": "Here She Comes Now / Venus In Furs",
-          "type": "master",
-          "main_release": 6535220,
-          "artist": "Nirvana / The Melvins* & Buzzo*",
-          "role": "Main",
-          "resource_url": "https://api.discogs.com/masters/283421",
-          "year": 1991,
-          "thumb": "",
-          "stats": {
-            "community": {
-              "in_wantlist": 345,
-              "in_collection": 64
-            }
-          }
-        },
-        {
-          "id": 13814,
-          "title": "Nevermind",
-          "type": "master",
-          "main_release": 367084,
-          "artist": "Nirvana",
-          "role": "Main",
-          "resource_url": "https://api.discogs.com/masters/13814",
-          "year": 1991,
-          "thumb": "",
-          "stats": {
-            "community": {
-              "in_wantlist": 2585,
-              "in_collection": 4327
-            }
-          }
-        },
-        {
-          "id": 22439,
-          "title": "Smells Like Teen Spirit",
-          "type": "master",
-          "main_release": 373278,
-          "artist": "Nirvana",
-          "role": "Main",
-          "resource_url": "https://api.discogs.com/masters/22439",
-          "year": 1991,
-          "thumb": "",
-          "stats": {
-            "community": {
-              "in_wantlist": 165,
-              "in_collection": 1884
-            }
-          }
-        },
-        {
-          "id": 366567,
-          "title": "Candy (Live) / Molly's Lips (Live)",
-          "type": "master",
-          "main_release": 3090946,
-          "artist": "The Fluid / Nirvana",
-          "role": "Main",
-          "resource_url": "https://api.discogs.com/masters/366567",
-          "year": 1991,
-          "thumb": "",
-          "stats": {
-            "community": {
-              "in_wantlist": 369,
-              "in_collection": 449
-            }
-          }
-        },
-        {
-          "id": 20815,
-          "title": "Lithium",
-          "type": "master",
-          "main_release": 1298694,
-          "artist": "Nirvana",
-          "role": "Main",
-          "resource_url": "https://api.discogs.com/masters/20815",
-          "year": 1992,
-          "thumb": "",
-          "stats": {
-            "community": {
-              "in_wantlist": 578,
-              "in_collection": 730
-            }
-          }
-        },
-        {
-          "id": 189514,
-          "title": "Return Of The Rat /  Up Front",
-          "type": "master",
-          "main_release": 8254994,
-          "artist": "Nirvana / Poison Idea",
-          "role": "Main",
-          "resource_url": "https://api.discogs.com/masters/189514",
-          "year": 1992,
-          "thumb": "",
-          "stats": {
-            "community": {
-              "in_wantlist": 326,
-              "in_collection": 11
-            }
-          }
-        },
-        {
-          "id": 195743,
-          "title": "Live 12-28-91 - Westwood One • Del Mar Show",
-          "type": "master",
-          "main_release": 7224672,
-          "artist": "Nirvana",
-          "role": "Main",
-          "resource_url": "https://api.discogs.com/masters/195743",
-          "year": 1992,
-          "thumb": "",
-          "stats": {
-            "community": {
-              "in_wantlist": 368,
-              "in_collection": 13
-            }
-          }
-        },
-        {
-          "id": 42457,
-          "title": "Come As You Are",
-          "type": "master",
-          "main_release": 5123448,
-          "artist": "Nirvana",
-          "role": "Main",
-          "resource_url": "https://api.discogs.com/masters/42457",
-          "year": 1992,
-          "thumb": "",
-          "stats": {
-            "community": {
-              "in_wantlist": 90,
-              "in_collection": 1113
-            }
-          }
-        },
-        {
-          "id": 42459,
-          "title": "Hormoaning (Exclusive Australian '92 Tour EP)",
-          "type": "master",
-          "main_release": 537411,
-          "artist": "Nirvana",
-          "role": "Main",
-          "resource_url": "https://api.discogs.com/masters/42459",
-          "year": 1992,
-          "thumb": "",
-          "stats": {
-            "community": {
-              "in_wantlist": 1069,
-              "in_collection": 465
-            }
-          }
-        },
-        {
-          "id": 42461,
-          "title": "In Bloom",
-          "type": "master",
-          "main_release": 1348387,
-          "artist": "Nirvana",
-          "role": "Main",
-          "resource_url": "https://api.discogs.com/masters/42461",
-          "year": 1992,
-          "thumb": "",
-          "stats": {
-            "community": {
-              "in_wantlist": 564,
-              "in_collection": 460
-            }
-          }
-        },
-        {
-          "id": 958122,
-          "title": "Nevermind, It's An Interview",
-          "type": "master",
-          "main_release": 2255312,
-          "artist": "Nirvana",
-          "role": "Main",
-          "resource_url": "https://api.discogs.com/masters/958122",
-          "year": 1992,
-          "thumb": "",
-          "stats": {
-            "community": {
-              "in_wantlist": 201,
-              "in_collection": 282
-            }
-          }
-        },
-        {
-          "id": 20424,
-          "title": "Incesticide",
-          "type": "master",
-          "main_release": 375978,
-          "artist": "Nirvana",
-          "role": "Main",
-          "resource_url": "https://api.discogs.com/masters/20424",
-          "year": 1992,
-          "thumb": "",
-          "stats": {
-            "community": {
-              "in_wantlist": 466,
-              "in_collection": 4248
-            }
-          }
-        },
-        {
-          "id": 6279,
-          "title": "Puss / Oh, The Guilt",
-          "type": "master",
-          "main_release": 733713,
-          "artist": "The Jesus Lizard And Nirvana",
-          "role": "Main",
-          "resource_url": "https://api.discogs.com/masters/6279",
-          "year": 1993,
-          "thumb": "",
-          "stats": {
-            "community": {
-              "in_wantlist": 145,
-              "in_collection": 907
-            }
-          }
-        },
-        {
-          "id": 254956,
-          "title": "1991: The Year Punk Broke",
-          "type": "master",
-          "main_release": 2321299,
-          "artist": "Sonic Youth / Nirvana / Various",
-          "role": "Main",
-          "resource_url": "https://api.discogs.com/masters/254956",
-          "year": 1993,
-          "thumb": "",
-          "stats": {
-            "community": {
-              "in_wantlist": 75,
-              "in_collection": 26
-            }
-          }
-        },
-        {
-          "id": 42463,
-          "title": "All Apologies ● Rape Me ● MV",
-          "type": "master",
-          "main_release": 654742,
-          "artist": "Nirvana",
-          "role": "Main",
-          "resource_url": "https://api.discogs.com/masters/42463",
-          "year": 1993,
-          "thumb": "",
-          "stats": {
-            "community": {
-              "in_wantlist": 109,
-              "in_collection": 660
-            }
-          }
-        },
-        {
-          "id": 42466,
-          "title": "Heart-Shaped Box",
-          "type": "master",
-          "main_release": 11742680,
-          "artist": "Nirvana",
-          "role": "Main",
-          "resource_url": "https://api.discogs.com/masters/42466",
-          "year": 1993,
-          "thumb": "",
-          "stats": {
-            "community": {
-              "in_wantlist": 59,
-              "in_collection": 151
-            }
-          }
-        },
-        {
-          "id": 13859,
-          "title": "In Utero",
-          "type": "master",
-          "main_release": 375979,
-          "artist": "Nirvana",
-          "role": "Main",
-          "resource_url": "https://api.discogs.com/masters/13859",
-          "year": 1993,
-          "thumb": "",
-          "stats": {
-            "community": {
-              "in_wantlist": 1617,
-              "in_collection": 5077
-            }
-          }
-        },
-        {
-          "id": 20817,
-          "title": "Live! Tonight! Sold Out!!",
-          "type": "master",
-          "main_release": 2114616,
-          "artist": "Nirvana",
-          "role": "Main",
-          "resource_url": "https://api.discogs.com/masters/20817",
-          "year": 1994,
-          "thumb": "",
-          "stats": {
-            "community": {
-              "in_wantlist": 50,
-              "in_collection": 103
-            }
-          }
-        },
-        {
-          "id": 197582,
-          "title": "Pennyroyal Tea",
-          "type": "master",
-          "main_release": 829733,
-          "artist": "Nirvana",
-          "role": "Main",
-          "resource_url": "https://api.discogs.com/masters/197582",
-          "year": 1994,
-          "thumb": "",
-          "stats": {
-            "community": {
-              "in_wantlist": 456,
-              "in_collection": 133
-            }
-          }
-        },
-        {
-          "id": 794059,
-          "title": "Where Did You Sleep Last Night",
-          "type": "master",
-          "main_release": 6510731,
-          "artist": "Nirvana",
-          "role": "Main",
-          "resource_url": "https://api.discogs.com/masters/794059",
-          "year": 1994,
-          "thumb": "",
-          "stats": {
-            "community": {
-              "in_wantlist": 51,
-              "in_collection": 36
-            }
-          }
-        },
-        {
-          "id": 42471,
-          "title": "About A Girl",
-          "type": "master",
-          "main_release": 829730,
-          "artist": "Nirvana",
-          "role": "Main",
-          "resource_url": "https://api.discogs.com/masters/42471",
-          "year": 1994,
-          "thumb": "",
-          "stats": {
-            "community": {
-              "in_wantlist": 106,
-              "in_collection": 440
-            }
-          }
-        },
-        {
-          "id": 591479,
-          "title": "The Man Who Sold The World",
-          "type": "master",
-          "main_release": 12817551,
-          "artist": "Nirvana",
-          "role": "Main",
-          "resource_url": "https://api.discogs.com/masters/591479",
-          "year": 1994,
-          "thumb": "",
-          "stats": {
-            "community": {
-              "in_wantlist": 54,
-              "in_collection": 23
-            }
-          }
-        },
-        {
-          "id": 22433,
-          "title": "MTV Unplugged In New York",
-          "type": "master",
-          "main_release": 1836201,
-          "artist": "Nirvana",
-          "role": "Main",
-          "resource_url": "https://api.discogs.com/masters/22433",
-          "year": 1994,
-          "thumb": "",
-          "stats": {
-            "community": {
-              "in_wantlist": 3135,
-              "in_collection": 2560
-            }
-          }
-        }
-      ],
       "id": 1
     }
   ],
   "favouriteAlbums": [
     {
       "artist": "Nirvana",
-      "title": "Bleach",
+      "title": "Nevermind",
       "genres": [
         "Rock"
       ],
@@ -599,7 +121,31 @@
           "uri": "",
           "resource_url": "",
           "uri150": "",
-          "width": 597,
+          "width": 600,
+          "height": 461
+        },
+        {
+          "type": "secondary",
+          "uri": "",
+          "resource_url": "",
+          "uri150": "",
+          "width": 600,
+          "height": 597
+        },
+        {
+          "type": "secondary",
+          "uri": "",
+          "resource_url": "",
+          "uri150": "",
+          "width": 600,
+          "height": 450
+        },
+        {
+          "type": "secondary",
+          "uri": "",
+          "resource_url": "",
+          "uri150": "",
+          "width": 591,
           "height": 600
         },
         {
@@ -608,7 +154,7 @@
           "resource_url": "",
           "uri150": "",
           "width": 600,
-          "height": 600
+          "height": 756
         },
         {
           "type": "secondary",
@@ -616,7 +162,15 @@
           "resource_url": "",
           "uri150": "",
           "width": 600,
-          "height": 600
+          "height": 1091
+        },
+        {
+          "type": "secondary",
+          "uri": "",
+          "resource_url": "",
+          "uri150": "",
+          "width": 519,
+          "height": 502
         },
         {
           "type": "secondary",
@@ -624,7 +178,7 @@
           "resource_url": "",
           "uri150": "",
           "width": 600,
-          "height": 450
+          "height": 148
         },
         {
           "type": "secondary",
@@ -632,7 +186,7 @@
           "resource_url": "",
           "uri150": "",
           "width": 600,
-          "height": 450
+          "height": 294
         },
         {
           "type": "secondary",
@@ -640,7 +194,15 @@
           "resource_url": "",
           "uri150": "",
           "width": 600,
-          "height": 450
+          "height": 587
+        },
+        {
+          "type": "secondary",
+          "uri": "",
+          "resource_url": "",
+          "uri150": "",
+          "width": 581,
+          "height": 466
         },
         {
           "type": "secondary",
@@ -648,215 +210,211 @@
           "resource_url": "",
           "uri150": "",
           "width": 600,
-          "height": 450
-        },
-        {
-          "type": "secondary",
-          "uri": "",
-          "resource_url": "",
-          "uri150": "",
-          "width": 600,
-          "height": 450
-        },
-        {
-          "type": "secondary",
-          "uri": "",
-          "resource_url": "",
-          "uri150": "",
-          "width": 600,
-          "height": 750
+          "height": 299
         }
       ],
-      "notes": "The band's debut album \nReleased 15 June 1989. \n\nThis was the band's only album to feature [a251654] on drums. \n\nJason Everman is pictured in the cover photo and credited as a second guitarist for Nirvana, but he did not perform on the album.\n\nSingles / EPs from this album:\n- [url=https://www.discogs.com/Nirvana-Blew/master/42479]Blew[/url]\n- [url=https://www.discogs.com/Nirvana-Love-Buzz-bw-Big-Cheese/master/155876]Love Buzz[/url]\n\nOfficial vinyl releases' label variants:\n⇒ Sub-Pop [USA Release]: Custom Labels (Side A - Parody of [url=https://www.discogs.com/label/5041-Verve-Records]Verve[/url]'s standard \"Pin\" label / Side B - Visualization of Dante's Inferno)\n⇒ [url=https://www.discogs.com/Nirvana-Bleach/release/420290]Tupelo [Original European release][/url]: Custom labels\n⇒ [l45470] [Australia & Oceania release]: Generic labels.\n⇒ Geffen [1992 International (non-USA) Reissue]: Generic black labels\n\nFirst release on CD [by [url=https://www.discogs.com/release/1605015-Nirvana-Bleach]Tupelo[/url]] was in 1989 with 11 tracks (with \"Big Cheese\" instead of \"Love Buzz\"). First release on CD [by [url=https://www.discogs.com/Nirvana-Bleach/release/375973]Sub-Pop[/url]] was in 1990 and includes 2 bonus tracks: \"Big Cheese\" and \"Downer\".\n\nSub-Pop's vinyl reissues included additional bonus vinyl disk:\n⇒ [url=https://www.discogs.com/Nirvana-Bleach/release/2253696]1992 Limited Edtion[/url] reissue included \"[url=https://www.discogs.com/Nirvana-Sliver/master/13934]Sliver / Dive[/url]\" Single\n⇒ 2016 Reissue included \"[url=https://www.discogs.com/Nirvana-Bleach/release/8178955]Live. February 9, 1990 - Pine Street Theatre - Portland, OR[/url]\" LP.",
-      "resource_url": "https://api.discogs.com/masters/13773",
+      "resource_url": "https://api.discogs.com/masters/13814",
       "tracklist": [
         {
-          "position": "A1",
+          "position": "1",
           "type_": "track",
-          "title": "Blew",
-          "duration": ""
+          "title": "Smells Like Teen Spirit",
+          "duration": "5:01"
         },
         {
-          "position": "A2",
+          "position": "2",
           "type_": "track",
-          "title": "Floyd The Barber",
-          "duration": ""
+          "title": "In Bloom",
+          "duration": "4:14"
         },
         {
-          "position": "A3",
+          "position": "3",
           "type_": "track",
-          "title": "About A Girl",
-          "duration": ""
+          "title": "Come As You Are",
+          "duration": "3:39"
         },
         {
-          "position": "A4",
+          "position": "4",
           "type_": "track",
-          "title": "School",
-          "duration": ""
+          "title": "Breed",
+          "duration": "3:03"
         },
         {
-          "position": "A5",
+          "position": "5",
           "type_": "track",
-          "title": "Love Buzz",
+          "title": "Lithium",
+          "duration": "4:17"
+        },
+        {
+          "position": "6",
+          "type_": "track",
+          "title": "Polly",
+          "duration": "2:57"
+        },
+        {
+          "position": "7",
+          "type_": "track",
+          "title": "Territorial Pissings",
+          "duration": "2:23"
+        },
+        {
+          "position": "8",
+          "type_": "track",
+          "title": "Drain You",
+          "duration": "3:43"
+        },
+        {
+          "position": "9",
+          "type_": "track",
+          "title": "Lounge Act",
+          "duration": "2:36"
+        },
+        {
+          "position": "10",
+          "type_": "track",
+          "title": "Stay Away",
+          "duration": "3:32"
+        },
+        {
+          "position": "11",
+          "type_": "track",
+          "title": "On A Plain",
+          "duration": "3:16"
+        },
+        {
+          "position": "12",
+          "type_": "track",
+          "title": "Something In The Way",
           "extraartists": [
             {
-              "name": "Robbie van Leeuwen",
-              "anv": "Robby Van Leeuwen",
+              "name": "Kirk Canning",
+              "anv": "",
               "join": "",
-              "role": "Written-By",
+              "role": "Cello",
               "tracks": "",
-              "id": 514901,
-              "resource_url": "https://api.discogs.com/artists/514901"
+              "id": 261726,
+              "resource_url": "https://api.discogs.com/artists/261726"
             }
           ],
-          "duration": ""
-        },
-        {
-          "position": "A6",
-          "type_": "track",
-          "title": "Paper Cuts",
-          "duration": ""
-        },
-        {
-          "position": "B1",
-          "type_": "track",
-          "title": "Negative Creep",
-          "duration": ""
-        },
-        {
-          "position": "B2",
-          "type_": "track",
-          "title": "Scoff",
-          "duration": ""
-        },
-        {
-          "position": "B3",
-          "type_": "track",
-          "title": "Swap Meet",
-          "duration": ""
-        },
-        {
-          "position": "B4",
-          "type_": "track",
-          "title": "Mr. Moustache",
-          "duration": ""
-        },
-        {
-          "position": "B5",
-          "type_": "track",
-          "title": "Sifting",
-          "duration": ""
+          "duration": "3:51"
         }
       ],
-      "uri": "https://www.discogs.com/master/13773-Nirvana-Bleach",
+      "uri": "https://www.discogs.com/master/13814-Nirvana-Nevermind",
       "videos": [
         {
-          "uri": "https://www.youtube.com/watch?v=B-eR6gR5CgE",
-          "title": "Выпуск №64. Nirvana ‎– Bleach(Vinyl, LP, Album, Remastered, Reissue)",
+          "uri": "https://www.youtube.com/watch?v=L1lTdnFQZw4",
+          "title": "Выпуск №66. Nirvana ‎– Nevermind(Vinyl, LP, Album, Reissue, 180g)",
           "description": "#Nirvana #Vinyl #LP\nUnboxing личной коллекции.\nПри поддержке интернет-магазина Музыкальный прилавок\nhttps://musicalcounter.ru/",
-          "duration": 218,
+          "duration": 177,
           "embed": true
         },
         {
-          "uri": "https://www.youtube.com/watch?v=7E-KAP359ys",
-          "title": "Blew (Remastered)",
-          "description": "Provided to YouTube by Sub Pop Records\n\nBlew (Remastered) · Nirvana\n\nBleach: Deluxe Edition\n\n℗ 2009 Sub Pop Records\n\nReleased on: 2009-11-03\n\nMixer: Jack Endino\nComposer: KURT COBAIN\nLyricist: KURT COBAIN\nMusic  Publisher: The End of Music LLC (BMI) / Pri",
+          "uri": "https://www.youtube.com/watch?v=hTWKbfoikeg",
+          "title": "Nirvana - Smells Like Teen Spirit (Official Music Video)",
+          "description": "Official Music Video for Smells Like Teen Spirit performed by Nirvana.\n\nNevermind (30th Anniversary Edition) is available now: https://Nirvana.lnk.to/Nevermind30thID\nFind Nirvana in any corner of the world: https://nirvana.lnk.to/Nevermind30thMapID \n\nComm",
+          "duration": 279,
+          "embed": true
+        },
+        {
+          "uri": "https://www.youtube.com/watch?v=vabnZ9-ex7o",
+          "title": "Nirvana - Come As You Are (Official Music Video)",
+          "description": "REMASTERED IN HD!!\nOfficial Music Video for Come As You Are performed by Nirvana.\n \n‘Nevermind (30th Anniversary Edition)’ is available now: https://Nirvana.lnk.to/Nevermind30thID\n \nCommemorating the 30th anniversary of Nirvana’s seminal 1991 release, ‘Ne",
+          "duration": 225,
+          "embed": true
+        },
+        {
+          "uri": "https://www.youtube.com/watch?v=PbgKEjNBHqM",
+          "title": "Nirvana - In Bloom (Official Music Video)",
+          "description": "Official Music Video for In Bloom performed by Nirvana.\n\nNevermind (30th Anniversary Edition) is available now: https://Nirvana.lnk.to/Nevermind30thID\nFind Nirvana in any corner of the world: https://nirvana.lnk.to/Nevermind30thMapID \n\nCommemorate 30 year",
+          "duration": 298,
+          "embed": true
+        },
+        {
+          "uri": "https://www.youtube.com/watch?v=pkcJEvMcnEg",
+          "title": "Nirvana - Lithium (Official Music Video)",
+          "description": "REMASTERED IN HD!!\nOfficial Music Video for Lithium performed by Nirvana.\n \nNevermind (30th Anniversary Edition) is available now: https://Nirvana.lnk.to/Nevermind30thID\n \nCommemorating the 30th anniversary of Nirvana’s seminal 1991 release, Nevermind is ",
+          "duration": 256,
+          "embed": true
+        },
+        {
+          "uri": "https://www.youtube.com/watch?v=J6EDW5WFb2M",
+          "title": "Nirvana - Breed (Audio)",
+          "description": "Official Audio for “Breed” by Nirvana from the ‘Nevermind’ 30th anniversary release.\n \nNevermind (30th Anniversary Edition) is available now: https://Nirvana.lnk.to/Nevermind30thID\n \nCommemorating the 30th anniversary of Nirvana’s seminal 1991 release, Ne",
+          "duration": 184,
+          "embed": true
+        },
+        {
+          "uri": "https://www.youtube.com/watch?v=DrlaVYKWeLU",
+          "title": "Nirvana - Polly (Audio)",
+          "description": "Official Audio for “Polly” by Nirvana from the ‘Nevermind’ 30th anniversary release.\n \nNevermind (30th Anniversary Edition) is available now: https://Nirvana.lnk.to/Nevermind30thID\n \nCommemorating the 30th anniversary of Nirvana’s seminal 1991 release, Ne",
           "duration": 175,
           "embed": true
         },
         {
-          "uri": "https://www.youtube.com/watch?v=kETwhcSymeA",
-          "title": "Scoff (Remastered)",
-          "description": "Provided to YouTube by Sub Pop Records\n\nScoff (Remastered) · Nirvana\n\nBleach: Deluxe Edition\n\n℗ 2009 Sub Pop Records\n\nReleased on: 2009-11-03\n\nMixer: Jack Endino\nComposer: KURT COBAIN\nLyricist: KURT COBAIN\nMusic  Publisher: The End of Music LLC (BMI) / Pr",
-          "duration": 251,
+          "uri": "https://www.youtube.com/watch?v=9yNPgx0swCM",
+          "title": "Nirvana - Territorial Pissings (Audio)",
+          "description": "Official Audio for “Territorial Pissings” by Nirvana from the ‘Nevermind’ 30th anniversary release.\n \nNevermind (30th Anniversary Edition) is available now: https://Nirvana.lnk.to/Nevermind30thID\n \nCommemorating the 30th anniversary of Nirvana’s seminal 1",
+          "duration": 144,
           "embed": true
         },
         {
-          "uri": "https://www.youtube.com/watch?v=cBm-XeOVIeY",
-          "title": "Floyd The Barber (Remastered)",
-          "description": "Provided to YouTube by Sub Pop Records\n\nFloyd The Barber (Remastered) · Nirvana\n\nBleach: Deluxe Edition\n\n℗ 2009 Sub Pop Records\n\nReleased on: 2009-11-03\n\nMixer: Jack Endino\nComposer: KURT COBAIN\nLyricist: KURT COBAIN\nMusic  Publisher: The End of Music LLC",
-          "duration": 139,
+          "uri": "https://www.youtube.com/watch?v=AJUpHxlJUNQ",
+          "title": "Nirvana - Drain You (Audio)",
+          "description": "Official Audio for “Drain You” by Nirvana from the ‘Nevermind’ 30th anniversary release.\n \nNevermind (30th Anniversary Edition) is available now: https://Nirvana.lnk.to/Nevermind30thID\n \nCommemorating the 30th anniversary of Nirvana’s seminal 1991 release",
+          "duration": 224,
           "embed": true
         },
         {
-          "uri": "https://www.youtube.com/watch?v=jJs0hg0nNKI",
-          "title": "Swap Meet (Remastered)",
-          "description": "Provided to YouTube by Sub Pop Records\n\nSwap Meet (Remastered) · Nirvana\n\nBleach: Deluxe Edition\n\n℗ 2009 Sub Pop Records\n\nReleased on: 2009-11-03\n\nMixer: Jack Endino\nComposer: KURT COBAIN\nLyricist: KURT COBAIN\nMusic  Publisher: The End of Music LLC (BMI) ",
+          "uri": "https://www.youtube.com/watch?v=dZqpol8Yrq8",
+          "title": "Nirvana - Lounge Act (Audio)",
+          "description": "Official Audio for “Lounge Act” by Nirvana from the ‘Nevermind’ 30th anniversary release.\n \nNevermind (30th Anniversary Edition) is available now: https://Nirvana.lnk.to/Nevermind30thID\n \nCommemorating the 30th anniversary of Nirvana’s seminal 1991 releas",
+          "duration": 157,
+          "embed": true
+        },
+        {
+          "uri": "https://www.youtube.com/watch?v=vnHm-u4IYuo",
+          "title": "Nirvana - Stay Away (Audio)",
+          "description": "Official Audio for “Stay Away” by Nirvana from the ‘Nevermind’ 30th anniversary release.\n \nNevermind (30th Anniversary Edition) is available now: https://Nirvana.lnk.to/Nevermind30thID\n \nCommemorating the 30th anniversary of Nirvana’s seminal 1991 release",
+          "duration": 212,
+          "embed": true
+        },
+        {
+          "uri": "https://www.youtube.com/watch?v=c023U4oQGr4",
+          "title": "Nirvana - On A Plain (Audio)",
+          "description": "Official Audio for “On A Plain” by Nirvana from the ‘Nevermind’ 30th anniversary release.\n \nNevermind (30th Anniversary Edition) is available now: https://Nirvana.lnk.to/Nevermind30thID\n \nCommemorating the 30th anniversary of Nirvana’s seminal 1991 releas",
+          "duration": 195,
+          "embed": true
+        },
+        {
+          "uri": "https://www.youtube.com/watch?v=4VxdufqB9zg",
+          "title": "Nirvana - Something In The Way (Audio)",
+          "description": "Official Audio for “Something In The Way” by Nirvana from the ‘Nevermind’ 30th anniversary release.\n \nNevermind (30th Anniversary Edition) is available now: https://Nirvana.lnk.to/Nevermind30thID\n \nCommemorating the 30th anniversary of Nirvana’s seminal 1",
+          "duration": 231,
+          "embed": true
+        },
+        {
+          "uri": "https://www.youtube.com/watch?v=uj1PagCfejs",
+          "title": "Nirvana - Endless, Nameless (Audio)",
+          "description": "Official Audio for “Endless, Nameless” by Nirvana from the ‘Nevermind’ 30th anniversary release.\n \nNevermind (30th Anniversary Edition) is available now: https://Nirvana.lnk.to/Nevermind30thID\n \nCommemorating the 30th anniversary of Nirvana’s seminal 1991",
+          "duration": 404,
+          "embed": true
+        },
+        {
+          "uri": "https://www.youtube.com/watch?v=plBMcpRRrVw",
+          "title": "Even In His Youth (B-Side)",
+          "description": "Provided to YouTube by Universal Music Group\n\nEven In His Youth (B-Side) · Nirvana\n\nNevermind\n\n℗ 1991 Geffen Records\n\nReleased on: 2011-01-01\n\nProducer: Craig Montgomery\nStudio  Personnel, Mixer: Andy Wallace\nAssociated  Performer, Vocals, Guitar: Kurt Co",
           "duration": 183,
           "embed": true
         },
         {
-          "uri": "https://www.youtube.com/watch?v=JIx2H-plXdU",
-          "title": "About A Girl (Remastered)",
-          "description": "Provided to YouTube by Sub Pop Records\n\nAbout A Girl (Remastered) · Nirvana\n\nBleach: Deluxe Edition\n\n℗ 2009 Sub Pop Records\n\nReleased on: 2009-11-03\n\nMixer: Jack Endino\nComposer: KURT COBAIN\nLyricist: KURT COBAIN\nMusic  Publisher: The End of Music LLC (BM",
-          "duration": 169,
-          "embed": true
-        },
-        {
-          "uri": "https://www.youtube.com/watch?v=O4322tT9m7k",
-          "title": "Mr. Moustache (Remastered)",
-          "description": "Provided to YouTube by Sub Pop Records\n\nMr. Moustache (Remastered) · Nirvana\n\nBleach: Deluxe Edition\n\n℗ 2009 Sub Pop Records\n\nReleased on: 2009-11-03\n\nMixer: Jack Endino\nComposer: KURT COBAIN\nLyricist: KURT COBAIN\nMusic  Publisher: The End of Music LLC (B",
-          "duration": 204,
-          "embed": true
-        },
-        {
-          "uri": "https://www.youtube.com/watch?v=sp86SkWKRQE",
-          "title": "School (Remastered)",
-          "description": "Provided to YouTube by Sub Pop Records\n\nSchool (Remastered) · Nirvana\n\nBleach: Deluxe Edition\n\n℗ 2009 Sub Pop Records\n\nReleased on: 2009-11-03\n\nMixer: Jack Endino\nComposer: KURT COBAIN\nLyricist: KURT COBAIN\nMusic  Publisher: The End of Music LLC (BMI) / P",
-          "duration": 163,
-          "embed": true
-        },
-        {
-          "uri": "https://www.youtube.com/watch?v=rAeanjCnUmI",
-          "title": "Downer (Remastered)",
-          "description": "Provided to YouTube by Sub Pop Records\n\nDowner (Remastered) · Nirvana\n\nBleach: Deluxe Edition\n\n℗ 2009 Sub Pop Records\n\nReleased on: 2009-11-03\n\nMixer: Jack Endino\nComposer: KURT COBAIN\nLyricist: KURT COBAIN\nMusic  Publisher: The End of Music LLC (BMI) / P",
-          "duration": 104,
-          "embed": true
-        },
-        {
-          "uri": "https://www.youtube.com/watch?v=ljvhYweP4-0",
-          "title": "Love Buzz (Remastered)",
-          "description": "Provided to YouTube by Sub Pop Records\n\nLove Buzz (Remastered) · Nirvana\n\nBleach: Deluxe Edition\n\n℗ 2009 Sub Pop Records\n\nReleased on: 2009-11-03\n\nMixer: Jack Endino\nMusic  Publisher: Dayglow/Third Tier Music (ASCAP)\nComposer: Robert Van Leeuwen\nLyricist:",
-          "duration": 216,
-          "embed": true
-        },
-        {
-          "uri": "https://www.youtube.com/watch?v=Md4icxT6K60",
-          "title": "Paper Cuts (Remastered)",
-          "description": "Provided to YouTube by Sub Pop Records\n\nPaper Cuts (Remastered) · Nirvana\n\nBleach: Deluxe Edition\n\n℗ 2009 Sub Pop Records\n\nReleased on: 2009-11-03\n\nMixer: Jack Endino\nComposer: KURT COBAIN\nLyricist: KURT COBAIN\nMusic  Publisher: The End of Music LLC (BMI)",
-          "duration": 246,
-          "embed": true
-        },
-        {
-          "uri": "https://www.youtube.com/watch?v=xUgI2h35Pcc",
-          "title": "Negative Creep (Remastered)",
-          "description": "Provided to YouTube by Sub Pop Records\n\nNegative Creep (Remastered) · Nirvana\n\nBleach: Deluxe Edition\n\n℗ 2009 Sub Pop Records\n\nReleased on: 2009-11-03\n\nMixer: Jack Endino\nComposer: KURT COBAIN\nLyricist: KURT COBAIN\nMusic  Publisher: The End of Music LLC (",
-          "duration": 176,
-          "embed": true
-        },
-        {
-          "uri": "https://www.youtube.com/watch?v=DuOxiUiKXBc",
-          "title": "Sifting (Remastered)",
-          "description": "Provided to YouTube by Sub Pop Records\n\nSifting (Remastered) · Nirvana\n\nBleach: Deluxe Edition\n\n℗ 2009 Sub Pop Records\n\nReleased on: 2009-11-03\n\nMixer: Jack Endino\nComposer: KURT COBAIN\nLyricist: KURT COBAIN\nMusic  Publisher: The End of Music LLC (BMI) / ",
-          "duration": 323,
-          "embed": true
-        },
-        {
-          "uri": "https://www.youtube.com/watch?v=8ZCn6daQjWc",
-          "title": "Big Cheese (Remastered)",
-          "description": "Provided to YouTube by Sub Pop Records\n\nBig Cheese (Remastered) · Nirvana\n\nBleach: Deluxe Edition\n\n℗ 2009 Sub Pop Records\n\nReleased on: 2009-11-03\n\nMixer: Jack Endino\nComposer: KRIST NOVOSELIC\nLyricist: KRIST NOVOSELIC\nComposer: KURT COBAIN\nLyricist: KURT",
-          "duration": 223,
-          "embed": true
-        },
-        {
-          "uri": "https://www.youtube.com/watch?v=VdPdFNptSU0",
-          "title": "Nirva̲n̲a̲ - Bleach (Full Album)",
-          "description": "",
-          "duration": 0,
+          "uri": "https://www.youtube.com/watch?v=y7TPnH5emFg",
+          "title": "Nirvana - Aneurysm",
+          "description": "Aneurysm performed by Nirvana\n\n\n\nHere are some facts about Aneurysm from Wikipedia :\n\nAneurysm is a song written by Nirvana. The song is notable in that it was never released as a single during the group's existence, and yet is one of the group's most",
+          "duration": 276,
           "embed": true
         }
       ],
-      "year": 1989,
+      "year": 1991,
       "cover_image": "./Images/noPic.png",
       "id": 1
     }
