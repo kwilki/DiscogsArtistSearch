@@ -206,7 +206,8 @@ function fetchArtistInfo(newUrl, coverImg) {
     .then(response => response.json())
     .then(function(json){
         let data = json
-        renderArtist(data, coverImg)
+        console.log(data)
+        renderArtist(data, coverImg, newUrl)
     })
 }
 
@@ -217,7 +218,7 @@ function renderCoverImg(cover_image) {
 
 
 // renders the artist initial search
-function renderArtist(data, coverImg) {
+function renderArtist(data, coverImg, newUrl) {
 
     let artist1 = {
         name: data.name,
@@ -228,7 +229,8 @@ function renderArtist(data, coverImg) {
         releases_url: data.releases_url,
         uri: data.uri,
         urls: data.urls,
-        cover_image: coverImg
+        cover_image: coverImg,
+        resource_url: newUrl
     }
 
     searchedArtists.push(artist1)
@@ -316,40 +318,99 @@ function listReleases(obj, coverImg) {
 
 // Fetch of artist releases
 function goToReleases(event) {
-    console.log(event)
-    let button = event.target
-    let artistName = button.getAttribute("data-name")
-    console.log(artistName)
-    let obj = searchedArtists.find(x => x.name === artistName)
-    let favObj = favourites.artists.find(x => x.name === artistName)
-    let coverImg = obj.cover_image
-    loadingScreen()
-    console.log(obj)
-    console.log(favObj)
-    // check if releases are stored in favourites or searchedArtists array
-    // if(typeof favObj.releases !== undefined) {
-    //     listReleases(favObj)
-    //     console.log("FavObj")
-    // } else 
-    if(obj.releases) {
-        window.scrollTo(0, 0)
-        listReleases(obj, coverImg)
-    // else - fetch the information
-    console.log("obj")
-    } else {
-        const button = event.target
-        const url = button.dataset["url"]
-        loadingScreen()
-        fetch(url)
-        .then(releases => releases.json())
-        .then(function(releasesJson) {
-        console.log(releasesJson)
-        console.log("else")
-        window.scrollTo(0, 0)
-        renderReleases(releasesJson, artistName, coverImg) // this is where the artist releases come from
+    if(loggedIn === true) {
+        fetch(`http://localhost:3000/favouriteArtists`)
+        .then(response => response.json())
+        .then(function(json) {
+            console.log(event)
+            let button = event.target
+            let artistName = button.getAttribute("data-name")
+            console.log(artistName)
+            let obj = searchedArtists.find(x => x.name === artistName)
+            let favObj = json.find(x => x.name === artistName)
+            if(favObj) {
+                let coverImg = favObj.cover_image
+                loadingScreen()
+                console.log(obj)
+                console.log(favObj)
+                if(obj.releases) {
+                    window.scrollTo(0, 0)
+                    listReleases(obj, coverImg)
+                // else - fetch the information
+                console.log("obj")
+                } else {
+                    const button = event.target
+                    const url = button.dataset["url"]
+                    loadingScreen()
+                    fetch(url)
+                    .then(releases => releases.json())
+                    .then(function(releasesJson) {
+                    console.log(releasesJson)
+                    console.log("else")
+                    window.scrollTo(0, 0)
+                    renderReleases(releasesJson, artistName, coverImg) // this is where the artist releases come from
+                    })
+                }
+            } else {
+                let coverImg = obj.cover_image
+                loadingScreen()
+                console.log(obj)
+                console.log(favObj)
+                if(obj.releases) {
+                    window.scrollTo(0, 0)
+                    listReleases(obj, coverImg)
+                // else - fetch the information
+                console.log("obj")
+                } else {
+                    const button = event.target
+                    const url = button.dataset["url"]
+                    loadingScreen()
+                    fetch(url)
+                    .then(releases => releases.json())
+                    .then(function(releasesJson) {
+                    console.log(releasesJson)
+                    console.log("else")
+                    window.scrollTo(0, 0)
+                    renderReleases(releasesJson, artistName, coverImg) // this is where the artist releases come from
+                    })
+                }
+            }
         })
+    } else {
+        console.log(event)
+        let button = event.target
+        let artistName = button.getAttribute("data-name")
+        console.log(artistName)
+        let obj = searchedArtists.find(x => x.name === artistName)
+        let favObj = favourites.artists.find(x => x.name === artistName)
+        let coverImg = obj.cover_image
+        loadingScreen()
+        console.log(obj)
+        console.log(favObj)
+        // check if releases are stored in favourites or searchedArtists array
+        // if(typeof favObj.releases !== undefined) {
+        //     listReleases(favObj)
+        //     console.log("FavObj")
+        // } else 
+        if(obj.releases) {
+            window.scrollTo(0, 0)
+            listReleases(obj, coverImg)
+        // else - fetch the information
+        console.log("obj")
+        } else {
+            const button = event.target
+            const url = button.dataset["url"]
+            loadingScreen()
+            fetch(url)
+            .then(releases => releases.json())
+            .then(function(releasesJson) {
+            console.log(releasesJson)
+            console.log("else")
+            window.scrollTo(0, 0)
+            renderReleases(releasesJson, artistName, coverImg) // this is where the artist releases come from
+            })
+        }
     }
-    
 }
 
 function releasesToRender(releases, coverImg) {
@@ -402,12 +463,15 @@ function goToAlbum(event) {
     const button = event.target
     const url = button.dataset["url"]
     let artistName = button.dataset["artistname"]
+    let coverImg = document.getElementById("cover-photo").getAttribute("src")
     // console.log(currentArtistName)
     loadingScreen()
     fetch(url)
     .then(album => album.json())
     .then(function(albumJson) {
         window.scrollTo(0, 0)
+        console.log(coverImg)
+        renderCoverImg(coverImg)
         renderAlbum(albumJson, url, artistName)
     })
 }
@@ -485,7 +549,7 @@ function favouriteArtist() {
             let button = document.getElementById("favourite-artist")
             let artistName = button.getAttribute("data-name")
             let obj = searchedArtists.find(x => x.name === artistName)
-            console.log(json) // is undefined
+            console.log(obj) // is undefined
             if(json === undefined) {
                 pushArtistToDb(obj)
                 // json.artists.push(obj)
@@ -780,14 +844,17 @@ function fetchArtists() {
 
 function renderFavourites() {
     if(loggedIn === true) {
-        fetch(`http://localhost:3000/favouriteAlbums`)
+        fetch(`http://localhost:3000/favouriteArtists`)
         .then(response => response.json())
         .then(function(json) {
             let favArtists = json
+            console.log(json)
             fetch(`http://localhost:3000/favouriteAlbums`)
             .then(response => response.json())
             .then(function(json) {
                 let favAlbums = json
+                console.log(favArtists)
+                console.log(favAlbums)
                 if((favArtists.length > 0) && (favAlbums.length > 0)){
                     removePrvDisplayed()
                     renderFavArtistList()

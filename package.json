@@ -1,0 +1,14 @@
+{
+    "name": "discogs-artist-search",
+    "version": "1.0.0",
+    "description": "Javascript Web App using API",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Kyle Wilkinson",
+    "license": "ISC",
+    "dependencies": {
+        "json-server": "^0.17.0"
+    }
+}
