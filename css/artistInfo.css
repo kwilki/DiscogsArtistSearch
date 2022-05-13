@@ -1,10 +1,10 @@
 @import url(./fonts.css);
 
 h2 {
-    font-family: 'ClarendonTextProBold';
+    font-family: 'ClarendonTextProRegular';
     font-size: 1.5em;
     margin-bottom: 1em;
-    color: #F4F5F6;
+    color: #373F51;
 }
 
 #cover-img {
@@ -53,7 +53,6 @@ a {
 }
 
 a:hover {
-    color: pink;
     text-decoration: underline;
 }
 

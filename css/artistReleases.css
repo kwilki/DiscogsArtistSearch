@@ -26,6 +26,10 @@
     background-color: #CAD6E2;
 }
 
+#list-of-albums .releases-list:nth-child(odd) {
+    border: 1px solid #373F51;
+}
+
 #list-of-albums .releases-list button:nth-child(even) {
     border-width: 2px;
     border-style: outset;

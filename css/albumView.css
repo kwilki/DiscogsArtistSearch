@@ -38,6 +38,10 @@
     background-color: #CAD6E2;
 }
 
+.track-info:nth-child(odd) {
+    border: 1px solid #373F51;
+}
+
 .track-info {
     margin-bottom: 0.5em;
     padding: 0.8em 0.5em 0.5em 0.5em;

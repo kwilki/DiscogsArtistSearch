@@ -4,7 +4,7 @@
     /* Enable below to sho margin and paddings */
     /* outline: 1px solid #f00 !important; */
     font-size: 16px;
-    color: #D8DBE2;
+    color: #373F51;
     margin: 0;
     /* box-sizing: border-box; */
 }
@@ -90,7 +90,8 @@
 }
 
 body {
-    background-color: #373F51;
+    background-color: #f7faff;
+    /* background-color: #373F51; */
 }
 
 header {
@@ -121,7 +122,7 @@ input[type=text] {
     width: auto;
     max-width: 800px;
     background-color: #A9BCD0;
-    border: none;
+    border: 1px solid #373F51;
     border-radius: 1em;
     color: #373F51;
     min-height: 2em;
@@ -147,7 +148,7 @@ hr {
 input[type=submit] {
     font-size: 1.2em;
     min-width: 0;
-    color: black;
+    color: 373F51;
     background-color: #F3F4F6;
     border: none;
     border-radius: 1em;
@@ -162,6 +163,7 @@ input[type=submit] {
     padding-left: 1.5em;
     padding-right: 1.5em;
     margin-bottom: 0.5em;
+    border: 1px solid #373F51;
 }
 
 
