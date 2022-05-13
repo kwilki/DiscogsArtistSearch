@@ -1345,15 +1345,15 @@ function logOut() {
     loggedIn = false
     removePrvDisplayed()
 
-    let desktopLogOutBtn = document.getElementById("desktop-log-out-button")
+    let desktopLogOutBtn = document.getElementById("desktop-btn-logout")
     desktopLogOutBtn.removeEventListener("click", logOutListener)
     desktopLogOutBtn.innerText = "Log In"
-    desktopLogOutBtn.id = "desktop-login-button"
+    desktopLogOutBtn.id = "desktop-btn-login"
 
-    let mobileLogOutBtn = document.getElementById("ham-log-out-button")
+    let mobileLogOutBtn = document.getElementById("ham-btn-logout")
     mobileLogOutBtn.removeEventListener("click", logOutListener)
     mobileLogOutBtn.innerText = "Log In"
-    mobileLogOutBtn.id = "ham-login-button"
+    mobileLogOutBtn.id = "ham-btn-login"
 
     dataDisplay.innerHTML = 
     `<h2>You successfully logged out</h2>` 
