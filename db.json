@@ -1,5 +1,16 @@
 {
-  "users": [],
+  "users": [
+    {
+      "email": "kyle@kylesemail.com.au",
+      "password": "12345",
+      "id": 1
+    },
+    {
+      "email": "Andre",
+      "password": "123456",
+      "id": 2
+    }
+  ],
   "favouriteArtists": [],
   "favouriteAlbums": []
 }

@@ -21,6 +21,7 @@ let favourites = {
     artists: [],
     albums: []
 }
+let userId
 
 let loggedIn = false
 
@@ -311,15 +312,15 @@ function renderMembers(members) {
                                     </div>`).join("")
 } 
 
-function listReleases(obj, coverImg) {
+function listReleases(obj, artistName, coverImg) {
     let albums = obj.releases
-    releasesToRender(albums, coverImg)
+    releasesToRender(albums, artistName, coverImg)
 }
 
 // Fetch of artist releases
 function goToReleases(event) {
     if(loggedIn === true) {
-        fetch(`http://localhost:3000/favouriteArtists`)
+        fetch(`http://localhost:3000/favouriteArtists?userLoginId=${userId}`)
         .then(response => response.json())
         .then(function(json) {
             console.log(event)
@@ -335,7 +336,7 @@ function goToReleases(event) {
                 console.log(favObj)
                 if(obj.releases) {
                     window.scrollTo(0, 0)
-                    listReleases(obj, coverImg)
+                    listReleases(obj, artistName, coverImg)
                 // else - fetch the information
                 console.log("obj")
                 } else {
@@ -358,7 +359,7 @@ function goToReleases(event) {
                 console.log(favObj)
                 if(obj.releases) {
                     window.scrollTo(0, 0)
-                    listReleases(obj, coverImg)
+                    listReleases(obj, artistName, coverImg)
                 // else - fetch the information
                 console.log("obj")
                 } else {
@@ -394,7 +395,7 @@ function goToReleases(event) {
         // } else 
         if(obj.releases) {
             window.scrollTo(0, 0)
-            listReleases(obj, coverImg)
+            listReleases(obj, artistName, coverImg)
         // else - fetch the information
         console.log("obj")
         } else {
@@ -413,7 +414,7 @@ function goToReleases(event) {
     }
 }
 
-function releasesToRender(releases, coverImg) {
+function releasesToRender(releases, artistName, coverImg) {
     window.scrollTo(0, 0)
     console.log("releases to render")
     renderCoverImg(coverImg)
@@ -433,6 +434,7 @@ function releasesToRender(releases, coverImg) {
     <div id="list-of-albums">${releaseObj.join("")}</div>`
     
     information.innerHTML = ""
+    pageHeading.innerHTML = `<h2>${artistName}</h2>`
     information.append(dataDisplay)
     let listOfAlbums = document.getElementById("list-of-albums").childNodes
     listOfAlbums.forEach(element => {
@@ -449,7 +451,7 @@ function renderReleases(releasesJson, artistName, coverImg) {
     let currentArtistHtml = document.getElementsByClassName("artist-name")
     let obj = searchedArtists.find(x => x.name === artistName)
     obj.releases = releases
-    releasesToRender(releases, coverImg)
+    releasesToRender(releases, artistName, coverImg)
 }
 
 // Artist Info Button Function
@@ -508,6 +510,7 @@ function renderAlbum(albumJson, url, artistName) {
     `
     dataDisplay.innerHTML = albumObj
     information.append(dataDisplay)
+    pageHeading.innerHTML = `<h2>${artistName}</h2>`
     console.log(albumJson.title)
     colourFavAlbum(albumJson.title)
 }
@@ -542,13 +545,14 @@ function renderVideos(albumJson) {
 //FAVOURITES FUNCTIONS
 function favouriteArtist() {
     if(loggedIn === true) {
-        fetch("http://localhost:3000/favouriteArtists")
+        fetch(`http://localhost:3000/favouriteArtists?userLoginId=${userId}`)
         .then(response => response.json())
         .then(function(json) {
             console.log(json)
             let button = document.getElementById("favourite-artist")
             let artistName = button.getAttribute("data-name")
             let obj = searchedArtists.find(x => x.name === artistName)
+            obj.userLoginId = userId
             console.log(obj) // is undefined
             if(json === undefined) {
                 pushArtistToDb(obj)
@@ -628,7 +632,7 @@ function colourFavArtist(){
     if(loggedIn === true) {
         let button = document.getElementById("favourite-artist")
         let artistName = button.getAttribute("data-name")
-        fetch("http://localhost:3000/favouriteArtists")
+        fetch(`http://localhost:3000/favouriteArtists?userLoginId=${userId}`)
         .then(response => response.json())
         .then(function(json) {
             console.log(json)
@@ -744,7 +748,8 @@ function updateFavouriteAlbums(albumJson, name, coverImg) {
         uri: albumJson.uri,
         videos: albumJson.videos,
         year: albumJson.year,
-        cover_image: coverImg
+        cover_image: coverImg,
+        userLoginId: userId
     }
 
     if(loggedIn === true) {
@@ -785,7 +790,7 @@ function deleteAlbumFromDb(id) {
 function colourFavAlbum(albumTitle){
     if(loggedIn === true) {
         let favouriteAlbButton = document.getElementById(albumTitle + " Album")
-        fetch(`http://localhost:3000/favouriteAlbums`)
+        fetch(`http://localhost:3000/favouriteAlbums?userLoginId=${userId}`)
         .then(response => response.json())
         .then(function(json) {
             if(json === undefined) {
@@ -825,7 +830,7 @@ function removeFavAlbum(albumTitle) {
 }
 
 function fetchAlbums() {
-    fetch(`http://localhost:3000/favouriteAlbums`)
+    fetch(`http://localhost:3000/favouriteAlbums?userLoginId=${userId}`)
         .then(response => response.json())
         .then(function(json) {
             let favAlbums = json
@@ -844,12 +849,12 @@ function fetchArtists() {
 
 function renderFavourites() {
     if(loggedIn === true) {
-        fetch(`http://localhost:3000/favouriteArtists`)
+        fetch(`http://localhost:3000/favouriteArtists?userLoginId=${userId}`)
         .then(response => response.json())
         .then(function(json) {
             let favArtists = json
             console.log(json)
-            fetch(`http://localhost:3000/favouriteAlbums`)
+            fetch(`http://localhost:3000/favouriteAlbums?userLoginId=${userId}`)
             .then(response => response.json())
             .then(function(json) {
                 let favAlbums = json
@@ -912,7 +917,7 @@ function favAndReRender(event) {
 
 function renderFavArtistList() {
     if(loggedIn === true) {
-        fetch(`http://localhost:3000/favouriteArtists`)
+        fetch(`http://localhost:3000/favouriteArtists?userLoginId=${userId}`)
         .then(response => response.json())
         .then(function(json) {
             console.log("render Artists")
@@ -993,7 +998,7 @@ function renderFavArtistList() {
 
 function renderFavAlbumsList() {
     if(loggedIn === true) {
-        fetch(`http://localhost:3000/favouriteAlbums`)
+        fetch(`http://localhost:3000/favouriteAlbums?userLoginId=${userId}`)
         .then(response => response.json())
         .then(function(json) {
             console.log("render Albums")
@@ -1003,13 +1008,6 @@ function renderFavAlbumsList() {
                 // let searchResults = []
                 console.log(json)
                 return favouriteAlbumsToRender(json)
-                    // let data = searchList.getAttribute("data-artistResource")
-                    // let artistName = searchList.getAttribute("data-artistName")
-                    // let coverImg = searchList.getAttribute("data-coverImg")
-
-                    // searchList.addEventListener("click", function() {
-                    //     favouritesToRender(releases)
-                    // })
             } else {
                 removePrvDisplayed()
                 dataDisplay.innerHTML = `<p><strong>Looks like you dont have any favourite Albums yet.</strong></p>
@@ -1027,13 +1025,6 @@ function renderFavAlbumsList() {
             console.log(favourites.albums)
             searchResults = favourites.albums
             return favouriteAlbumsToRender(searchResults)
-                // let data = searchList.getAttribute("data-artistResource")
-                // let artistName = searchList.getAttribute("data-artistName")
-                // let coverImg = searchList.getAttribute("data-coverImg")
-
-                // searchList.addEventListener("click", function() {
-                //     favouritesToRender(releases)
-                // })
         } else {
             removePrvDisplayed()
             dataDisplay.innerHTML = `<p><strong>Looks like you dont have any favourite Albums yet.</strong></p>
@@ -1077,7 +1068,7 @@ function renderFavouriteAlbum(event) {
     let button = event.target
     let albumTitle = button.getAttribute("data-title")
     if(loggedIn === true) {
-        fetch(`http://localhost:3000/favouriteAlbums`)
+        fetch(`http://localhost:3000/favouriteAlbums?userLoginId=${userId}`)
         .then(response => response.json())
         .then(function(json) {
             let albumObject = json.find(x => x.title === albumTitle)
@@ -1107,13 +1098,6 @@ function renderFavouriteAlbum(event) {
             `
             dataDisplay.innerHTML = albumObj
             information.append(dataDisplay)
-            // let heading = document.createElement("h2")
-            // heading.innerHTML = `${albumObject.artist}`
-            // pageHeading.append(heading)
-            // let img = document.createElement("img")
-            // img.setAttribute("id", "cover-photo")
-            // img.setAttribute("src", `${albumObject.cover_image}`)
-            // artistPicture.append(img)
             colourFavAlbum(albumTitle)
         })
         
@@ -1145,13 +1129,6 @@ function renderFavouriteAlbum(event) {
         `
         dataDisplay.innerHTML = albumObj
         information.append(dataDisplay)
-        // let heading = document.createElement("h2")
-        // heading.innerHTML = `${albumObject.artist}`
-        // pageHeading.append(heading)
-        // let img = document.createElement("img")
-        // img.setAttribute("id", "cover-photo")
-        // img.setAttribute("src", `${albumObject.cover_image}`)
-        // artistPicture.append(img)
         colourFavAlbum(albumTitle)
     }
 }
@@ -1256,8 +1233,6 @@ mobileCreateAccountButton.addEventListener("click", function() {
 })
 
 let createAccForm = document.createElement("form")
-// createAccForm.setAttribute("action", "http://localhost:3000/users")
-// createAccForm.setAttribute("method", "POST")
 createAccForm.innerHTML = 
     `<div class="acc-intro"><h2>Create Account</h2>
     <p>Creating an account will let you save favourites for later</p></div>
@@ -1281,7 +1256,6 @@ function displayCreateAccountForm() {
 function createNewUser() {
     let email = document.getElementById("user-input").value
     let password = document.getElementById("user-password").value
-    // createdAccPage()
     let userCredentials = {
         email,
         password
@@ -1338,6 +1312,47 @@ function logInListener() {
     })
 }
 
+function addFavArtistsToDb() {
+    if(favourites.artists) {
+        let artistsToAdd = favourites.artists.map(element => {
+            element.userLoginId = userId
+        })
+        let configObj = {
+            method:"POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify(artistsToAdd)
+        }
+        fetch(`http://localhost:3000/favouriteArtists`, configObj)
+    } else {
+        console.log(`No artists to add`)
+    }
+}
+
+function addFavAlbumsToDb() {
+    if(favourites.albums){
+        favourites.albums.forEach(element => {
+            element.userLoginId = userId
+        })
+        let newAlbumObj = favourites.albums.assign({}, favourites.albums)
+        console.log(newAlbumObj)
+        console.log(favourites.albums)
+        let configObj = {
+            method:"POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify(favourites.albums)
+        }
+        fetch(`http://localhost:3000/favouriteAlbums`, configObj)
+    } else {
+        console.log(`No albums to add`)
+    }
+}
+
 function displayLoginForm() {
     loginForm = document.createElement("form")
     removePrvDisplayed()
@@ -1372,6 +1387,10 @@ function checkIfUser() {
                 <p>Your favourites will now be saved under the menu.</p>`
 
             loggedIn = true
+            userId = findUser.id
+
+            addFavArtistsToDb()
+            addFavAlbumsToDb()
 
             let desktopLoginBtn = document.getElementById("desktop-btn-login")
             desktopLoginBtn.removeEventListener("click", logInListener)
@@ -1426,10 +1445,10 @@ function logOut() {
     `<h2>You successfully logged out</h2>` 
     information.append(dataDisplay)
 
-    let desktopLoginButton = document.getElementById("desktop-login-button")
+    let desktopLoginButton = document.getElementById("desktop-btn-login")
     desktopLoginButton.addEventListener("click", logInListener)
 
-    let mobileLoginButton = document.getElementById("ham-login-button")
+    let mobileLoginButton = document.getElementById("ham-btn-login")
     mobileLoginButton.addEventListener("click", logInListener)
 }
 
