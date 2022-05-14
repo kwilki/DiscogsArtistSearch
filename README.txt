@@ -38,6 +38,9 @@ Features:
         - Clicking Artists under favourites dropdown or sidebar will take you to favourite artists
         - Clicking Albums under favourites dropdown or sidebar will take you to favourite albums
 
+Site Functionality will work without database however favourites won't be saved for next time.
+Any favourites added before login wont be saved.
+
 This was my first JS app.
 Thanks for checking it out. 
 Much love
