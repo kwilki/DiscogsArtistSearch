@@ -1389,8 +1389,8 @@ function checkIfUser() {
             loggedIn = true
             userId = findUser.id
 
-            addFavArtistsToDb()
-            addFavAlbumsToDb()
+            // addFavArtistsToDb()
+            // addFavAlbumsToDb()
 
             let desktopLoginBtn = document.getElementById("desktop-btn-login")
             desktopLoginBtn.removeEventListener("click", logInListener)
